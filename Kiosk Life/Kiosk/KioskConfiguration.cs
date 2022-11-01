@@ -1,6 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Kiosk_Life.Printer;
-using Kiosk_Life.Scanner;
 using System.Net;
 
 namespace Kiosk_Life.Kiosk
@@ -16,6 +14,8 @@ namespace Kiosk_Life.Kiosk
         public Terminal.Terminal _terminal;
         [JsonProperty("Camera")]
         public Camera.Camera _camera;
+        [JsonProperty("Dispensers")]
+        public List<Dispenser.Dispenser> _dispensers;
 
         public static KioskConfiguration GetInstance()
         {
@@ -28,6 +28,7 @@ namespace Kiosk_Life.Kiosk
         {
             _printers = new List<Printer.Printer>();
             _terminal = new Terminal.Terminal();
+            _dispensers = new List<Dispenser.Dispenser>();
             _camera = new Camera.Camera();
         }
 

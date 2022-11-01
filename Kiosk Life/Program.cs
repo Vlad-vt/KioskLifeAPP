@@ -22,6 +22,8 @@ using Kiosk_Life.Network;
 using Kiosk_Life.Kiosk;
 using Kiosk_Life.Camera;
 using Kiosk_Life.Information;
+using Newtonsoft.Json;
+using Kiosk_Life.Dispenser;
 
 namespace Kiosk
 {
@@ -33,6 +35,7 @@ namespace Kiosk
         public static void Main(string[] args)
         {
             _httpListener.Prefixes.Add("http://localhost:7000/kiosklife/");
+            _httpListener.Prefixes.Add("http://localhost:7000/dispensersHealth/");
             _httpListener.Start();
             Thread serverThread = new Thread(ResponseThread);
             serverThread.IsBackground = true;
@@ -120,6 +123,9 @@ namespace Kiosk
                 {
                     case "/kiosklife":
                         KioskConfiguration.GetInstance().SendFileToBrowser(ref context);
+                        break;
+                    case "/dispensersHealth":
+                       // DispensersHealth dispensersHealth = JsonConvert.DeserializeObject<DispensersHealth>();
                         break;
                 }
                 context.Response.KeepAlive = false;
