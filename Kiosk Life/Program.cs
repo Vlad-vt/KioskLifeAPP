@@ -98,7 +98,7 @@ namespace Kiosk
                         KioskConfiguration.GetInstance()._camera = camera;
                         KioskConfiguration.GetInstance().TestSend();
                         count++;
-                        Thread.Sleep(1000);
+                        Thread.Sleep(100000);
                         Console.Clear();
                     } while (count != 10000);
                     printers.Clear();
@@ -125,7 +125,15 @@ namespace Kiosk
                         KioskConfiguration.GetInstance().SendFileToBrowser(ref context);
                         break;
                     case "/dispensersHealth":
-                       // DispensersHealth dispensersHealth = JsonConvert.DeserializeObject<DispensersHealth>();
+                        using (var reader = new StreamReader(context.Request.InputStream))
+                        {
+                            DispensersHealth dispensersHealth = JsonConvert.DeserializeObject<DispensersHealth>(reader.ReadToEnd());
+                            KioskConfiguration.GetInstance()._dispensers = dispensersHealth.Dispensers;
+                            foreach(Dispenser dispenser in KioskConfiguration.GetInstance()._dispensers)
+                            {
+                                dispenser.ShowAllInfo();
+                            }
+                        }
                         break;
                 }
                 context.Response.KeepAlive = false;
