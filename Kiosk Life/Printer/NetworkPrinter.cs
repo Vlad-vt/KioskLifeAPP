@@ -62,20 +62,27 @@ namespace Kiosk_Life.Printer
 
         private string receiveData()
         {
-            string data = "";
-            char[] buffer = new char[_printer.Available];
-            while (_printer.Available > 0)
+            string data = "0";
+            try
             {
-                try
+                char[] buffer = new char[_printer.Available];
+                while (_printer.Available > 0)
                 {
-                    int num = _streamReader.Read(buffer, 0, _printer.Available);
-                    for (int index = 0; index < num; ++index)
-                        data += buffer[index].ToString();
+                    try
+                    {
+                        int num = _streamReader.Read(buffer, 0, _printer.Available);
+                        for (int index = 0; index < num; ++index)
+                            data += buffer[index].ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
+            }
+            catch
+            {
+
             }
             return data;
         }

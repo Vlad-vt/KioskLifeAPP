@@ -261,6 +261,7 @@ namespace Kiosk_Life.Network
                         _devicedata.ManufactoryName = manufactoryname;
                         _devicedata.ConnectedToNetwork = true;
                     }
+                    //Console.WriteLine("IP: " + ip + "\n" + "  MacAddress: " + macaddres + "  Name: " + manufactoryname + "  Reply Status: " + e.Reply.Status.ToString());
                 }
             }
         }
