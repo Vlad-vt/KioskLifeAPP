@@ -39,7 +39,7 @@ namespace Kiosk
             _httpListener.Start();
             Thread serverThread = new Thread(ResponseThread);
             serverThread.IsBackground = true;
-            serverThread.Start();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+            serverThread.Start();
             Thread monitorThread = new Thread(() =>
             {
                 int count;
@@ -55,7 +55,7 @@ namespace Kiosk
                     count = 0;
                     for (int i = 0; i < PrinterSettings.InstalledPrinters.Count; i++)
                     {
-                        if(PrinterSettings.InstalledPrinters[i].Contains("Boca"))
+                        if (PrinterSettings.InstalledPrinters[i].Contains("Boca"))
                         {
                             PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
                             printers.Add(new NetworkPrinter(printQueue.Name, PrinterSettings.InstalledPrinters[i].ToString()));
@@ -71,7 +71,7 @@ namespace Kiosk
                     {
                         foreach (Printer printer in printers)
                         {
-                            if(printer.GetType() == typeof(USBPrinter))
+                            if (printer.GetType() == typeof(USBPrinter))
                             {
                                 PrintQueue printQueue = server.GetPrintQueue(printer.FullName);
                                 if (printQueue.IsPrinting)
@@ -82,9 +82,9 @@ namespace Kiosk
                                     printer.PrinterProcess = "Busy";
                                 else
                                     printer.PrinterProcess = "Working";
-                                (printer as USBPrinter).CheckForErrors(printQueue); 
+                                (printer as USBPrinter).CheckForErrors(printQueue);
                             }
-                            else if(printer.GetType() == typeof(NetworkPrinter))
+                            else if (printer.GetType() == typeof(NetworkPrinter))
                             {
                                 (printer as NetworkPrinter).CheckDeviceConnection();
                                 (printer as NetworkPrinter).ConnectToDevice();
@@ -98,7 +98,7 @@ namespace Kiosk
                         KioskConfiguration.GetInstance()._camera = camera;
                         KioskConfiguration.GetInstance().TestSend();
                         count++;
-                        Thread.Sleep(100000);
+                        Thread.Sleep(1000);
                         Console.Clear();
                     } while (count != 10000);
                     printers.Clear();
@@ -124,15 +124,11 @@ namespace Kiosk
                     case "/kiosklife":
                         KioskConfiguration.GetInstance().SendFileToBrowser(ref context);
                         break;
-                    case "/dispensersHealth":
+                    case "/dispensersHealth/":
                         using (var reader = new StreamReader(context.Request.InputStream))
                         {
                             DispensersHealth dispensersHealth = JsonConvert.DeserializeObject<DispensersHealth>(reader.ReadToEnd());
                             KioskConfiguration.GetInstance()._dispensers = dispensersHealth.Dispensers;
-                            foreach(Dispenser dispenser in KioskConfiguration.GetInstance()._dispensers)
-                            {
-                                dispenser.ShowAllInfo();
-                            }
                         }
                         break;
                 }
@@ -146,30 +142,4 @@ namespace Kiosk
 
 
 
-/*var pci = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Enum\\PCI");
-var keys = pci.GetSubKeyNames();
-foreach (var keyname in keys)
-{
-    var subkey = pci.OpenSubKey(keyname);
-    var devices = subkey.GetSubKeyNames();
 
-    foreach (var devname in devices)
-    {
-        var devkey = subkey.OpenSubKey(devname);
-        object val = devkey.GetValue("FriendlyName", "");
-        if (val == null || (string)val == "")
-        {
-            val = devkey.GetValue("DeviceDesc", "");
-            if (val == null) val = "";
-        }
-
-        Console.WriteLine((string)val);
-        devkey.Close();
-    }
-    subkey.Close();
-}
-pci.Close();*/
-//Ping_all();  
-//GetTcpConnections();
-//Network network = new Network();
-//network.Ping_all();
