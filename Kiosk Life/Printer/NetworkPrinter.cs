@@ -59,7 +59,7 @@ namespace Kiosk_Life.Printer
                 Console.WriteLine(e.Message);
             }
         }
-
+         
         private string receiveData()
         {
             string data = "0";

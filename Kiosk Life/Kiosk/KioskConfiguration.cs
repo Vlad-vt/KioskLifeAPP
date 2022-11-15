@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
+using Kiosk_Life.Scanner.Zebra;
 
 namespace Kiosk_Life.Kiosk
 {
@@ -16,6 +17,8 @@ namespace Kiosk_Life.Kiosk
         public Camera.Camera _camera;
         [JsonProperty("Dispensers")]
         public List<Dispenser.Dispenser> _dispensers;
+        [JsonProperty("ZebraScanners")]
+        public List<ZebraScanner> _zebraScanners;
 
         public static KioskConfiguration GetInstance()
         {
@@ -29,6 +32,7 @@ namespace Kiosk_Life.Kiosk
             _printers = new List<Printer.Printer>();
             _terminal = new Terminal.Terminal();
             _dispensers = new List<Dispenser.Dispenser>();
+            _zebraScanners = new List<ZebraScanner>();
             _camera = new Camera.Camera();
         }
 

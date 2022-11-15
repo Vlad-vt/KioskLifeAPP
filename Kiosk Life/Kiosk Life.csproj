@@ -25,5 +25,11 @@
   <ItemGroup>
     <FrameworkReference Include="Microsoft.WindowsDesktop.App.WPF" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="Interop.CoreScanner">
+      <HintPath>C:\Program Files\Zebra Technologies\Barcode Scanners\Scanner SDK\Scanner SDK\Sample Applications\bin\Interop.CoreScanner.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>

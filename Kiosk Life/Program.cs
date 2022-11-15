@@ -108,7 +108,6 @@ namespace Kiosk
                 }
             });
             monitorThread.Start();
-            Console.ReadLine();
         }
 
         private static void ResponseThread()
