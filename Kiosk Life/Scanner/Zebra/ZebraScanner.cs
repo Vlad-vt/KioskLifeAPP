@@ -1,6 +1,6 @@
 ﻿namespace Kiosk_Life.Scanner.Zebra
 {
-    public class ZebraScanner : Scanner
+    public class ZebraScanner
     {
         public ZebraScanner()
         {

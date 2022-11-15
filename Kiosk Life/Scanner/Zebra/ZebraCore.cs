@@ -231,6 +231,72 @@ namespace Kiosk_Life.Scanner.Zebra
             return strIDs;
         }
 
+        /// <summary>
+        /// Calls GetScanners command
+        /// </summary>
+        private void ShowScanners()
+        {
+            int opCode = CLAIM_DEVICE;
+            string inXml = String.Empty;
+            string outXml = "";
+            int status = STATUS_FALSE;
+            lstvScanners.Items.Clear();
+            combSlcrScnr.Items.Clear();
+
+            m_arScanners.Initialize();
+            if (m_bSuccessOpen)
+            {
+                m_nTotalScanners = 0;
+                short numOfScanners = 0;
+                int nScannerCount = 0;
+                string outXML = "";
+                int[] scannerIdList = new int[MAX_NUM_DEVICES];
+                try
+                {
+                    m_pCoreScanner.GetScanners(out numOfScanners, scannerIdList, out outXML, out status);
+                    DisplayResult(status, "GET_SCANNERS");
+                    if (STATUS_SUCCESS == status)
+                    {
+                        m_nTotalScanners = numOfScanners;
+                        m_xml.ReadXmlString_GetScanners(outXML, m_arScanners, numOfScanners, out nScannerCount);
+                        for (int index = 0; index < m_arScanners.Length; index++)
+                        {
+                            for (int i = 0; i < claimlist.Count; i++)
+                            {
+                                if (string.Compare(claimlist[i], m_arScanners[index].SERIALNO) == 0)
+                                {
+                                    Scanner objScanner = (Scanner)m_arScanners.GetValue(index);
+                                    objScanner.CLAIMED = true;
+                                }
+                            }
+                        }
+
+                        FillScannerList();
+                        UpdateOutXml(outXML);
+                        for (int index = 0; index < m_nTotalScanners; index++)
+                        {
+                            Scanner objScanner = (Scanner)m_arScanners.GetValue(index);
+                            string[] strItems = new string[] { "", "", "", "", "" };
+
+                            inXml = "<inArgs><scannerID>" + objScanner.SCANNERID + "</scannerID></inArgs>";
+
+                            for (int i = 0; i < claimlist.Count; i++)
+                            {
+                                if (string.Compare(claimlist[i], objScanner.SERIALNO) == 0)
+                                {
+                                    ExecCmd(opCode, ref inXml, out outXml, out status);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error GETSCANNERS - " + ex.Message, APP_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         void IZebraCoreCommands.Connect()
         {
             throw new NotImplementedException();
