@@ -35,8 +35,8 @@ namespace Kiosk
         private static HttpListener _httpListener = new HttpListener();
         public static void Main(string[] args)
         {
-            _httpListener.Prefixes.Add("http://localhost:7001/kiosklife/");
-            _httpListener.Prefixes.Add("http://localhost:7001/dispensersHealth/");
+            _httpListener.Prefixes.Add("http://localhost:7000/kiosklife/");
+            _httpListener.Prefixes.Add("http://localhost:7000/dispensersHealth/");
             _httpListener.Start();
             Thread serverThread = new Thread(ResponseThread);
             serverThread.IsBackground = true;
