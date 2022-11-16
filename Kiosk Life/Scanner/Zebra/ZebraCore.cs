@@ -1,6 +1,7 @@
 ﻿using CoreScanner;
 using System.Diagnostics;
 using System.Management;
+using Kiosk_Life.Scanner.Zebra.XML;
 
 namespace Kiosk_Life.Scanner.Zebra
 {
@@ -19,9 +20,14 @@ namespace Kiosk_Life.Scanner.Zebra
 
         private bool[] _zebraSelectedTypes;
 
+        private int _zebraScannersAmount;
+
         private bool _connectionOpened;
 
         private int _selectedScannerType;
+
+        private XmlReader _xmlReader;
+
         public ZebraCore()
         {
             ZebraScanners = new List<ZebraScanner>();
@@ -36,11 +42,48 @@ namespace Kiosk_Life.Scanner.Zebra
                 _zebraCore = new CCoreScannerClass();
             }
             _selectedScannerType = 1;
+            _zebraTypes = new short[IZebraCoreCommands.TOTAL_SCANNER_TYPES];
+            _zebraSelectedTypes = new bool[IZebraCoreCommands.TOTAL_SCANNER_TYPES];
+            _xmlReader = new XmlReader();
+            Thread testThread = new Thread(() =>
+            {
+                while (true)
+                {
+                    FilterScannerList();
+                    Connect();
+                    registerForEvents();
+                    Console.WriteLine();
+                    ShowScanners();
+                    Thread.Sleep(2000);
+                    Console.Clear();
+                    Disconnect();
+                }
+            });
+            testThread.IsBackground = true;
+            testThread.Start();
         }
 
         public void Disconnect()
         {
-            throw new NotImplementedException();
+            if (_connectionOpened)
+            {
+                int appHandle = 0;
+                int status = IZebraCoreDefinitions.STATUS_FALSE;
+                try
+                {
+                    _zebraCore.Close(appHandle, out status);
+                    DisplayResult(status, "CLOSE");
+                    if (IZebraCoreDefinitions.STATUS_SUCCESS == status)
+                    {
+                        _connectionOpened = false;
+                        _zebraScannersAmount = 0;
+                    }
+                }
+                catch (Exception exp)
+                {
+                    System.Windows.MessageBox.Show("CLOSE Error - " + exp.Message);
+                }
+            }
         }
 
         private void Connect()
@@ -236,63 +279,35 @@ namespace Kiosk_Life.Scanner.Zebra
         /// </summary>
         private void ShowScanners()
         {
-            int opCode = CLAIM_DEVICE;
-            string inXml = String.Empty;
-            string outXml = "";
-            int status = STATUS_FALSE;
-            lstvScanners.Items.Clear();
-            combSlcrScnr.Items.Clear();
-
-            m_arScanners.Initialize();
-            if (m_bSuccessOpen)
+            int status = IZebraCoreDefinitions.STATUS_FALSE;
+            if (_connectionOpened)
             {
-                m_nTotalScanners = 0;
+                _zebraScannersAmount = 0;
                 short numOfScanners = 0;
                 int nScannerCount = 0;
                 string outXML = "";
-                int[] scannerIdList = new int[MAX_NUM_DEVICES];
+                int[] scannerIdList = new int[IZebraCoreDefinitions.MAX_NUM_DEVICES];
                 try
                 {
-                    m_pCoreScanner.GetScanners(out numOfScanners, scannerIdList, out outXML, out status);
+                    _zebraCore.GetScanners(out numOfScanners, scannerIdList, out outXML, out status);
                     DisplayResult(status, "GET_SCANNERS");
-                    if (STATUS_SUCCESS == status)
+                    if (IZebraCoreDefinitions.STATUS_SUCCESS == status)
                     {
-                        m_nTotalScanners = numOfScanners;
-                        m_xml.ReadXmlString_GetScanners(outXML, m_arScanners, numOfScanners, out nScannerCount);
-                        for (int index = 0; index < m_arScanners.Length; index++)
+                        _zebraScannersAmount = numOfScanners;
+                        for (int i = 0; i < _zebraScannersAmount; i++)
                         {
-                            for (int i = 0; i < claimlist.Count; i++)
-                            {
-                                if (string.Compare(claimlist[i], m_arScanners[index].SERIALNO) == 0)
-                                {
-                                    Scanner objScanner = (Scanner)m_arScanners.GetValue(index);
-                                    objScanner.CLAIMED = true;
-                                }
-                            }
+                            ZebraScanners.Add(new ZebraScanner());
                         }
-
-                        FillScannerList();
-                        UpdateOutXml(outXML);
-                        for (int index = 0; index < m_nTotalScanners; index++)
+                        _xmlReader.ReadXmlString_GetScanners(outXML, ZebraScanners, numOfScanners, out nScannerCount);
+                        for (int i = 0; i < _zebraScannersAmount; i++)
                         {
-                            Scanner objScanner = (Scanner)m_arScanners.GetValue(index);
-                            string[] strItems = new string[] { "", "", "", "", "" };
-
-                            inXml = "<inArgs><scannerID>" + objScanner.SCANNERID + "</scannerID></inArgs>";
-
-                            for (int i = 0; i < claimlist.Count; i++)
-                            {
-                                if (string.Compare(claimlist[i], objScanner.SERIALNO) == 0)
-                                {
-                                    ExecCmd(opCode, ref inXml, out outXml, out status);
-                                }
-                            }
+                            ZebraScanners[i].ShowAllInfo();
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error GETSCANNERS - " + ex.Message, APP_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    System.Windows.MessageBox.Show("Error GETSCANNERS - " + ex.Message);
                 }
             }
         }

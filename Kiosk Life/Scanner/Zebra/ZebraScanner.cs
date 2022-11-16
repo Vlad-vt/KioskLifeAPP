@@ -1,10 +1,35 @@
-﻿namespace Kiosk_Life.Scanner.Zebra
+﻿using Kiosk_Life.Information;
+
+namespace Kiosk_Life.Scanner.Zebra
 {
-    public class ZebraScanner
+    public class ZebraScanner : IConsoleInfo
     {
         public ZebraScanner()
         {
 
+        }
+
+        public void ClearValues()
+        {
+            CLAIMED = false;
+            useHID = false;
+            SCANNERNAME = "";
+            SCANNERID = "";
+            SERIALNO = "";
+            MODELNO = "";
+            GUID = "";
+            SCANNERTYPE = "";
+            SCANNERMNFDATE = "";
+            SCANNERFIRMWARE = "";
+        }
+
+        public void ShowAllInfo()
+        {
+            Console.WriteLine("Scanner ID: " + SCANNERID + "\n" +
+                                "Model #: " + MODELNO + "\n" + 
+                                "Scanner serial number: " + SERIALNO + "\n" + 
+                                "Scanner firmware: " + SCANNERFIRMWARE + "\n" +
+                                "Scanner guid: " + GUID + "\n");
         }
 
         #region Private Members
