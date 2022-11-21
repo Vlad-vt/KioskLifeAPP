@@ -37,12 +37,11 @@ namespace Kiosk
         {
             _httpListener.Prefixes.Add("http://localhost:7000/kiosklife/");
             _httpListener.Prefixes.Add("http://localhost:7000/dispensersHealth/");
+            _httpListener.Prefixes.Add("http://localhost:7000/zebraScannersHealth/");
             _httpListener.Start();
             Thread serverThread = new Thread(ResponseThread);
             serverThread.IsBackground = true;
             serverThread.Start();
-            ZebraCore zebraCore = new ZebraCore();
-            Thread.Sleep(100000);
             Thread monitorThread = new Thread(() =>
             {
                 int count;
@@ -131,6 +130,13 @@ namespace Kiosk
                         {
                             DispensersHealth dispensersHealth = JsonConvert.DeserializeObject<DispensersHealth>(reader.ReadToEnd());
                             KioskConfiguration.GetInstance()._dispensers = dispensersHealth.Dispensers;
+                        }
+                        break;
+                    case "/zebraScannersHealth/":
+                        using (var reader = new StreamReader(context.Request.InputStream))
+                        {
+                            ZebraScannerHealth zebraScannerHealth = JsonConvert.DeserializeObject<ZebraScannerHealth>(reader.ReadToEnd());
+                            KioskConfiguration.GetInstance()._zebraScanners = zebraScannerHealth.ZebraScanners;
                         }
                         break;
                 }

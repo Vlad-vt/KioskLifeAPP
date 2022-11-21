@@ -9,25 +9,11 @@ namespace Kiosk_Life.Scanner.Zebra
 
         }
 
-        public void ClearValues()
-        {
-            CLAIMED = false;
-            useHID = false;
-            SCANNERNAME = "";
-            SCANNERID = "";
-            SERIALNO = "";
-            MODELNO = "";
-            GUID = "";
-            SCANNERTYPE = "";
-            SCANNERMNFDATE = "";
-            SCANNERFIRMWARE = "";
-        }
-
         public void ShowAllInfo()
         {
             Console.WriteLine("Scanner ID: " + SCANNERID + "\n" +
-                                "Model #: " + MODELNO + "\n" + 
-                                "Scanner serial number: " + SERIALNO + "\n" + 
+                                "Model #: " + MODELNO + "\n" +
+                                "Scanner serial number: " + SERIALNO + "\n" +
                                 "Scanner firmware: " + SCANNERFIRMWARE + "\n" +
                                 "Scanner guid: " + GUID + "\n");
         }
