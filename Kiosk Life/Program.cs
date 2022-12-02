@@ -24,6 +24,7 @@ using Kiosk_Life.Camera;
 using Kiosk_Life.Information;
 using Newtonsoft.Json;
 using Kiosk_Life.Dispenser;
+using Kiosk_Life.Scanner.Zebra;
 
 namespace Kiosk
 {
@@ -36,6 +37,7 @@ namespace Kiosk
         {
             _httpListener.Prefixes.Add("http://localhost:7000/kiosklife/");
             _httpListener.Prefixes.Add("http://localhost:7000/dispensersHealth/");
+            _httpListener.Prefixes.Add("http://localhost:7000/zebrascannersHealth/");
             _httpListener.Start();
             Thread serverThread = new Thread(ResponseThread);
             serverThread.IsBackground = true;
@@ -48,6 +50,7 @@ namespace Kiosk
                 Console.WriteLine("Analyzing network...");
                 Terminal terminal = new Terminal(true);
                 Camera camera = new Camera(true);
+                Thread.Sleep(2000);
                 Console.Clear();
                 Console.WriteLine("Start working!");
                 while (true)
@@ -130,6 +133,12 @@ namespace Kiosk
                         {
                             DispensersHealth dispensersHealth = JsonConvert.DeserializeObject<DispensersHealth>(reader.ReadToEnd());
                             KioskConfiguration.GetInstance()._dispensers = dispensersHealth.Dispensers;
+                        }
+                        break;
+                    case "/zebrascannersHealth/":
+                        using(var reader = new StreamReader(context.Request.InputStream))
+                        {
+                            KioskConfiguration.GetInstance()._zebraHealth = JsonConvert.DeserializeObject<ZebraHealth>(reader.ReadToEnd());
                         }
                         break;
                 }

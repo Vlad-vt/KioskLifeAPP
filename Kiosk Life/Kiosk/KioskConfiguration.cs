@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Kiosk_Life.Scanner.Zebra;
+using Newtonsoft.Json;
 using System.Net;
 
 namespace Kiosk_Life.Kiosk
@@ -16,6 +17,8 @@ namespace Kiosk_Life.Kiosk
         public Camera.Camera _camera;
         [JsonProperty("Dispensers")]
         public List<Dispenser.Dispenser> _dispensers;
+        [JsonProperty("Zebra Heatlh")]
+        public ZebraHealth _zebraHealth;
 
         public static KioskConfiguration GetInstance()
         {
@@ -30,6 +33,7 @@ namespace Kiosk_Life.Kiosk
             _terminal = new Terminal.Terminal();
             _dispensers = new List<Dispenser.Dispenser>();
             _camera = new Camera.Camera();
+            _zebraHealth= new ZebraHealth();
         }
 
         public void SendFileToBrowser(ref HttpListenerContext response)

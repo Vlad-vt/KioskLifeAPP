@@ -243,11 +243,19 @@ namespace Kiosk_Life.Printer
             Errors.Clear();
             HtmlWeb web = new HtmlWeb();
             HtmlDocument document = new HtmlDocument();
-            document = web.Load("http://192.168.0.155/realtime.htm");
+            try
+            {
+                document = web.Load("http://192.168.178.172/realtime.htm");
+                //document = web.Load("http://192.168.0.155/realtime.htm");
+            }
+            catch(Exception e)
+            {
+            }
             HtmlNode[] nodes = document.DocumentNode.SelectNodes("//td").Where(x => x.InnerHtml.Contains("READY")).ToArray();
             HtmlNode[] nodes1 = document.DocumentNode.SelectNodes("//tr").Where(x => x.InnerHtml.Contains("MAC ID")).ToArray();
             string macAddress = nodes1[2].InnerText.Substring(nodes1[2].InnerText.IndexOf("MAC ID = ") + "MAC ID = ".Length);
-            NetworkData = new NetworkDevicedata { IP = "192.168.0.155", MacAddress = macAddress, ConnectedToNetwork = true, ManufactoryName = "Boca printer" };
+            NetworkData = new NetworkDevicedata { IP = "192.168.178.172", MacAddress = macAddress, ConnectedToNetwork = true, ManufactoryName = "Boca printer" };
+            //NetworkData = new NetworkDevicedata { IP = "192.168.0.155", MacAddress = macAddress, ConnectedToNetwork = true, ManufactoryName = "Boca printer" };
             PrinterOnline = true;
             PrinterProcess = "Working";
             string result = nodes[0].InnerText.Replace("\n", "").Replace("\r", "");
