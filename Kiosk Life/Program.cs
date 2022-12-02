@@ -86,9 +86,10 @@ namespace Kiosk
                             }
                             else if (printer.GetType() == typeof(NetworkPrinter))
                             {
-                                (printer as NetworkPrinter).CheckDeviceConnection();
-                                (printer as NetworkPrinter).ConnectToDevice();
-                                (printer as NetworkPrinter).readData();
+                                (printer as NetworkPrinter).CheckPrinter();
+                                //(printer as NetworkPrinter).CheckDeviceConnection();
+                                //(printer as NetworkPrinter).ConnectToDevice();
+                                //(printer as NetworkPrinter).readData();
                             }
                         }
                         terminal.CheckForErrors("");
