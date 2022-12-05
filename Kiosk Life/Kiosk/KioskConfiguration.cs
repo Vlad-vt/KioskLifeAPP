@@ -20,6 +20,34 @@ namespace Kiosk_Life.Kiosk
         [JsonProperty("ZebraScanners")]
         public List<ZebraScanner> _zebraScanners;
 
+        #region Data Collected
+        /// <summary>
+        /// Did app get data from printers less than 5 seconds
+        /// </summary>
+        [JsonIgnore]
+        public bool PrintersDataCollected;
+        /// <summary>
+        /// Did app get data from the terminal less than 5 seconds
+        /// </summary>
+        [JsonIgnore]
+        public bool TerminalDataCollected;
+        /// <summary>
+        /// Did app get data from the camera less than 5 seconds
+        /// </summary>
+        [JsonIgnore]
+        public bool CameraDataCollected;
+        /// <summary>
+        /// Did app get data from dispensers less than 5 seconds
+        /// </summary>
+        [JsonIgnore]
+        public bool DispensersDataCollected;
+        /// <summary>
+        /// Did app get data from zebra scanners less than 5 seconds
+        /// </summary>
+        [JsonIgnore]
+        public bool ZebraScannersDataCollected;
+        #endregion  
+
         public static KioskConfiguration GetInstance()
         {
             if (_singleton == null)

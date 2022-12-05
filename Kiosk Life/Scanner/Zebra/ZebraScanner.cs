@@ -1,5 +1,5 @@
 ﻿using Kiosk_Life.Information;
-
+using Newtonsoft.Json;
 namespace Kiosk_Life.Scanner.Zebra
 {
     public class ZebraScanner : IConsoleInfo
@@ -34,61 +34,74 @@ namespace Kiosk_Life.Scanner.Zebra
         #endregion
 
         #region Public Getters and Setters
+
+        [JsonIgnore]
         public string SCANNERMNFDATE
         {
             get { return mnfdate; }
             set { mnfdate = value; }
         }
+        [JsonIgnore]
         public string SCANNERFIRMWARE
         {
             get { return firmware; }
             set { firmware = value; }
         }
+        [JsonIgnore]
         public string SCANNERNAME
         {
             get { return scannerName; }
             set { scannerName = value; }
         }
-        public string SCANNERTYPE
-        {
-            get { return scannerType; }
-            set { scannerType = value; }
-        }
-        public int HANDLE
-        {
-            get { return handle; }
-            set { handle = value; }
-        }
+        [JsonProperty("Scanner ID")]
         public string SCANNERID
         {
             get { return scannerID; }
             set { scannerID = value; }
         }
+        [JsonProperty("Scanner Type")]
+        public string SCANNERTYPE
+        {
+            get { return scannerType; }
+            set { scannerType = value; }
+        }
+        [JsonIgnore]
+        public int HANDLE
+        {
+            get { return handle; }
+            set { handle = value; }
+        }
+        [JsonProperty("Serial number")]
         public string SERIALNO
         {
             get { return serialNo; }
             set { serialNo = value; }
         }
+        [JsonIgnore]
         public string MODELNO
         {
             get { return modelNo; }
             set { modelNo = value; }
         }
+        [JsonIgnore]
         public string GUID
         {
             get { return guid; }
             set { guid = value; }
         }
+        [JsonIgnore]
         public string PORT
         {
             get { return port; }
             set { port = value; }
         }
+        [JsonIgnore]
         public bool CLAIMED
         {
             get { return claimed; }
             set { claimed = value; }
         }
+        [JsonIgnore]
         public bool UseHID
         {
             get { return useHID; }
