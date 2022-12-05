@@ -1,6 +1,8 @@
-﻿using Kiosk_Life.Information;
+﻿using HtmlAgilityPack;
+using Kiosk_Life.Information;
 using Kiosk_Life.Network;
 using System.Net.Sockets;
+using System.Xml;
 
 namespace Kiosk_Life.Printer
 {
@@ -13,7 +15,10 @@ namespace Kiosk_Life.Printer
         private StreamReader _streamReader { get; set; }
         private string _incomingData { get; set; }
         private char[] _incomingCharData { get; set; }
-        private bool _connected { get; set; }   
+        private bool _connected { get; set; }
+
+
+
         public void CheckDeviceConnection()
         {
             Network.Network.GetInstance().PingDevice(NetworkData.IP);
@@ -54,12 +59,12 @@ namespace Kiosk_Life.Printer
                     _printerStream.ReadTimeout = 500;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
         }
-         
+
         private string receiveData()
         {
             string data = "0";
@@ -228,8 +233,124 @@ namespace Kiosk_Life.Printer
         {
             Errors = new List<string>();
             _connected = false;
-            NetworkData = Network.Network.GetInstance().PingAll(Name);
-            Network.Network.GetInstance().networkConnection += NetworkConnection;
+            //Network.Network.GetInstance().PingDevice("192.168.0.155");
+            //NetworkData = Network.Network.GetInstance().PingAll(Name);
+            //Network.Network.GetInstance().networkConnection += NetworkConnection;
+        }
+
+        public void CheckPrinter()
+        {
+            Errors.Clear();
+            HtmlWeb web = new HtmlWeb();
+            HtmlDocument document = new HtmlDocument();
+            try
+            {
+                //document = web.Load("http://192.168.178.172/realtime.htm");
+                document = web.Load("http://192.168.0.155/realtime.htm");
+            }
+            catch (Exception e)
+            {
+
+            }
+            try
+            {
+                HtmlNode[] nodes = document.DocumentNode.SelectNodes("//td").Where(x => x.InnerHtml.Contains("READY")).ToArray();
+                HtmlNode[] nodes1 = document.DocumentNode.SelectNodes("//tr").Where(x => x.InnerHtml.Contains("MAC ID")).ToArray();
+                string macAddress = nodes1[2].InnerText.Substring(nodes1[2].InnerText.IndexOf("MAC ID = ") + "MAC ID = ".Length);
+                //NetworkData = new NetworkDevicedata { IP = "192.168.178.172", MacAddress = macAddress, ConnectedToNetwork = true, ManufactoryName = "Boca printer" };
+                NetworkData = new NetworkDevicedata { IP = "192.168.0.155", MacAddress = macAddress, ConnectedToNetwork = true, ManufactoryName = "Boca printer" };
+                PrinterOnline = true;
+                PrinterProcess = "Working";
+                string result = nodes[0].InnerText.Replace("\n", "").Replace("\r", "");
+                //Console.WriteLine("MAC ADDRESS: " + macAddress);
+                for (int i = 0; i < 5; i++)
+                {
+                    string text = "";
+                    switch (i)
+                    {
+                        case 0:
+                            text = result.Substring(result.IndexOf("READY", 4));
+                            text = text.Substring(text.IndexOf("READY") + "READY".Length + 1);
+                            //Console.WriteLine(text);
+                            if (text[0].ToString() + text[1].ToString() == "YE")
+                            {
+                                text = "YES";
+                            }
+                            else
+                            {
+                                text = "NO";
+                                Errors.Add("Not ready!");
+                            }
+                            //Console.WriteLine("READY: " + text[0] + text[1]);
+                            break;
+                        case 1:
+                            text = result.Substring(result.IndexOf("TICKETS LOW"));
+                            text = text.Substring(text.IndexOf("TICKETS LOW") + "TICKETS LOW".Length + 1);
+                            //Console.WriteLine(text);
+                            if (text[0].ToString() + text[1].ToString() == "YE")
+                            {
+                                text = "YES";
+                                Errors.Add("Tickets Low");
+                            }
+                            else
+                            {
+                                text = "NO";
+                            }
+                            //Console.WriteLine("TICKETS LOW: " + text);
+                            break;
+                        case 2:
+                            text = result.Substring(result.IndexOf("PAPER OUT"));
+                            text = text.Substring(text.IndexOf("PAPER OUT") + "PAPER OUT".Length);
+                            //Console.WriteLine(text);
+                            if (text[0].ToString() + text[1].ToString() == "YE")
+                            {
+                                Errors.Add("Paper out");
+                                text = "YES";
+                            }
+                            else
+                                text = "NO";
+                            //Console.WriteLine("PAPER OUT: " + text);
+                            break;
+                        case 3:
+                            text = result.Substring(result.IndexOf("PAPER JAM"));
+                            text = text.Substring(text.IndexOf("PAPER JAM") + "PAPER JAM".Length + 1);
+                            //Console.WriteLine(text);
+                            if (text[0].ToString() + text[1].ToString() == "YE" || text[0].ToString().Contains("Y") || text[1].ToString().Contains("Y"))
+                            {
+                                Errors.Add("Paper Jam");
+                                text = "YES";
+                            }
+                            else
+                                text = "NO";
+                            //Console.WriteLine("PAPER JAM: " + text);
+                            break;
+                        case 4:
+                            text = result.Substring(result.IndexOf("CUTTER JAM"));
+                            text = text.Substring(text.IndexOf("CUTTER JAM") + "CUTTER JAM".Length + 1);
+                            //Console.WriteLine(text);
+                            if (text[0].ToString() + text[1].ToString() == "YE" || text[0].ToString().Contains("Y") || text[1].ToString().Contains("Y") || text[0].ToString().Contains("E")
+                                || text[1].ToString().Contains("E"))
+                            {
+                                Errors.Add("Cutter jam");
+                                text = "YES";
+                            }
+                            else
+                                text = "NO";
+                            //Console.WriteLine("CUTTER JAM: " + text);
+                            break;
+                    }
+                }
+                Thread.Sleep(3000);
+            }
+            catch(Exception e)
+            {
+                return;
+            }
+        }
+
+        public void ClearErrors()
+        {
+            Errors.Clear();
         }
     }
 }
