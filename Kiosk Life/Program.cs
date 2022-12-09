@@ -102,8 +102,9 @@ namespace Kiosk
                         KioskConfiguration.GetInstance()._camera = camera;
                         KioskConfiguration.GetInstance().TestSend();
                         count++;
-                        Thread.Sleep(1000);
+                        Thread.Sleep(5000);
                         Console.Clear();
+                        Thread.Sleep(2000);
                     } while (count != 10000);
                     printers.Clear();
                     server.Refresh();
