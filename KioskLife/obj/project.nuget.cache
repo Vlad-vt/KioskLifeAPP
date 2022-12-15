@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "XywcFaXz1MaVp4tCXGoGIxXlIFnhf8Y/KD6/3j6Fo35UlBhQe0tmtP+J17ar14ZwWr0NGfO8ta9wOR3sYQm3xA==",
+  "success": true,
+  "projectFilePath": "D:\\KioskLifev2.0\\KioskLife\\KioskLife\\KioskLife.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Vlad\\.nuget\\packages\\materialdesigncolors\\2.0.9\\materialdesigncolors.2.0.9.nupkg.sha512",
+    "C:\\Users\\Vlad\\.nuget\\packages\\materialdesignthemes\\4.6.1\\materialdesignthemes.4.6.1.nupkg.sha512"
+  ],
+  "logs": []
+}
