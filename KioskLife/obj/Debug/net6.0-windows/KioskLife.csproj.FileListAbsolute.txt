@@ -28,3 +28,7 @@ D:\KioskLifev2.0\KioskLife\KioskLife\obj\Debug\net6.0-windows\GeneratedInternalT
 D:\KioskLifev2.0\KioskLife\KioskLife\obj\Debug\net6.0-windows\MVVM\View\InfoCard.baml
 D:\KioskLifev2.0\KioskLife\KioskLife\obj\Debug\net6.0-windows\MVVM\View\InfoAction.g.cs
 D:\KioskLifev2.0\KioskLife\KioskLife\obj\Debug\net6.0-windows\MVVM\View\InfoAction.baml
+D:\KioskLifev2.0\KioskLife\KioskLife\bin\Debug\net6.0-windows\AForge.dll
+D:\KioskLifev2.0\KioskLife\KioskLife\bin\Debug\net6.0-windows\AForge.Video.dll
+D:\KioskLifev2.0\KioskLife\KioskLife\bin\Debug\net6.0-windows\AForge.Video.DirectShow.dll
+D:\KioskLifev2.0\KioskLife\KioskLife\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
