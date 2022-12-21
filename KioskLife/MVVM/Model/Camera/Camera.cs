@@ -6,7 +6,7 @@ using KioskLife.Interfaces;
 
 namespace KioskLife.MVVM.Model.Camera
 {
-    public class Camera : IErrorsCheck<>
+    public class Camera
     {
         /// <summary>
         /// Camera Name

@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 D:\KioskLifev2.0\KioskLife\KioskLife\App.xaml
-3-473973252
+10-278601259
 
-21-1983350577
-200-817255380
-MainWindow.xaml;MVVM\View\InfoAction.xaml;MVVM\View\InfoCard.xaml;
+421701357413
+203-2018335096
+MainWindow.xaml;MVVM\View\CamerasView.xaml;MVVM\View\DashBoardView.xaml;MVVM\View\DispensersView.xaml;MVVM\View\PrintersView.xaml;MVVM\View\ScannersView.xaml;MVVM\View\Small\DeviceCard.xaml;MVVM\View\Small\InfoAction.xaml;MVVM\View\Small\InfoCard.xaml;MVVM\View\TerminalsView.xaml;
 
 False
 

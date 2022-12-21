@@ -12,9 +12,9 @@ namespace KioskLife.MVVM.ViewModel
             set 
             {
                 description = value;
-                if (description.Length > 27)
+                if (description.Length > 23)
                 {
-                    description = description.Substring(0, 27);
+                    description = description.Substring(0, 23);
                     description += "...";
                 }
                 OnPropertyChanged();

@@ -5,9 +5,17 @@
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:viewModel ="clr-namespace:KioskLife.MVVM.ViewModel"
              xmlns:view ="clr-namespace:KioskLife.MVVM.View"
+             xmlns:viewSmall = "clr-namespace:KioskLife.MVVM.View.Small"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Style x:Key="menuButton" TargetType="Button">
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Green.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="menuButton" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="#707db2"/>
             <Setter Property="Margin" Value="0,0,0,5"/>
@@ -125,14 +133,41 @@
             <Setter Property="Margin" Value="0,3,0,0"/>
             <Setter Property="Foreground" Value="#7b82ea"/>
         </Style>
-        
-        <DataTemplate DataType = "{x:Type viewModel:InfoCardViewModel}">
-            <view:InfoCard/>
-        </DataTemplate>
+            <DataTemplate DataType = "{x:Type viewModel:InfoCardViewModel}">
+                <view:InfoCard/>
+            </DataTemplate>
 
-        <DataTemplate DataType = "{x:Type viewModel:InfoActionViewModel}">
-            <view:InfoAction/>
-        </DataTemplate>
-        
+            <DataTemplate DataType = "{x:Type viewModel:DeviceCardViewModel}">
+                <viewSmall:DeviceCard/>
+            </DataTemplate>
+
+            <DataTemplate DataType = "{x:Type viewModel:InfoActionViewModel}">
+                <view:InfoAction/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:DashBoardViewModel}">
+                <view:DashBoardView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:CamerasViewModel}">
+                <view:CamerasView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:PrintersViewModel}">
+                <view:PrintersView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:DispensersViewModel}">
+                <view:DispensersView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:ScannersViewModel}">
+                <view:ScannersView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:TerminalsViewModel}">
+                <view:TerminalsView/>
+            </DataTemplate>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

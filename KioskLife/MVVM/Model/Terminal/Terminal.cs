@@ -15,5 +15,10 @@ namespace KioskLife.MVVM.Model.Terminal
         [JsonIgnore]
         //public List<TerminalErrors> DeviceErrors { get; set; }
         public List<string> Errors { get; set; }
+
+        public Terminal(string name, List<string> errors) : base(name, errors)
+        {
+
+        }
     }
 }

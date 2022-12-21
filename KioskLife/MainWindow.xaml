@@ -18,9 +18,12 @@
             <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <!--Left Menu-->
-        <Border CornerRadius="10,0,0,10">
+        <Border Grid.RowSpan="2" CornerRadius="10,0,0,10">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                     <GradientStop Color="#223266" Offset="0"/>
@@ -48,40 +51,40 @@
                 <Separator Height="0.8" Margin="20,30" Background="#46558a"/>
                 
                 <!--Menu Buttons-->
-                <Button Style="{StaticResource menuButtonActive}">
+                <Button Command="{Binding ShowDashboardsView}"  Style="{Binding DashboardbuttonStyle}">
                     <StackPanel Orientation="Horizontal">
                         <md:PackIcon Kind="MonitorDashboard" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Dashboard" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
                 </Button>
-                
-                <Button Style="{StaticResource menuButton}">
+
+                <Button Command="{Binding ShowPrintersView}" Style="{Binding PrintersbuttonStyle}">
                     <StackPanel Orientation="Horizontal">
                         <md:PackIcon Kind="Printer" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Printers" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
                 </Button>
 
-                <Button Style="{StaticResource menuButton}">
+                <Button Command="{Binding ShowScannersView}" Style="{Binding ScannersbuttonStyle}">
                     <StackPanel Orientation="Horizontal">
                         <md:PackIcon Kind="Scanner" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Scanners" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
                 </Button>
 
-                <Button Style="{StaticResource menuButton}">
+                <Button Command="{Binding ShowDispensersView}"  Style="{Binding DispensersbuttonStyle}">
                     <StackPanel Orientation="Horizontal">
                         <md:PackIcon Kind="Sim" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Dispensers" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
                 </Button>
-                <Button Style="{StaticResource menuButton}">
+                <Button Command="{Binding ShowCamerasView}"  Style="{Binding CamerasbuttonStyle}">
                     <StackPanel Orientation="Horizontal">
                         <md:PackIcon Kind="Camera" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Cameras" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
                 </Button>
-                <Button Style="{StaticResource menuButton}">
+                <Button Command="{Binding ShowTerminalsView}"  Style="{Binding TerminalsbuttonStyle}">
                     <StackPanel Orientation="Horizontal">
                         <md:PackIcon Kind="Payment" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Terminals" Style="{StaticResource menuButtonText}"/>
@@ -97,84 +100,25 @@
         </Border>
         
         <!--Main section-->
-        <Border Grid.Column="1" CornerRadius="0,10,10,0" MouseDown="Border_MouseDown">
+        <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"  CornerRadius="0,10,10,0" MouseDown="Border_MouseDown">
             <Border.Background>
                 <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
                     <GradientStop Color="#41518f" Offset="0"/>
                     <GradientStop Color="#2c386c" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
-
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="200"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <!--Tope Menu-->
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,30,20">
-                    <Button Content="Today" Style="{StaticResource topMenuButton}"/>
-                    <Button Content="Week" Style="{StaticResource topMenuButton}"/>
-                    <Button Content="Month" Style="{StaticResource topMenuButton}"/>
-                    <Button Content="Year" Style="{StaticResource topMenuButton}"/>
-                </StackPanel>
-
-                <!--Title-->
-                <TextBlock Text="Kiosk Main Data" FontSize="26" Foreground="#ccd7ff" HorizontalAlignment="Left" Margin="50,35,0,20"/>
-
-                <!--Info Card-->
-                <Grid Grid.Row="1" Margin="50,20,15,40">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <uc:InfoCard Grid.Column="0" Title="Total Uses" Number="{Binding infoCardViewModel.TotalUses}" Icon="Eye" Background1="#827bff" Background2="#d9b5ff" 
-                             EllipseBackground1="#b298fd" EllipseBackground2="#e4bbff"/>
-                    <uc:InfoCard Grid.Column="1" Title="Total Warnings" Number="{Binding infoCardViewModel.TotalWarnings}" Icon="Warning" Background1="#fd8a87" Background2="#f3ab92" 
-                             EllipseBackground1="#fbd5a8" EllipseBackground2="#fdb89b"/>
-                    <uc:InfoCard Grid.Column="2" Title="Total Erorrs" Number="{Binding infoCardViewModel.TotalErrors}" Icon="Error" Background1="PaleVioletRed" Background2="MediumVioletRed" 
-                             EllipseBackground1="Violet" EllipseBackground2="PaleVioletRed"/>
-                </Grid>
-
-                <Grid Grid.Row="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="400"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <!--Chart Section-->
-                    <Border Grid.Column="0" CornerRadius="20" Padding="35,25" Background="#243771" Margin="50,0,10,40">
-                        
-                    </Border>
-                    
-                    <!--Orders Section-->
-                    <Border Grid.Column="1" CornerRadius="20" Padding="35,25" Background="#243771" Margin="50,0,10,40">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <StackPanel Orientation="Horizontal" Margin="20,0,0,15">
-                                <md:PackIcon Kind="CircleOutline" Style="{StaticResource titleIcon}"/>
-                                <TextBlock Text="Last actions" Style="{StaticResource titleText}"/>
-                            </StackPanel>
-
-                            <StackPanel Grid.Row="1">
-                                <uc:InfoAction Title="{Binding infoActionViewModel.Description}" Icon="{Binding infoActionViewModel.Icon}" Number="{Binding infoActionViewModel.Date}"/>
-                                <uc:InfoAction Title="Zebra scanner started working" Icon="Scanner" Number="{Binding infoActionViewModel.Date}"/>
-                                <uc:InfoAction Title="Camera started working" Icon="Camera" Number="{Binding infoActionViewModel.Date}"/>
-                                <uc:InfoAction Title="Terminals started working" Icon="Payment" Number="{Binding infoActionViewModel.Date}"/>
-                                <uc:InfoAction Title="Dispensers started working" Icon="Sim" Number="{Binding infoActionViewModel.Date}"/>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                </Grid>
-            </Grid>
-
         </Border>
-        
+        <StackPanel Grid.Column="1" Grid.Row="0"  Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Command="{Binding HideProgram}" Style="{StaticResource MaterialDesignFloatingActionAccentButton}" Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="WhiteSmoke" Cursor="Hand" Margin="0,-1,0,0">
+                <md:PackIcon Kind="WindowMinimize"/>
+            </Button>
+            <Button Command="{Binding MaximizeProgram}" Style="{StaticResource MaterialDesignFloatingActionAccentButton}" Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="WhiteSmoke" Cursor="Hand" Margin="0,-1,0,0">
+                <md:PackIcon Kind="WindowMaximize"/>
+            </Button>
+            <Button Command="{Binding ExitProgram}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="WhiteSmoke" Cursor="Hand" Margin="0,-1,3,0">
+                <md:PackIcon Kind="CloseBold"/>
+            </Button>
+        </StackPanel>
+        <ContentControl Content="{Binding CurrentView}" Grid.Column="1" Grid.Row="1"/>
     </Grid>
 </Window>
