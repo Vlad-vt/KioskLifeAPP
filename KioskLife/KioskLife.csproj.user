@@ -22,6 +22,9 @@
     <Compile Update="MVVM\View\ScannersView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="MVVM\View\Small\CamerasCard.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="MVVM\View\Small\DeviceCard.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -52,6 +55,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\ScannersView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\Small\CamerasCard.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\Small\DeviceCard.xaml">

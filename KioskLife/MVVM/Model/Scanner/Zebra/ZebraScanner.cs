@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace KioskLife.MVVM.Model.Scanner.Zebra
 {
-    public class ZebraScanner
+    public class ZebraScanner : Scanner
     {
-        public ZebraScanner()
+        public ZebraScanner(string name, List<string> deviceErrors) : base(name, deviceErrors)
         {
-            Error = "";
         }
 
         public void ClearValues()

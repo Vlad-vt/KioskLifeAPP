@@ -141,6 +141,10 @@
                 <viewSmall:DeviceCard/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewModel:CamerasCardViewModel}">
+                <viewSmall:CamerasCard/>
+            </DataTemplate>
+
             <DataTemplate DataType = "{x:Type viewModel:InfoActionViewModel}">
                 <view:InfoAction/>
             </DataTemplate>

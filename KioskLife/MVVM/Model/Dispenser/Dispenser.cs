@@ -20,9 +20,22 @@ namespace KioskLife.MVVM.Model.Dispenser
         [JsonProperty("DispenserWarnings")]
         public List<string> DispenserWarnings { get; set; }
 
+        public string Errors { get; set; }
+
         public Dispenser()
         {
 
+        }
+
+        public Dispenser(string dispenserCOM, List<string> dispenserErrors, List<string> dispenserWarnings)
+        {
+            DispenserCOM = dispenserCOM;
+            DispenserErrors = dispenserErrors;
+            DispenserWarnings = dispenserWarnings;
+            for (int i = 0; i < DispenserErrors.Count; i++)
+            {
+                Errors += DispenserErrors[i] + ",";
+            }
         }
     }
 }

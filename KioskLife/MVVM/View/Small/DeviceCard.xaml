@@ -5,35 +5,52 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KioskLife.MVVM.View.Small"
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d" Name="infoCardf" Width="316" Height="140">
+             mc:Ignorable="d" Name="deviceCardf" Width="250" Height="150">
     <Border Margin="0,0,25,0">
         <Border.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,2">
-                <GradientStop Color="{Binding Path=Background1, ElementName=infoCardf}" Offset="0"/>
-                <GradientStop Color="{Binding Path=Background2, ElementName=infoCardf}" Offset="1"/>
+                <GradientStop Color="{Binding Path=Background1, ElementName=deviceCardf}" Offset="0"/>
+                <GradientStop Color="{Binding Path=Background2, ElementName=deviceCardf}" Offset="1"/>
             </LinearGradientBrush>
         </Border.Background>
 
         <Border.Clip>
-            <RectangleGeometry RadiusX="15" RadiusY="15" Rect="0,0,291,140"/>
+            <RectangleGeometry RadiusX="15" RadiusY="15" Rect="0,0,220,150"/>
         </Border.Clip>
 
         <Grid>
-            <Ellipse Width="230" Height="230" Margin="0, -130, -90, 0" HorizontalAlignment="Right">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="95"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Margin="10,10,0,0" VerticalAlignment="Top">
+                <TextBlock Text="{Binding Path=Title, ElementName=deviceCardf}" Foreground="#FFBAFFA3" FontSize="18" Margin="0,0,0,5" FontWeight="Bold"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Errors: " Foreground="OrangeRed" FontWeight="SemiBold" FontSize="18"/>
+                    <TextBlock Text="{Binding Path=Number, ElementName=deviceCardf}" Foreground="#ffffff" FontSize="14" Width="70" Height="100" TextWrapping="WrapWithOverflow" Margin="7, 3.5, 0,0" FontWeight="SemiBold"/>
+            </StackPanel>
+            </StackPanel>
+
+            <Separator Grid.Row="1" Height="1" Margin="10,0,80,-10" Background="#FF8FA8FF"/>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <TextBlock Text="Status:" Foreground="#FFF2FFB0" FontSize="15" FontWeight="SemiBold" Margin="10,5,20,0"/>
+                <TextBlock Text="Working" Foreground="White" FontSize="12" FontWeight="SemiBold" Margin="0,8,5,0"/>
+                <md:PackIcon Kind="CircleSlice8" Foreground="#FF47FF3E" Margin="0,9,20,0"/>
+            </StackPanel>
+
+            <Ellipse Grid.RowSpan="3" Width="130" Height="130" Margin="0, -55, -50, 0" HorizontalAlignment="Right">
                 <Ellipse.Fill>
                     <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
-                        <GradientStop Color="{Binding Path=EllipseBackground1, ElementName=infoCardf}" Offset="0"/>
-                        <GradientStop Color="{Binding Path=EllipseBackground2, ElementName=infoCardf}" Offset="1"/>
+                        <GradientStop Color="{Binding Path=EllipseBackground1, ElementName=deviceCardf}" Offset="0"/>
+                        <GradientStop Color="{Binding Path=EllipseBackground2, ElementName=deviceCardf}" Offset="1"/>
                     </LinearGradientBrush>
                 </Ellipse.Fill>
             </Ellipse>
 
-            <md:PackIcon Kind="{Binding Path=Icon, ElementName=infoCardf}" Margin="0,0,25,25" Width="60" Height="60" Foreground="#ffffff" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-
-            <StackPanel Margin="35,0,0,20" VerticalAlignment="Bottom">
-                <TextBlock Text="{Binding Path=Title, ElementName=infoCardf}" Foreground="#e9e9e9" FontSize="14"/>
-                <TextBlock Text="{Binding Path=Number, ElementName=infoCardf}" Foreground="#ffffff" FontSize="28" FontWeight="SemiBold"/>
-            </StackPanel>
+            <md:PackIcon Kind="{Binding Path=Icon, ElementName=deviceCardf}" Grid.RowSpan="3" Margin="0,0,20,35" Width="35" Height="35" Foreground="#ffffff" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         </Grid>
     </Border>
 </UserControl>

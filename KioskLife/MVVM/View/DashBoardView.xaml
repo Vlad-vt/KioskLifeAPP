@@ -43,8 +43,8 @@
         <!--Orders Section-->
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="650"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="380"/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="1"  CornerRadius="20" Padding="35,25" Background="#243771" Margin="50,10,10,40">
             <Grid>

@@ -10,12 +10,12 @@ namespace KioskLife.MVVM.Model
     {
         public string Name { get; set; }
 
-        public int Price{ get; set; }
+        public string Errors{ get; set; }
 
-        public TestClass(string name, int price)
+        public TestClass(string name, string errors)
         {
             Name = name;
-            Price = price;
+            Errors = errors;
         }
     }
 }
