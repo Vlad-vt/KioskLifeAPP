@@ -7,6 +7,7 @@ namespace KioskLife.MVVM.Model.Scanner.Zebra
     {
         public ZebraScanner(string name, List<string> deviceErrors) : base(name, deviceErrors)
         {
+            
         }
 
         public void ClearValues()

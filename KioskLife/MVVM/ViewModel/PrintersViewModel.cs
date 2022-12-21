@@ -1,32 +1,35 @@
 ﻿using KioskLife.Core;
 using KioskLife.MVVM.Model;
-using KioskLife.MVVM.Model.Printer;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace KioskLife.MVVM.ViewModel
 {
     class PrintersViewModel : ObservableObject
     {
-        private ObservableCollection<TestClass> _printersList;
-        public ObservableCollection<TestClass> PrintersList
+        private ObservableCollection<DeviceAction> _actionList;
+        public ObservableCollection<DeviceAction> ActionList
         {
             get
             {
-                return _printersList;
+                return _actionList;
             }
             set
             {
-                _printersList = value;
+                _actionList = value;
                 OnPropertyChanged();
             }
         }
+
+        private ObservableCollection<TestClass> myVar;
+
+        public ObservableCollection<TestClass> PrintersList
+        {
+            get { return myVar; }
+            set { myVar = value; }
+        }
+
         public PrintersViewModel()
         {
             PrintersList = new ObservableCollection<TestClass>
@@ -38,6 +41,18 @@ namespace KioskLife.MVVM.ViewModel
                 new TestClass("dsad23", "dasdas"),
                 new TestClass("dsa233", "dasdas"),
                 new TestClass("dsa231", "dasdas"),
+            };
+            ActionList = new ObservableCollection<DeviceAction>
+            {
+                new DeviceAction("Device started working", "[" + DateTime.Now.ToString() + "]:  ", "Printer"),
+                new DeviceAction("Device started working2", "[" + DateTime.Now.ToString() + "]:  ", "Printer"),
+                new DeviceAction("Device started working3", "[" + DateTime.Now.ToString() + "]:  ", "Printer"),
+                 new DeviceAction("Device started working", "[" + DateTime.Now.ToString() + "]:  ", "Printer"),
+                new DeviceAction("Device started working2", "[" + DateTime.Now.ToString() + "]:  ", "Printer"),
+                new DeviceAction("Device started working3", "[" + DateTime.Now.ToString() + "]:  ", "Printer"),
+                 new DeviceAction("Device started working", "[" + DateTime.Now.ToString() + "]:  ", "Printer"),
+                new DeviceAction("Device started working2", "[" + DateTime.Now.ToString() + "]:  ", "Printer"),
+                new DeviceAction("Device started working3", "[" + DateTime.Now.ToString() + "]:  ", "Printer"),
             };
             Thread testThread = new Thread(() =>
             {
