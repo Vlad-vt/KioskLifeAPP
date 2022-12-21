@@ -58,13 +58,22 @@
                         <TextBlock Text="Last actions" Style="{StaticResource titleText}"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Row="1">
-                        <uc:InfoAction Title="{Binding infoActionViewModel.Description}" Icon="{Binding infoActionViewModel.Icon}" Number="{Binding infoActionViewModel.Date}"/>
-                        <uc:InfoAction Title="Zebra scanner started working" Icon="Scanner" Number="{Binding infoActionViewModel.Date}"/>
-                        <uc:InfoAction Title="Camera started working" Icon="Camera" Number="{Binding infoActionViewModel.Date}"/>
-                        <uc:InfoAction Title="Terminals started working" Icon="Payment" Number="{Binding infoActionViewModel.Date}"/>
-                        <uc:InfoAction Title="Dispensers started working" Icon="Sim" Number="{Binding infoActionViewModel.Date}"/>
-                    </StackPanel>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <ItemsControl ItemsSource="{Binding ActionList}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <uc:InfoAction Title="{Binding Name}" Icon="{Binding DeviceType}" Number="{Binding Date}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </StackPanel>
+                    </ScrollViewer>
                 </Grid>
             </Border>
             <!--Chart Section-->
