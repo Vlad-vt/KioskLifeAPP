@@ -5,10 +5,11 @@ using System.Drawing;
 using KioskLife.Interfaces;
 using System.Diagnostics;
 using System.Windows;
+using System.Collections.Generic;
 
 namespace KioskLife.MVVM.Model.Camera
 {
-    public class Camera
+    public class Camera : Device
     {
         /// <summary>
         /// Camera Name
@@ -28,57 +29,17 @@ namespace KioskLife.MVVM.Model.Camera
         /// </summary>
         public string Errors { get; set; }
 
-        private VideoCaptureDevice _device;
 
-        public Camera()
+        public Camera(string name, List<string> errors, string isOnline) : base(name, errors, isOnline)
         {
 
         }
 
-        public Camera(bool initialization)
+        public Camera(string name, List<string> errors, string isOnline, string resolution) : base(name, errors, isOnline)
         {
-            FilterInfoCollection filterInfoCollection = new FilterInfoCollection((Guid)FilterCategory.VideoInputDevice);
-            if (filterInfoCollection == null || ((CollectionBase)filterInfoCollection).Count <= 0)
-            {
-                Trace.WriteLine("No video devices found");
-                return;
-            }
-            foreach (FilterInfo filterInfo in filterInfoCollection)
-            {
-                //if (filterInfo.Name.Contains("RGB"))
-                //{
-                _device = new VideoCaptureDevice(filterInfo.MonikerString);
-                int num1 = 0;
-                int num2 = 3000000;
-                int index1 = -1;
-                System.Drawing.Size frameSize;
-                if (_device.VideoCapabilities.Length > 0)
-                {
-                    for (int index2 = 0; index2 < _device.VideoCapabilities.Length; ++index2)
-                    {
-
-                        VideoCapabilities videoCapability = _device.VideoCapabilities[index2];
-                        frameSize = (System.Drawing.Size)videoCapability.FrameSize;
-                        int width = frameSize.Width;
-                        frameSize = (System.Drawing.Size)videoCapability.FrameSize;
-                        int height = frameSize.Height;
-                        int num3 = width * height;
-                        if (num3 > num1 && num3 <= num2)
-                        {
-                            num1 = num3;
-                            index1 = index2;
-                        }
-                    }
-                    frameSize = _device.VideoCapabilities[index1].FrameSize;
-                    Name = filterInfo.Name;
-                    Online = true;
-                    Resolution = frameSize.Height.ToString() + "*" + frameSize.Width.ToString();
-                    Errors = "-";
-                    break;
-                }
-               // }
-            }
+            Resolution = resolution;
         }
+
     }
 
 }
