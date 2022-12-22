@@ -1,5 +1,6 @@
 ﻿using KioskLife.Core;
 using KioskLife.MVVM.Model;
+using KioskLife.MVVM.Model.Printer;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading;
@@ -22,9 +23,9 @@ namespace KioskLife.MVVM.ViewModel
             }
         }
 
-        private ObservableCollection<TestClass> myVar;
+        private ObservableCollection<Printer> myVar;
 
-        public ObservableCollection<TestClass> PrintersList
+        public ObservableCollection<Printer> PrintersList
         {
             get { return myVar; }
             set { myVar = value; }
@@ -32,15 +33,10 @@ namespace KioskLife.MVVM.ViewModel
 
         public PrintersViewModel()
         {
-            PrintersList = new ObservableCollection<TestClass>
+            PrintersList = new ObservableCollection<Printer>
             {
-                new TestClass("DADSA",  "dasdas"),
-                new TestClass("312dsa", "dasdas"),
-                new TestClass("das90d", "dasdas"),
-                new TestClass("das123", "dasdas"),
-                new TestClass("dsad23", "dasdas"),
-                new TestClass("dsa233", "dasdas"),
-                new TestClass("dsa231", "dasdas"),
+                //new USBPrinter("DADSA",  "dasdas"),
+                //new NetworkPrinter("312dsa", "dasdas"),
             };
             ActionList = new ObservableCollection<DeviceAction>
             {

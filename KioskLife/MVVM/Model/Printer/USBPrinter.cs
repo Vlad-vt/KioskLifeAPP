@@ -4,7 +4,7 @@ namespace KioskLife.MVVM.Model.Printer
 {
     public class USBPrinter : Printer
     {
-        public USBPrinter(string name, List<string> errors, string printerProcess, bool printerOnline) : 
+        public USBPrinter(string name, List<string> errors, string printerProcess, string printerOnline) : 
             base(name, errors, printerProcess, printerOnline)
         {
 

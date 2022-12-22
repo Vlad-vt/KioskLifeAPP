@@ -12,7 +12,7 @@ namespace KioskLife.MVVM.Model.Printer
 
         private HtmlDocument _htmlDocument;
 
-        public NetworkPrinter(string name, List<string> errors, string printerProcess, bool printerOnline) :
+        public NetworkPrinter(string name, List<string> errors, string printerProcess, string printerOnline) :
             base(name, errors, printerProcess, printerOnline)
         {
             _webPage= new HtmlWeb();

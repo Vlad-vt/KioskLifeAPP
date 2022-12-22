@@ -137,7 +137,11 @@
                 <view:InfoCard/>
             </DataTemplate>
 
-            <DataTemplate DataType = "{x:Type viewModel:DeviceCardViewModel}">
+            <DataTemplate DataType="{x:Type viewModel:TerminalCardViewModel}">
+                <viewSmall:TerminalCard/>
+            </DataTemplate>
+
+                <DataTemplate DataType = "{x:Type viewModel:DeviceCardViewModel}">
                 <viewSmall:DeviceCard/>
             </DataTemplate>
 

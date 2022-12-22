@@ -6,12 +6,15 @@ namespace KioskLife.MVVM.Model.Scanner
     {
         public string ScannerName { get; set; }
         public string Errors { get; set; }
-        public Scanner(string name, List<string> deviceErrors) : base(name, deviceErrors)
+        public Scanner(string name, List<string> deviceErrors, string isOnline) : base(name, deviceErrors, isOnline)
         {
             ScannerName = Name;
             for (int i = 0; i < deviceErrors.Count; i++)
             {
-                Errors += deviceErrors[i] + ",";
+                if (i == 0)
+                    Errors += deviceErrors[i];
+                else
+                    Errors += "," + deviceErrors[i];
             }
         }
     }

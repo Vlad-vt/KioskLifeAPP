@@ -5,12 +5,10 @@ namespace KioskLife.MVVM.Model.Printer
     public abstract class Printer : Device
     {
         public string PrinterProcess { get; set; }
-        public bool PrinterOnline { get; set; }
 
-        public Printer(string name, List<string> errors, string printerProcess, bool printerOnline) : base(name, errors)
+        public Printer(string name, List<string> errors, string printerProcess, string isOnline) : base(name, errors, isOnline)
         {
             PrinterProcess = printerProcess;
-            PrinterOnline = printerOnline;
         }
     }
 }

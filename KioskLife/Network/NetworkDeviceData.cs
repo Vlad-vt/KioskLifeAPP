@@ -13,5 +13,10 @@
             ManufactoryName = network.ManufactoryName;
             ConnectedToNetwork = connectionStatus;
         }
+
+        public override string ToString()
+        {
+            return $"IP: {IP}\nMacAddress: {MacAddress}\n";
+        }
     }
 }

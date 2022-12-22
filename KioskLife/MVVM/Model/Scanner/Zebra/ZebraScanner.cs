@@ -5,7 +5,7 @@ namespace KioskLife.MVVM.Model.Scanner.Zebra
 {
     public class ZebraScanner : Scanner
     {
-        public ZebraScanner(string name, List<string> deviceErrors) : base(name, deviceErrors)
+        public ZebraScanner(string name, List<string> deviceErrors, string isOnline) : base(name, deviceErrors, isOnline)
         {
             
         }

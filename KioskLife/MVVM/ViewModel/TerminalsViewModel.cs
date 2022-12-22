@@ -1,7 +1,10 @@
 ﻿using KioskLife.Core;
 using KioskLife.MVVM.Model;
+using KioskLife.MVVM.Model.Terminal;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading;
+using System.Windows;
 
 namespace KioskLife.MVVM.ViewModel
 {
@@ -20,20 +23,53 @@ namespace KioskLife.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        private ObservableCollection<Terminal> myVar;
+
+        public ObservableCollection<Terminal> TerminalsList
+        {
+            get { return myVar; }
+            set { myVar = value; }
+        }
+
+        private void TerminalAction(string action)
+        {
+            Application.Current.Dispatcher.Invoke(() => ActionList.Add(new DeviceAction(action, "[" + DateTime.Now.ToString() + "]", "Payment")));
+        }
+
         public TerminalsViewModel()
         {
-            ActionList = new ObservableCollection<DeviceAction>
+            Thread terminalThread = new Thread(() =>
             {
-                new DeviceAction("Device started working", "[" + DateTime.Now.ToString() + "]:  ", "Payment"),
-                new DeviceAction("Device started working2", "[" + DateTime.Now.ToString() + "]:  ", "Payment"),
-                new DeviceAction("Device started working3", "[" + DateTime.Now.ToString() + "]:  ", "Payment"),
-                 new DeviceAction("Device started working", "[" + DateTime.Now.ToString() + "]:  ", "Payment"),
-                new DeviceAction("Device started working2", "[" + DateTime.Now.ToString() + "]:  ", "Payment"),
-                new DeviceAction("Device started working3", "[" + DateTime.Now.ToString() + "]:  ", "Payment"),
-                 new DeviceAction("Device started working", "[" + DateTime.Now.ToString() + "]:  ", "Payment"),
-                new DeviceAction("Device started working2", "[" + DateTime.Now.ToString() + "]:  ", "Payment"),
-                new DeviceAction("Device started working3", "[" + DateTime.Now.ToString() + "]:  ", "Payment"),
-            };
+                try
+                {
+                    ActionList = new ObservableCollection<DeviceAction>();
+                    TerminalsList = new ObservableCollection<Terminal>
+                    { 
+                        new Terminal("", new System.Collections.Generic.List<string>(), "Online"),
+                    };
+                    for (int i = 0; i < TerminalsList.Count; i++)
+                    {
+                        TerminalsList[i].Action += TerminalAction;
+                        TerminalsList[i].GetNetworkData();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                while(true)
+                {
+                    for (int i = 0; i < TerminalsList.Count; i++)
+                    {
+                        TerminalsList[i].CheckForErrors();
+                        TerminalsList[i].CheckDeviceConnection();
+                    }
+                    Thread.Sleep(5000);
+                }
+            });
+            terminalThread.IsBackground = true;
+            terminalThread.Start();
         }
     }
 }
