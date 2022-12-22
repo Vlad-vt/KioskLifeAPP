@@ -5,8 +5,10 @@ using KioskLife.MVVM.Model.Camera;
 using KioskLife.MVVM.Model.Dispenser;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading;
 
 namespace KioskLife.MVVM.ViewModel
 {
@@ -44,11 +46,15 @@ namespace KioskLife.MVVM.ViewModel
 
         public CamerasViewModel()
         {
-            CamerasList = new ObservableCollection<Camera>
+            Thread camerasInfoThread = new Thread(() =>
             {
-                new Camera(true)
-            };
-            ActionList = new ObservableCollection<DeviceAction>
+                while (true)
+                {
+                    GetAllCameras();
+                    Thread.Sleep(10000);
+                }
+            });
+            /*ActionList = new ObservableCollection<DeviceAction>
             {
                 new DeviceAction("Device started working", "[" + DateTime.Now.ToString() + "]:  ", "Camera"),
                 new DeviceAction("Device started working2", "[" + DateTime.Now.ToString() + "]:  ", "Camera"),
@@ -59,11 +65,12 @@ namespace KioskLife.MVVM.ViewModel
                  new DeviceAction("Device started working", "[" + DateTime.Now.ToString() + "]:  ", "Camera"),
                 new DeviceAction("Device started working2", "[" + DateTime.Now.ToString() + "]:  ", "Camera"),
                 new DeviceAction("Device started working3", "[" + DateTime.Now.ToString() + "]:  ", "Camera"),
-            };
+            };*/
         }
 
         private void GetAllCameras()
         {
+            CamerasList = new ObservableCollection<Camera>();
             FilterInfoCollection filterInfoCollection = new FilterInfoCollection((Guid)FilterCategory.VideoInputDevice);
             if (filterInfoCollection == null || ((CollectionBase)filterInfoCollection).Count <= 0)
             {
@@ -97,11 +104,7 @@ namespace KioskLife.MVVM.ViewModel
                         }
                     }
                     frameSize = _device.VideoCapabilities[index1].FrameSize;
-                    CamerasList.Add(new Camera())
-                    Name = filterInfo.Name;
-                    Online = true;
-                    Resolution = frameSize.Height.ToString() + "*" + frameSize.Width.ToString();
-                    Errors = "-";
+                    CamerasList.Add(new Camera(filterInfo.Name, new List<string>(), "Online", frameSize.Height.ToString() + "*" + frameSize.Width.ToString()));
                     break;
                 }
                 // }

@@ -85,7 +85,9 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="20,0,0,25">
                         <md:PackIcon Kind="CircleOutline" Style="{StaticResource titleIcon}"/>
-                        <TextBlock Text="Connected cameras" Style="{StaticResource titleText}"/>
+                        <TextBlock Text="Connected cameras" Style="{StaticResource titleText}" Margin="0,0,20,0"/>
+                        <TextBlock Text="Found: " Style="{StaticResource titleText}" Foreground="#FFFFFCBB"/>
+                        <TextBlock Text="{Binding CameraCount}" Style="{StaticResource titleText}"/>
                     </StackPanel>
                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                         <StackPanel>
