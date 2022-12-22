@@ -56,10 +56,6 @@ namespace KioskLife.MVVM.Model.Terminal
             }
         }
 
-        public delegate void TerminalAction(string action);
-
-        public event TerminalAction Action;
-
         public Terminal(string name, List<string> errors, string isOnline) : base(name, errors, isOnline)
         {
             if (errors.Count > 0)
@@ -80,7 +76,7 @@ namespace KioskLife.MVVM.Model.Terminal
         public void GetNetworkData()
         {
             NetworkData = Network.Network.GetInstance().PingAll("FEIG");
-            Action?.Invoke("Terminal succesfuly initiated");
+            AddAction("Terminal succesfuly initiated!");
         }
 
         public void GetTerminalError()

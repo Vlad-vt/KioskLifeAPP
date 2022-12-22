@@ -2,7 +2,6 @@
 using KioskLife.Core;
 using KioskLife.MVVM.Model;
 using KioskLife.MVVM.Model.Camera;
-using KioskLife.MVVM.Model.Dispenser;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -67,18 +66,6 @@ namespace KioskLife.MVVM.ViewModel
             });
             camerasInfoThread.IsBackground = true;
             camerasInfoThread.Start();
-            /*ActionList = new ObservableCollection<DeviceAction>
-            {
-                new DeviceAction("Device started working", "[" + DateTime.Now.ToString() + "]:  ", "Camera"),
-                new DeviceAction("Device started working2", "[" + DateTime.Now.ToString() + "]:  ", "Camera"),
-                new DeviceAction("Device started working3", "[" + DateTime.Now.ToString() + "]:  ", "Camera"),
-                 new DeviceAction("Device started working", "[" + DateTime.Now.ToString() + "]:  ", "Camera"),
-                new DeviceAction("Device started working2", "[" + DateTime.Now.ToString() + "]:  ", "Camera"),
-                new DeviceAction("Device started working3", "[" + DateTime.Now.ToString() + "]:  ", "Camera"),
-                 new DeviceAction("Device started working", "[" + DateTime.Now.ToString() + "]:  ", "Camera"),
-                new DeviceAction("Device started working2", "[" + DateTime.Now.ToString() + "]:  ", "Camera"),
-                new DeviceAction("Device started working3", "[" + DateTime.Now.ToString() + "]:  ", "Camera"),
-            };*/
         }
 
         private void GetAllCameras()

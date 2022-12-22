@@ -1,11 +1,4 @@
-﻿using AForge.Video.DirectShow;
-using System.Collections;
-using System;
-using System.Drawing;
-using KioskLife.Interfaces;
-using System.Diagnostics;
-using System.Windows;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace KioskLife.MVVM.Model.Camera
 {
@@ -30,6 +23,13 @@ namespace KioskLife.MVVM.Model.Camera
         public Camera(string name, List<string> errors, string isOnline, string resolution) : base(name, errors, isOnline)
         {
             Resolution = resolution;
+            for (int i = 0; i < errors.Count; i++)
+            {
+                if (i == 0)
+                    Errors = errors[i];
+                else
+                    Errors = $",{errors[i]}";
+            }
         }
 
         public void ShowChanges()
