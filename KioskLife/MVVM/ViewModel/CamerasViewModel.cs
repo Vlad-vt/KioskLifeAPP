@@ -42,6 +42,15 @@ namespace KioskLife.MVVM.ViewModel
             }
         }
 
+        private int _cameraCount;
+
+        public int CameraCount
+        {
+            get { return _cameraCount; }
+            set { _cameraCount = value; OnPropertyChanged(); }
+        }
+
+
         private VideoCaptureDevice _device;
 
         public CamerasViewModel()
@@ -54,6 +63,8 @@ namespace KioskLife.MVVM.ViewModel
                     Thread.Sleep(10000);
                 }
             });
+            camerasInfoThread.IsBackground = true;
+            camerasInfoThread.Start();
             /*ActionList = new ObservableCollection<DeviceAction>
             {
                 new DeviceAction("Device started working", "[" + DateTime.Now.ToString() + "]:  ", "Camera"),
@@ -75,6 +86,7 @@ namespace KioskLife.MVVM.ViewModel
             if (filterInfoCollection == null || ((CollectionBase)filterInfoCollection).Count <= 0)
             {
                 Trace.WriteLine("No video devices found");
+                CameraCount = CamerasList.Count;
                 return;
             }
             foreach (FilterInfo filterInfo in filterInfoCollection)
@@ -109,6 +121,7 @@ namespace KioskLife.MVVM.ViewModel
                 }
                 // }
             }
+            CameraCount = CamerasList.Count;
         }
     }
 }
