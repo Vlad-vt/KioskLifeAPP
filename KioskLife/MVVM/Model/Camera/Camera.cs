@@ -12,17 +12,9 @@ namespace KioskLife.MVVM.Model.Camera
     public class Camera : Device
     {
         /// <summary>
-        /// Camera Name
-        /// </summary>
-        public string Name { get; set; }
-        /// <summary>
         /// Camera resolution (1920x1080 ...)
         /// </summary>
         public string Resolution { get; set; }
-        /// <summary>
-        /// Camera status
-        /// </summary>
-        public bool Online { get; set; }
 
         /// <summary>
         /// Camera errors
@@ -38,6 +30,11 @@ namespace KioskLife.MVVM.Model.Camera
         public Camera(string name, List<string> errors, string isOnline, string resolution) : base(name, errors, isOnline)
         {
             Resolution = resolution;
+        }
+
+        public void ShowChanges()
+        {
+            AddAction($"{Name} camera started working!");
         }
 
     }

@@ -53,6 +53,8 @@ namespace KioskLife.MVVM.ViewModel
 
         private VideoCaptureDevice _device;
 
+
+
         public CamerasViewModel()
         {
             Thread camerasInfoThread = new Thread(() =>
@@ -82,6 +84,7 @@ namespace KioskLife.MVVM.ViewModel
         private void GetAllCameras()
         {
             CamerasList = new ObservableCollection<Camera>();
+            int i = 0;
             FilterInfoCollection filterInfoCollection = new FilterInfoCollection((Guid)FilterCategory.VideoInputDevice);
             if (filterInfoCollection == null || ((CollectionBase)filterInfoCollection).Count <= 0)
             {
@@ -117,11 +120,19 @@ namespace KioskLife.MVVM.ViewModel
                     }
                     frameSize = _device.VideoCapabilities[index1].FrameSize;
                     CamerasList.Add(new Camera(filterInfo.Name, new List<string>(), "Online", frameSize.Height.ToString() + "*" + frameSize.Width.ToString()));
+                    CamerasList[i].Action += NewAction;
+                    CamerasList[i].ShowChanges();
+                    i++;
                     break;
                 }
                 // }
             }
             CameraCount = CamerasList.Count;
+        }
+
+        private void NewAction(string action)
+        {
+            ActionList.Add(new DeviceAction(action, "[" + DateTime.Now.ToString() + "]:  ", "Camera"));
         }
     }
 }
