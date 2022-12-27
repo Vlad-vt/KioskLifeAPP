@@ -64,6 +64,32 @@ namespace KioskLife.MVVM.View.Small
         }
         public static readonly DependencyProperty NumberProperty = DependencyProperty.Register("Number", typeof(string), typeof(CamerasCard));
 
+        public string WorkingStatus
+        {
+            get
+            {
+                return (string)GetValue(WorkingStatusProperty);
+            }
+            set
+            {
+                SetValue(WorkingStatusProperty, value);
+            }
+        }
+        public static readonly DependencyProperty WorkingStatusProperty = DependencyProperty.Register("WorkingStatus", typeof(string), typeof(CamerasCard));
+
+        public string WorkingIcon
+        {
+            get
+            {
+                return (string)GetValue(WorkingIconProperty);
+            }
+            set
+            {
+                SetValue(WorkingIconProperty, value);
+            }
+        }
+        public static readonly DependencyProperty WorkingIconProperty = DependencyProperty.Register("WorkingIcon", typeof(string), typeof(CamerasCard));
+
         public string Icon
         {
             get

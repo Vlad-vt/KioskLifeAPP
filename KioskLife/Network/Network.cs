@@ -162,6 +162,8 @@ namespace KioskLife.Network
             ClearNetworkData();
             _deviceName = deviceName;
             string gate_ip = NetworkGateway();
+            if (gate_ip == null)
+                return _devicedata;
             string[] array = gate_ip.Split('.');
             int i;
             for (i = 1; i <= 255; i++)

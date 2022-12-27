@@ -8,6 +8,7 @@ namespace KioskLife.MVVM.Model
         public string Name { get; set; }
         protected List<string> DeviceErrors { get; set; }
         public string IsOnline { get; set; }
+        public string WorkingColor { get; set; }
 
         public delegate void DeviceAction(string action);
 
@@ -18,11 +19,24 @@ namespace KioskLife.MVVM.Model
             Name = name;
             DeviceErrors = deviceErrors;
             IsOnline = isOnline;
+            if (IsOnline == "Online")
+                WorkingColor = "#FF47FF3E";
+            else
+                WorkingColor = "#FFFF623E";
+
         }
 
         protected void AddAction(string action)
         {
             Action?.Invoke(action);
+        }
+
+        protected void CheckStatus()
+        {
+            if (IsOnline == "Online")
+                WorkingColor = "#FF47FF3E";
+            else
+                WorkingColor = "#FFFF623E";
         }
     }
 }

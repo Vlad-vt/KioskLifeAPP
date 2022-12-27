@@ -35,7 +35,7 @@ namespace KioskLife.MVVM.ViewModel
         {
             PrintersList = new ObservableCollection<Printer>
             {
-                //new USBPrinter("DADSA",  "dasdas"),
+                new USBPrinter("NPI Nippon", new System.Collections.Generic.List<string>(), "", "Online"),
                 //new NetworkPrinter("312dsa", "dasdas"),
             };
             ActionList = new ObservableCollection<DeviceAction>

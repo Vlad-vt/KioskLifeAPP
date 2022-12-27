@@ -71,6 +71,7 @@ namespace KioskLife.MVVM.Model.Terminal
             TerminalName = "Payment Terminal FEIG";
             DeviceErrors = new List<TerminalErrors>();
             Network.Network.GetInstance().networkConnection += NetworkConnection;
+            ShowChanges();
         }
 
         public void GetNetworkData()
@@ -137,6 +138,17 @@ namespace KioskLife.MVVM.Model.Terminal
             }
             DeviceErrors.Clear();
             Errors = "-";
+        }
+
+        public void ShowChanges()
+        {
+            AddAction($"{Name} terminal started working!");
+        }
+
+        public void AddEvent(string events)
+        {
+            CheckStatus();
+            AddAction($"{events}");
         }
     }
 }

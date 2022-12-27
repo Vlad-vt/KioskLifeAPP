@@ -94,7 +94,7 @@
                             <ItemsControl ItemsSource="{Binding CamerasList}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <dc:CamerasCard Title="{Binding Name}" Resolution="{Binding Resolution}" Number="{Binding Errors}" Icon="Camera" Background1="#FF3754AB" Background2="#FF517BF9" 
+                                        <dc:CamerasCard Title="{Binding Name}" Resolution="{Binding Resolution}" Number="{Binding Errors}"  WorkingIcon="{Binding WorkingColor}" WorkingStatus="{Binding IsOnline}" Icon="Camera" Background1="#FF3754AB" Background2="#FF517BF9" 
                              EllipseBackground1="#FF3861DE" EllipseBackground2="#FF89A6FF" Margin="0,0,0,50"/>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>

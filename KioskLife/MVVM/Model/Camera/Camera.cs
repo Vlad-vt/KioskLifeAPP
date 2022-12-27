@@ -37,6 +37,13 @@ namespace KioskLife.MVVM.Model.Camera
             AddAction($"{Name} camera started working!");
         }
 
+        public void AddEvent(string events)
+        {
+            CheckStatus();
+            AddAction($"{events}");
+        }
+
+
     }
 
 }

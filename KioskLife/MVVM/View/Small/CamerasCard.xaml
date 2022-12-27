@@ -41,8 +41,8 @@
 
             <StackPanel Grid.Row="2" Orientation="Horizontal">
                 <TextBlock Text="Status:" Foreground="#FFF2FFB0" FontSize="15" FontWeight="SemiBold" Margin="10,5,20,0"/>
-                <TextBlock Text="Working" Foreground="White" FontSize="12" FontWeight="SemiBold" Margin="0,8,5,0"/>
-                <md:PackIcon Kind="CircleSlice8" Foreground="#FF47FF3E" Margin="0,9,20,0"/>
+                <TextBlock Text="{Binding Path=WorkingStatus, ElementName=camerasCardf}" Foreground="White" FontSize="12" FontWeight="SemiBold" Margin="0,8,5,0"/>
+                <md:PackIcon Kind="CircleSlice8" Foreground="{Binding Path=WorkingIcon, ElementName=camerasCardf}" Margin="0,9,20,0"/>
             </StackPanel>
 
             <Ellipse Grid.RowSpan="3" Width="130" Height="130" Margin="0, -55, -50, 0" HorizontalAlignment="Right">
