@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using KioskLife.Enums;
+using System.Collections.Generic;
 using System.Printing;
 
 namespace KioskLife.MVVM.Model.Printer
@@ -19,10 +20,10 @@ namespace KioskLife.MVVM.Model.Printer
             }
         }
 
-        public USBPrinter(string name, List<string> errors, string printerProcess, string printerOnline) : 
-            base(name, errors, printerProcess, printerOnline)
+        public USBPrinter(string name, List<string> errors, string printerProcess, string printerOnline, DeviceType deviceType) : 
+            base(name, errors, printerProcess, printerOnline, deviceType)
         {
-
+            WriteJSON();
         }
 
         public void CheckForErrors(PrintQueue device)

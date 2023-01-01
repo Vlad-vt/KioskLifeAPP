@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using KioskLife.Enums;
+using System.Collections.Generic;
 
 namespace KioskLife.MVVM.Model.Camera
 {
@@ -14,13 +15,7 @@ namespace KioskLife.MVVM.Model.Camera
         /// </summary>
         public string Errors { get; set; }
 
-
-        public Camera(string name, List<string> errors, string isOnline) : base(name, errors, isOnline)
-        {
-
-        }
-
-        public Camera(string name, List<string> errors, string isOnline, string resolution) : base(name, errors, isOnline)
+        public Camera(string name, List<string> errors, string isOnline, string resolution, DeviceType deviceType) : base(name, errors, isOnline, deviceType)
         {
             Resolution = resolution;
             for (int i = 0; i < errors.Count; i++)
@@ -30,16 +25,19 @@ namespace KioskLife.MVVM.Model.Camera
                 else
                     Errors = $",{errors[i]}";
             }
+            WriteJSON();
         }
 
         public void ShowChanges()
         {
             AddAction($"{Name} camera started working!");
+            WriteJSON();
         }
 
         public void AddEvent(string events)
         {
             CheckStatus();
+            WriteJSON();
             AddAction($"{events}");
         }
 

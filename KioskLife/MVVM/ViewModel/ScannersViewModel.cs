@@ -41,7 +41,7 @@ namespace KioskLife.MVVM.ViewModel
         {
             ScannersList = new ObservableCollection<Scanner>
             {
-                new ZebraScanner("Zebra Scanner", new System.Collections.Generic.List<string>{"Paper Jam"}, "Online")
+                new ZebraScanner("Zebra Scanner", new System.Collections.Generic.List<string>{"Paper Jam"}, "Online", Enums.DeviceType.Scanner)
             };
         }
     }

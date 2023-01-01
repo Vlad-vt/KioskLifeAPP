@@ -1,13 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using KioskLife.Enums;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace KioskLife.MVVM.Model.Scanner.Zebra
 {
     public class ZebraScanner : Scanner
     {
-        public ZebraScanner(string name, List<string> deviceErrors, string isOnline) : base(name, deviceErrors, isOnline)
+        public ZebraScanner(string name, List<string> deviceErrors, string isOnline, DeviceType deviceType) : base(name, deviceErrors, isOnline, deviceType)
         {
-            
+            WriteJSON();
         }
 
         public void ClearValues()

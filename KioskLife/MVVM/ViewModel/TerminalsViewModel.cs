@@ -46,7 +46,7 @@ namespace KioskLife.MVVM.ViewModel
                     ActionList = new ObservableCollection<DeviceAction>();
                     TerminalsList = new ObservableCollection<Terminal>
                     { 
-                        new Terminal("", new System.Collections.Generic.List<string>(), "Online"),
+                        new Terminal("", new System.Collections.Generic.List<string>(), "Online", Enums.DeviceType.Terminal),
                     };
                     for (int i = 0; i < TerminalsList.Count; i++)
                     {

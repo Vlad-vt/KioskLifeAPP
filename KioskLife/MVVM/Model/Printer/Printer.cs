@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using KioskLife.Enums;
+using System.Collections.Generic;
 
 namespace KioskLife.MVVM.Model.Printer
 {
@@ -6,7 +7,7 @@ namespace KioskLife.MVVM.Model.Printer
     {
         public string PrinterProcess { get; set; }
 
-        public Printer(string name, List<string> errors, string printerProcess, string isOnline) : base(name, errors, isOnline)
+        public Printer(string name, List<string> errors, string printerProcess, string isOnline, DeviceType deviceType) : base(name, errors, isOnline, deviceType)
         {
             PrinterProcess = printerProcess;
         }

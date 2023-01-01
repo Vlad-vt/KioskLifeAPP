@@ -1,4 +1,5 @@
-﻿using KioskLife.Network;
+﻿using KioskLife.Enums;
+using KioskLife.Network;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace KioskLife.MVVM.Model.Terminal
     public class Terminal : Device
     {
         private string _terminalName;
+        [JsonIgnore]
         public string TerminalName 
         { 
             get
@@ -56,7 +58,7 @@ namespace KioskLife.MVVM.Model.Terminal
             }
         }
 
-        public Terminal(string name, List<string> errors, string isOnline) : base(name, errors, isOnline)
+        public Terminal(string name, List<string> errors, string isOnline, DeviceType deviceType) : base(name, errors, isOnline, deviceType)
         {
             if (errors.Count > 0)
             {
@@ -68,6 +70,7 @@ namespace KioskLife.MVVM.Model.Terminal
                         Errors += "," + errors[i];
                 }
             }
+            Name = "Payment Terminal FEIG";
             TerminalName = "Payment Terminal FEIG";
             DeviceErrors = new List<TerminalErrors>();
             Network.Network.GetInstance().networkConnection += NetworkConnection;
@@ -123,6 +126,10 @@ namespace KioskLife.MVVM.Model.Terminal
             {
                 DeviceErrors.Add(TerminalErrors.TerminalOffline);
                 Errors += DeviceErrors[0].ToString();
+                if (IsOnline == "Offline")
+                    IsChanges = false;
+                else
+                    IsChanges = true;
                 IsOnline = "Offline";
                 return;
             }
@@ -143,11 +150,14 @@ namespace KioskLife.MVVM.Model.Terminal
         public void ShowChanges()
         {
             AddAction($"{Name} terminal started working!");
+            SendJSON();
+            WriteJSON();
         }
 
         public void AddEvent(string events)
         {
             CheckStatus();
+            WriteJSON();
             AddAction($"{events}");
         }
     }

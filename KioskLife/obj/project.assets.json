@@ -38,27 +38,19 @@
       "HtmlAgilityPack/1.11.46": {
         "type": "package",
         "compile": {
-          "lib/netstandard2.0/HtmlAgilityPack.dll": {
-            "related": ".deps.json;.pdb;.xml"
-          }
+          "lib/netstandard2.0/HtmlAgilityPack.dll": {}
         },
         "runtime": {
-          "lib/netstandard2.0/HtmlAgilityPack.dll": {
-            "related": ".deps.json;.pdb;.xml"
-          }
+          "lib/netstandard2.0/HtmlAgilityPack.dll": {}
         }
       },
       "LiveCharts/0.9.7": {
         "type": "package",
         "compile": {
-          "lib/net45/LiveCharts.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/net45/LiveCharts.dll": {}
         },
         "runtime": {
-          "lib/net45/LiveCharts.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/net45/LiveCharts.dll": {}
         }
       },
       "LiveCharts.Wpf/0.9.7": {
@@ -67,27 +59,19 @@
           "LiveCharts": "0.9.7"
         },
         "compile": {
-          "lib/net45/LiveCharts.Wpf.dll": {
-            "related": ".pdb;.XML"
-          }
+          "lib/net45/LiveCharts.Wpf.dll": {}
         },
         "runtime": {
-          "lib/net45/LiveCharts.Wpf.dll": {
-            "related": ".pdb;.XML"
-          }
+          "lib/net45/LiveCharts.Wpf.dll": {}
         }
       },
       "MaterialDesignColors/2.0.9": {
         "type": "package",
         "compile": {
-          "lib/net6.0/MaterialDesignColors.dll": {
-            "related": ".pdb"
-          }
+          "lib/net6.0/MaterialDesignColors.dll": {}
         },
         "runtime": {
-          "lib/net6.0/MaterialDesignColors.dll": {
-            "related": ".pdb"
-          }
+          "lib/net6.0/MaterialDesignColors.dll": {}
         }
       },
       "MaterialDesignThemes/4.6.1": {
@@ -96,29 +80,60 @@
           "MaterialDesignColors": "[2.0.9, 3.0.0)"
         },
         "compile": {
-          "lib/net6.0/MaterialDesignThemes.Wpf.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/net6.0/MaterialDesignThemes.Wpf.dll": {}
         },
         "runtime": {
-          "lib/net6.0/MaterialDesignThemes.Wpf.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/net6.0/MaterialDesignThemes.Wpf.dll": {}
         },
         "build": {
           "build/MaterialDesignThemes.targets": {}
         }
       },
+      "Microsoft.Win32.SystemEvents/7.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Microsoft.Win32.SystemEvents.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.Win32.SystemEvents.dll": {}
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net6.0/Microsoft.Win32.SystemEvents.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
+        }
+      },
       "Newtonsoft.Json/13.0.2": {
         "type": "package",
         "compile": {
-          "lib/net6.0/Newtonsoft.Json.dll": {
-            "related": ".xml"
-          }
+          "lib/net6.0/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/net6.0/Newtonsoft.Json.dll": {
-            "related": ".xml"
+          "lib/net6.0/Newtonsoft.Json.dll": {}
+        }
+      },
+      "System.Drawing.Common/7.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Win32.SystemEvents": "7.0.0"
+        },
+        "compile": {
+          "lib/net6.0/System.Drawing.Common.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/System.Drawing.Common.dll": {}
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net6.0/System.Drawing.Common.dll": {
+            "assetType": "runtime",
+            "rid": "win"
           }
         }
       }
@@ -312,6 +327,37 @@
         "tools/VisualStudioToolsManifest.xml"
       ]
     },
+    "Microsoft.Win32.SystemEvents/7.0.0": {
+      "sha512": "2nXPrhdAyAzir0gLl8Yy8S5Mnm/uBSQQA7jEsILOS1MTyS7DbmV1NgViMtvV1sfCD1ebITpNwb1NIinKeJgUVQ==",
+      "type": "package",
+      "path": "microsoft.win32.systemevents/7.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/Microsoft.Win32.SystemEvents.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net6.0/_._",
+        "buildTransitive/netcoreapp2.0/Microsoft.Win32.SystemEvents.targets",
+        "lib/net462/Microsoft.Win32.SystemEvents.dll",
+        "lib/net462/Microsoft.Win32.SystemEvents.xml",
+        "lib/net6.0/Microsoft.Win32.SystemEvents.dll",
+        "lib/net6.0/Microsoft.Win32.SystemEvents.xml",
+        "lib/net7.0/Microsoft.Win32.SystemEvents.dll",
+        "lib/net7.0/Microsoft.Win32.SystemEvents.xml",
+        "lib/netstandard2.0/Microsoft.Win32.SystemEvents.dll",
+        "lib/netstandard2.0/Microsoft.Win32.SystemEvents.xml",
+        "microsoft.win32.systemevents.7.0.0.nupkg.sha512",
+        "microsoft.win32.systemevents.nuspec",
+        "runtimes/win/lib/net6.0/Microsoft.Win32.SystemEvents.dll",
+        "runtimes/win/lib/net6.0/Microsoft.Win32.SystemEvents.xml",
+        "runtimes/win/lib/net7.0/Microsoft.Win32.SystemEvents.dll",
+        "runtimes/win/lib/net7.0/Microsoft.Win32.SystemEvents.xml",
+        "useSharedDesignerContext.txt"
+      ]
+    },
     "Newtonsoft.Json/13.0.2": {
       "sha512": "R2pZ3B0UjeyHShm9vG+Tu0EBb2lC8b0dFzV9gVn50ofHXh9Smjk6kTn7A/FdAsC8B5cKib1OnGYOXxRBz5XQDg==",
       "type": "package",
@@ -341,6 +387,43 @@
         "newtonsoft.json.nuspec",
         "packageIcon.png"
       ]
+    },
+    "System.Drawing.Common/7.0.0": {
+      "sha512": "KIX+oBU38pxkKPxvLcLfIkOV5Ien8ReN78wro7OF5/erwcmortzeFx+iBswlh2Vz6gVne0khocQudGwaO1Ey6A==",
+      "type": "package",
+      "path": "system.drawing.common/7.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.Drawing.Common.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net6.0/_._",
+        "buildTransitive/netcoreapp2.0/System.Drawing.Common.targets",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net462/System.Drawing.Common.dll",
+        "lib/net462/System.Drawing.Common.xml",
+        "lib/net6.0/System.Drawing.Common.dll",
+        "lib/net6.0/System.Drawing.Common.xml",
+        "lib/net7.0/System.Drawing.Common.dll",
+        "lib/net7.0/System.Drawing.Common.xml",
+        "lib/netstandard2.0/System.Drawing.Common.dll",
+        "lib/netstandard2.0/System.Drawing.Common.xml",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "runtimes/win/lib/net6.0/System.Drawing.Common.dll",
+        "runtimes/win/lib/net6.0/System.Drawing.Common.xml",
+        "runtimes/win/lib/net7.0/System.Drawing.Common.dll",
+        "runtimes/win/lib/net7.0/System.Drawing.Common.xml",
+        "system.drawing.common.7.0.0.nupkg.sha512",
+        "system.drawing.common.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
     }
   },
   "projectFileDependencyGroups": {
@@ -351,32 +434,33 @@
       "LiveCharts.Wpf >= 0.9.7",
       "MaterialDesignColors >= 2.0.9",
       "MaterialDesignThemes >= 4.6.1",
-      "Newtonsoft.Json >= 13.0.2"
+      "Newtonsoft.Json >= 13.0.2",
+      "System.Drawing.Common >= 7.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Vlad\\.nuget\\packages\\": {},
+    "C:\\Users\\19Tit\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\KioskLifev2.0\\KioskLife\\KioskLife\\KioskLife.csproj",
+      "projectUniqueName": "D:\\KioskLife2\\KioskLifeAPP\\KioskLife\\KioskLife.csproj",
       "projectName": "KioskLife",
-      "projectPath": "D:\\KioskLifev2.0\\KioskLife\\KioskLife\\KioskLife.csproj",
-      "packagesPath": "C:\\Users\\Vlad\\.nuget\\packages\\",
-      "outputPath": "D:\\KioskLifev2.0\\KioskLife\\KioskLife\\obj\\",
+      "projectPath": "D:\\KioskLife2\\KioskLifeAPP\\KioskLife\\KioskLife.csproj",
+      "packagesPath": "C:\\Users\\19Tit\\.nuget\\packages\\",
+      "outputPath": "D:\\KioskLife2\\KioskLifeAPP\\KioskLife\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Vlad\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\19Tit\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net6.0-windows"
+        "net6.0-windows7.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -425,6 +509,10 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.2, )"
+          },
+          "System.Drawing.Common": {
+            "target": "Package",
+            "version": "[7.0.0, )"
           }
         },
         "imports": [
@@ -433,8 +521,7 @@
           "net47",
           "net471",
           "net472",
-          "net48",
-          "net481"
+          "net48"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -446,7 +533,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
       }
     }
   },
@@ -455,7 +542,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Пакет \"AForge 2.2.5\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\", а не целевой платформы проекта \"net6.0-windows7.0\". Этот пакет может быть не полностью совместим с вашим проектом.",
+      "message": "Package 'AForge 2.2.5' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net6.0-windows7.0'. This package may not be fully compatible with your project.",
       "libraryId": "AForge",
       "targetGraphs": [
         "net6.0-windows7.0"
@@ -465,7 +552,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Пакет \"AForge.Video 2.2.5\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\", а не целевой платформы проекта \"net6.0-windows7.0\". Этот пакет может быть не полностью совместим с вашим проектом.",
+      "message": "Package 'AForge.Video 2.2.5' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net6.0-windows7.0'. This package may not be fully compatible with your project.",
       "libraryId": "AForge.Video",
       "targetGraphs": [
         "net6.0-windows7.0"
@@ -475,7 +562,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Пакет \"AForge.Video.DirectShow 2.2.5\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\", а не целевой платформы проекта \"net6.0-windows7.0\". Этот пакет может быть не полностью совместим с вашим проектом.",
+      "message": "Package 'AForge.Video.DirectShow 2.2.5' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net6.0-windows7.0'. This package may not be fully compatible with your project.",
       "libraryId": "AForge.Video.DirectShow",
       "targetGraphs": [
         "net6.0-windows7.0"
@@ -485,7 +572,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Пакет \"LiveCharts 0.9.7\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\", а не целевой платформы проекта \"net6.0-windows7.0\". Этот пакет может быть не полностью совместим с вашим проектом.",
+      "message": "Package 'LiveCharts 0.9.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net6.0-windows7.0'. This package may not be fully compatible with your project.",
       "libraryId": "LiveCharts",
       "targetGraphs": [
         "net6.0-windows7.0"
@@ -495,7 +582,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Пакет \"LiveCharts.Wpf 0.9.7\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\", а не целевой платформы проекта \"net6.0-windows7.0\". Этот пакет может быть не полностью совместим с вашим проектом.",
+      "message": "Package 'LiveCharts.Wpf 0.9.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net6.0-windows7.0'. This package may not be fully compatible with your project.",
       "libraryId": "LiveCharts.Wpf",
       "targetGraphs": [
         "net6.0-windows7.0"

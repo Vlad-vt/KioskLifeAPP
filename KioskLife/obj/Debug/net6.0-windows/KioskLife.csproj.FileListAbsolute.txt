@@ -108,3 +108,7 @@ D:\KioskLife2\KioskLifeAPP\KioskLife\obj\Debug\net6.0-windows\refint\KioskLife.d
 D:\KioskLife2\KioskLifeAPP\KioskLife\obj\Debug\net6.0-windows\KioskLife.pdb
 D:\KioskLife2\KioskLifeAPP\KioskLife\obj\Debug\net6.0-windows\KioskLife.genruntimeconfig.cache
 D:\KioskLife2\KioskLifeAPP\KioskLife\obj\Debug\net6.0-windows\ref\KioskLife.dll
+D:\KioskLife2\KioskLifeAPP\KioskLife\bin\Debug\net6.0-windows\Microsoft.Win32.SystemEvents.dll
+D:\KioskLife2\KioskLifeAPP\KioskLife\bin\Debug\net6.0-windows\System.Drawing.Common.dll
+D:\KioskLife2\KioskLifeAPP\KioskLife\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\KioskLife2\KioskLifeAPP\KioskLife\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.Drawing.Common.dll

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using KioskLife.Enums;
+using System.Collections.Generic;
 
 namespace KioskLife.MVVM.Model.Scanner
 {
@@ -6,7 +7,7 @@ namespace KioskLife.MVVM.Model.Scanner
     {
         public string ScannerName { get; set; }
         public string Errors { get; set; }
-        public Scanner(string name, List<string> deviceErrors, string isOnline) : base(name, deviceErrors, isOnline)
+        public Scanner(string name, List<string> deviceErrors, string isOnline, DeviceType deviceType) : base(name, deviceErrors, isOnline, deviceType)
         {
             ScannerName = Name;
             for (int i = 0; i < deviceErrors.Count; i++)

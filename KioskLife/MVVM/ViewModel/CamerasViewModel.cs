@@ -74,6 +74,7 @@ namespace KioskLife.MVVM.ViewModel
         {
             if(CamerasList == null)
                 CamerasList = new ObservableCollection<Camera>();
+            CamerasList.Add(new Camera("RGB 521A", new List<string>(), "Online", "1920*1080", Enums.DeviceType.Camera));
             int i = 0;
             FilterInfoCollection filterInfoCollection = new FilterInfoCollection((Guid)FilterCategory.VideoInputDevice);
             if (filterInfoCollection == null || ((CollectionBase)filterInfoCollection).Count <= 0)
@@ -115,7 +116,7 @@ namespace KioskLife.MVVM.ViewModel
                         {
                             Application.Current.Dispatcher.Invoke(() =>
                         {
-                            CamerasList.Add(new Camera(filterInfo.Name, new List<string>(), "Online", frameSize.Height.ToString() + "*" + frameSize.Width.ToString()));
+                            CamerasList.Add(new Camera(filterInfo.Name, new List<string>(), "Online", frameSize.Height.ToString() + "*" + frameSize.Width.ToString(), Enums.DeviceType.Camera));
                         });
                             CamerasList[i].Action += NewAction;
                             CamerasList[i].ShowChanges();
@@ -127,7 +128,7 @@ namespace KioskLife.MVVM.ViewModel
                     {
                         Application.Current.Dispatcher.Invoke(() =>
                         {
-                            CamerasList.Add(new Camera(filterInfo.Name, new List<string>(), "Online", frameSize.Height.ToString() + "*" + frameSize.Width.ToString()));
+                            CamerasList.Add(new Camera(filterInfo.Name, new List<string>(), "Online", frameSize.Height.ToString() + "*" + frameSize.Width.ToString(), Enums.DeviceType.Camera));CamerasList.Add(new Camera(filterInfo.Name, new List<string>(), "Online", frameSize.Height.ToString() + "*" + frameSize.Width.ToString(), Enums.DeviceType.Camera));
                         });
                         CamerasList[i].Action += NewAction;
                         CamerasList[i].ShowChanges();

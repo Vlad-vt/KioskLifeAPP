@@ -3,6 +3,8 @@ using KioskLife.MVVM.Model;
 using KioskLife.MVVM.Model.Printer;
 using System;
 using System.Collections.ObjectModel;
+using System.Drawing.Printing;
+using System.Printing;
 using System.Threading;
 
 namespace KioskLife.MVVM.ViewModel
@@ -35,7 +37,8 @@ namespace KioskLife.MVVM.ViewModel
         {
             PrintersList = new ObservableCollection<Printer>
             {
-                new USBPrinter("NPI Nippon", new System.Collections.Generic.List<string>(), "", "Online"),
+                new USBPrinter("NPI Nippon", new System.Collections.Generic.List<string>(), "", "Online", Enums.DeviceType.USBPrinter),
+                new USBPrinter("Boca BDI", new System.Collections.Generic.List<string>(), "", "Online", Enums.DeviceType.NetworkPrinter),
                 //new NetworkPrinter("312dsa", "dasdas"),
             };
             ActionList = new ObservableCollection<DeviceAction>
@@ -60,6 +63,50 @@ namespace KioskLife.MVVM.ViewModel
             });
             testThread.IsBackground = true;
             testThread.Start();
+        }
+
+        private void GetAllPrinters()
+        {
+            LocalPrintServer server = new LocalPrintServer();
+            for (int i = 0; i < PrinterSettings.InstalledPrinters.Count; i++)
+            {
+                if (PrinterSettings.InstalledPrinters[i].Contains("Boca"))
+                {
+                    PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
+                    PrintersList.Add(new NetworkPrinter(printQueue.Name, new System.Collections.Generic.List<string>(), "Working", "Online", Enums.DeviceType.USBPrinter));
+                }
+                if (PrinterSettings.InstalledPrinters[i].Contains(server.DefaultPrintQueue.Name))
+                {
+                    PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
+                    PrintersList.Add(new USBPrinter(printQueue.Name, new System.Collections.Generic.List<string>(), "Working", "Online", Enums.DeviceType.NetworkPrinter));
+                }
+            }
+            do
+            {
+                foreach (Printer printer in PrintersList)
+                {
+                    if (printer.GetType() == typeof(USBPrinter))
+                    {
+                        PrintQueue printQueue = server.GetPrintQueue(printer.Name);
+                        if (printQueue.IsPrinting)
+                            printer.PrinterProcess = "Printing";
+                        else if (printQueue.IsPaused)
+                            printer.PrinterProcess = "Paused";
+                        else if (printQueue.IsBusy)
+                            printer.PrinterProcess = "Busy";
+                        else
+                            printer.PrinterProcess = "Working";
+                        (printer as USBPrinter).CheckForErrors(printQueue);
+                    }
+                    else if (printer.GetType() == typeof(NetworkPrinter))
+                    {
+                        //(printer as NetworkPrinter).CheckPrinter();
+                        //(printer as NetworkPrinter).CheckDeviceConnection();
+                        //(printer as NetworkPrinter).ConnectToDevice();
+                        //(printer as NetworkPrinter).readData();
+                    }
+                }
+            } while (true);
         }
     }
 }
