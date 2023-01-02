@@ -58,60 +58,7 @@ namespace KioskLife.MVVM.Model
 
         protected virtual void SendJSON()
         {
-           // try
-          //  {
-                    WebClient webClient = new WebClient();
-                   // MessageBox.Show("HELLO");
-                    string json = "";
-                    json = JsonConvert.SerializeObject(this, Formatting.Indented);
-                    //json = json.Replace("{", "{\"").Replace(":", "\":\"").Replace(",", "\",\"").Replace("}", "\"}").Replace(":\"[", ":[").Replace(":\"{", ":{").Replace("https\":\"", "https:").Replace("http\":\"", "http:").Replace("\":\"9", ":9").Replace("}\",", "},").Replace("]\",", "],").Replace("}\"}", "}}");
-                    MessageBox.Show(json);
-                    var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                    NameValueCollection formData = new NameValueCollection();
-                    foreach (var k in dict)
-                    {
-                        MessageBox.Show(k.Key.ToString());
-                        MessageBox.Show(k.Value.ToString());
-                        formData.Add(k.Key, k.Value);
-                    }
-                    //formData["username"] = "testuser";
-                    //formData["password"] = "mypassword";
 
-                    byte[] responseBytes = webClient.UploadValues("https://vr-kiosk.app/tntools/health_terminal.php", "POST", formData);
-                    string responsefromserver = Encoding.UTF8.GetString(responseBytes);
-                    MessageBox.Show(responsefromserver);
-                    webClient.Dispose();
-                
-            //}
-            //catch(Exception e)
-            //{
-            //    MessageBox.Show(e.Message);
-
-       //     }
-            try
-            {
-                var httpRequest = (HttpWebRequest)WebRequest.Create("https://vr-kiosk.app/tntools/health_terminal.php");
-                //var json = JsonConvert.SerializeObject(this, Formatting.Indented);
-                MessageBox.Show(json);
-                httpRequest.Method = "POST";
-                httpRequest.ContentType = "application/text";
-                using (var requestStream = httpRequest.GetRequestStream())
-                using (var writer = new StreamWriter(requestStream))
-                {
-                    writer.Write(json);
-                }
-                using (var httpResponse = httpRequest.GetResponse())
-                using (var responseStream = httpResponse.GetResponseStream())
-                using (var reader = new StreamReader(responseStream))
-                {
-                    string response = reader.ReadToEnd();
-                    MessageBox.Show(response);
-                }
-            }
-            catch (Exception e)
-            {
-                Trace.WriteLine("SMTH wrong with endpoint");
-            }
         }
 
         protected virtual void ShowJSON()

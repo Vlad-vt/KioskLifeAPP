@@ -33,5 +33,28 @@ namespace KioskLife.MVVM.Model.Printer
             json = JsonConvert.SerializeObject(this, Formatting.Indented, jsonSerializerSettings);
             File.WriteAllText($"{DeviceType}.json", json);
         }
+
+        protected override void SendJSON()
+        {
+            try
+            {
+                using (WebClient webClient = new WebClient())
+                {
+                    NameValueCollection formData = new NameValueCollection();
+                    formData["Type"] = DeviceType.ToString();
+                    formData["Name"] = Name;
+                    formData["Process"] = PrinterProcess;
+                    formData["Errors"] = Errors;
+                    formData["Status"] = IsOnline;
+                    byte[] responseBytes = webClient.UploadValues("https://vr-kiosk.app/tntools/health_terminal.php", "POST", formData);
+                    string responsefromserver = Encoding.UTF8.GetString(responseBytes);
+                    webClient.Dispose();
+                }
+            }
+            catch (Exception e)
+            {
+                File.WriteAllText("log.txt", e.Message + "\n");
+            }
+        }
     }
 }

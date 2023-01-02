@@ -74,7 +74,6 @@ namespace KioskLife.MVVM.ViewModel
         {
             if(CamerasList == null)
                 CamerasList = new ObservableCollection<Camera>();
-            CamerasList.Add(new Camera("RGB 521A", new List<string>(), "Online", "1920*1080", Enums.DeviceType.Camera));
             int i = 0;
             FilterInfoCollection filterInfoCollection = new FilterInfoCollection((Guid)FilterCategory.VideoInputDevice);
             if (filterInfoCollection == null || ((CollectionBase)filterInfoCollection).Count <= 0)
