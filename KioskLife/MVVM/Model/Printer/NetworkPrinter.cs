@@ -4,11 +4,29 @@ using KioskLife.Network;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System;
+using System.Collections.Specialized;
+using System.Net;
+using System.Text;
 
 namespace KioskLife.MVVM.Model.Printer
 {
     public class NetworkPrinter : Printer
     {
+        private string _errors;
+        public string Errors
+        {
+            get
+            {
+                return _errors;
+            }
+            set
+            {
+                _errors = value;
+                OnPropertyChanged();
+            }
+        }
+
         [JsonProperty("Network")]
         public NetworkDeviceData NetworkData { get; set; }
 
@@ -44,6 +62,10 @@ namespace KioskLife.MVVM.Model.Printer
                     formData["Type"] = DeviceType.ToString();
                     formData["Name"] = Name;
                     formData["Process"] = PrinterProcess;
+                    formData["IP"] = NetworkData.IP;
+                    formData["MacAddress"] = NetworkData.MacAddress;
+                    formData["ManufactoryName"] = NetworkData.ManufactoryName;
+                    formData["ConnectedToNetwork"] = NetworkData.ConnectedToNetwork.ToString();
                     formData["Errors"] = Errors;
                     formData["Status"] = IsOnline;
                     byte[] responseBytes = webClient.UploadValues("https://vr-kiosk.app/tntools/health_terminal.php", "POST", formData);
