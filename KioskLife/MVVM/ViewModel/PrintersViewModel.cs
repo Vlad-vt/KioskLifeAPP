@@ -1,10 +1,13 @@
 ﻿using KioskLife.Core;
+using KioskLife.Enums;
 using KioskLife.MVVM.Model;
 using KioskLife.MVVM.Model.Printer;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing.Printing;
 using System.Printing;
+using System.Reflection;
 using System.Threading;
 
 namespace KioskLife.MVVM.ViewModel
@@ -35,6 +38,39 @@ namespace KioskLife.MVVM.ViewModel
 
         public PrintersViewModel()
         {
+            Thread printersThread = new Thread(() =>
+            {
+                LocalPrintServer server = new LocalPrintServer();
+                for (int i = 0; i < PrinterSettings.InstalledPrinters.Count; i++)
+                {
+                    if (PrinterSettings.InstalledPrinters[i].Contains("Boca"))
+                    {
+                        PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
+                        PrintersList.Add(new NetworkPrinter(printQueue.Name, new List<string>(),"Working", "Online", DeviceType.NetworkPrinter));
+                    }
+                    if (PrinterSettings.InstalledPrinters[i].Contains(server.DefaultPrintQueue.Name))
+                    {
+                        PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
+                        PrintersList.Add(new USBPrinter(printQueue.Name, new List<string>(), "Working", "Online", DeviceType.NetworkPrinter));
+                    }
+                }
+                while (true)
+                {
+                    foreach(var printer in PrintersList)
+                    {
+                        if(printer.GetType() == typeof(USBPrinter))
+                        {
+                            PrintQueue printQueue = server.GetPrintQueue(printer.Name);
+                            (printer as USBPrinter).CheckForErrors(printQueue);
+                        }
+                        else if(printer.GetType() == typeof(NetworkPrinter))
+                        {
+
+                        }
+                    }
+                    Thread.Sleep(1000);
+                }
+            });
             PrintersList = new ObservableCollection<Printer>
             {
                 new USBPrinter("NPI Nippon", new System.Collections.Generic.List<string>(), "", "Online", Enums.DeviceType.USBPrinter),

@@ -11,5 +11,11 @@ namespace KioskLife.MVVM.Model.Printer
         {
             PrinterProcess = printerProcess;
         }
+
+        public virtual void CheckPrinter()
+        {
+
+        }
+
     }
 }

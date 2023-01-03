@@ -25,10 +25,13 @@ namespace KioskLife.MVVM.Model.Printer
             }
         }
 
+        private List<string> LastErrors;
+
         public USBPrinter(string name, List<string> errors, string printerProcess, string printerOnline, DeviceType deviceType) : 
             base(name, errors, printerProcess, printerOnline, deviceType)
         {
             WriteJSON();
+            LastErrors = new List<string>();
         }
 
         public void CheckForErrors(PrintQueue device)
@@ -36,34 +39,92 @@ namespace KioskLife.MVVM.Model.Printer
             Errors = "-";
             if (device.IsOffline)
             {
-                Errors = "Printer Offline";
-                IsOnline = "Offline";
+                if (CheckLastChanges("Printer Offline"))
+                {
+                    LastErrors.Add("Printer Offline");
+                    IsOnline = "Offline";
+                    IsChanges = true;
+                }
             }
             else
             {
+                if (LastErrors.Remove("Is In Error"))
+                    IsChanges = true;
                 IsOnline = "Online";
             }
             if (device.IsInError)
             {
-                if (Errors.Length > 1)
-                    Errors += ", Is In Error";
-                else
-                    Errors = "Is In Error";
+                if (CheckLastChanges("Is In Error"))
+                {
+                    LastErrors.Add("Is In Error");
+                    IsChanges = true;
+                }
+            }
+            else
+            {
+                if (LastErrors.Remove("Is In Error"))
+                    IsChanges = true;
             }
             if (device.IsPaperJammed)
             {
-                if (Errors.Length > 1)
-                    Errors += ", Paper Jammed";
-                else
-                    Errors = "Paper Jammed";
+                if (CheckLastChanges("Paper Jammed"))
+                {
+                    LastErrors.Add("Paper Jammed");
+                    IsChanges = true;
+                }
+            }
+            else
+            {
+                if (LastErrors.Remove("Paper Jammed"))
+                    IsChanges = true;
             }
             if (device.IsOutOfPaper)
             {
-                if (Errors.Length > 1)
-                    Errors += ", Is Out Of Paper";
-                else
-                    Errors = "Is Out Of Paper";
+                if (CheckLastChanges("Is Out Of Paper"))
+                {
+                    LastErrors.Add("Is Out Of Paper");
+                    IsChanges = true;
+                }
             }
+            else
+            {
+                if (LastErrors.Remove("Is Out Of Paper" ))
+                    IsChanges = true;
+            }
+            for (int i = 0; i < LastErrors.Count; i++)
+            {
+                if (i == 0)
+                    Errors = LastErrors[i];
+                else
+                    Errors += "," + LastErrors[i];
+            }
+            if (IsChanges)
+                SendJSON();
+        }
+
+        private bool CheckLastChanges(string newChange)
+        {
+            bool changes = true;
+            for (int i = 0; i < LastErrors.Count; i++)
+            {
+                if (LastErrors[i] == newChange)
+                    changes = false;
+            }
+            return changes;
+        }
+
+        public void ShowChanges()
+        {
+            AddAction($"{Name} terminal started working!");
+            SendJSON();
+            WriteJSON();
+        }
+
+        public void AddEvent(string events)
+        {
+            CheckStatus();
+            WriteJSON();
+            AddAction($"{events}");
         }
 
         protected override void SendJSON()

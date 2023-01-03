@@ -39,6 +39,14 @@ namespace KioskLife.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        private int _dispensersCount;
+
+        public int DispensersCount
+        {
+            get { return _dispensersCount; }
+            set { _dispensersCount = value; OnPropertyChanged(); }
+        }
         public DispensersViewModel()
         {
             DispensersList = new ObservableCollection<Dispenser>

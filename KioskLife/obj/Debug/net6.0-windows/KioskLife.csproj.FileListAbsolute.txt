@@ -112,3 +112,7 @@ D:\KioskLife2\KioskLifeAPP\KioskLife\bin\Debug\net6.0-windows\Microsoft.Win32.Sy
 D:\KioskLife2\KioskLifeAPP\KioskLife\bin\Debug\net6.0-windows\System.Drawing.Common.dll
 D:\KioskLife2\KioskLifeAPP\KioskLife\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
 D:\KioskLife2\KioskLifeAPP\KioskLife\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\KioskLifev2.0\KioskLife\KioskLife\bin\Debug\net6.0-windows\Microsoft.Win32.SystemEvents.dll
+D:\KioskLifev2.0\KioskLife\KioskLife\bin\Debug\net6.0-windows\System.Drawing.Common.dll
+D:\KioskLifev2.0\KioskLife\KioskLife\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\KioskLifev2.0\KioskLife\KioskLife\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.Drawing.Common.dll

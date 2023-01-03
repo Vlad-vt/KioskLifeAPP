@@ -85,14 +85,16 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="20,0,0,25">
                         <md:PackIcon Kind="CircleOutline" Style="{StaticResource titleIcon}"/>
-                        <TextBlock Text="Connected dispensers" Style="{StaticResource titleText}"/>
+                        <TextBlock Text="Connected dispensers" Style="{StaticResource titleText}" Margin="10,0,220,0"/>
+                        <TextBlock Text="Found: " Style="{StaticResource titleText}" Foreground="#FFFFFCBB"/>
+                        <TextBlock Text="{Binding DispensersCount}" Style="{StaticResource titleText}"/>
                     </StackPanel>
                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                         <StackPanel>
                             <ItemsControl ItemsSource="{Binding DispensersList}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <dc:DeviceCard Title="{Binding DispenserCOM}" Number="{Binding Errors}" Icon="SIM" Background1="#FF3754AB" Background2="#FF517BF9" 
+                                        <dc:DeviceCard Title="{Binding Name}" Number="{Binding Errors}" WorkingIcon="{Binding WorkingColor}" WorkingStatus="{Binding IsOnline}" Icon="SIM" Background1="#FF3754AB" Background2="#FF517BF9" 
                              EllipseBackground1="#FF3861DE" EllipseBackground2="#FF89A6FF" Margin="0,0,0,50"/>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>

@@ -36,36 +36,39 @@ namespace KioskLife.MVVM.Model.Camera
         public void ShowChanges()
         {
             AddAction($"{Name} camera started working!");
-            WriteJSON();
+            SendJSON();
         }
 
         public void AddEvent(string events)
         {
             CheckStatus();
-            WriteJSON();
+            SendJSON();
             AddAction($"{events}");
         }
 
         protected override void SendJSON()
         {
-            try
+            if (IsChanges)
             {
-                using (WebClient webClient = new WebClient())
+                try
                 {
-                    NameValueCollection formData = new NameValueCollection();
-                    formData["Type"] = DeviceType.ToString();
-                    formData["Name"] = Name;
-                    formData["Resolution"] = Resolution;
-                    formData["Errors"] = Errors;
-                    formData["Status"] = IsOnline;
-                    byte[] responseBytes = webClient.UploadValues("https://vr-kiosk.app/tntools/health_terminal.php", "POST", formData);
-                    string responsefromserver = Encoding.UTF8.GetString(responseBytes);
-                    webClient.Dispose();
+                    using (WebClient webClient = new WebClient())
+                    {
+                        NameValueCollection formData = new NameValueCollection();
+                        formData["Type"] = DeviceType.ToString();
+                        formData["Name"] = Name;
+                        formData["Resolution"] = Resolution;
+                        formData["Errors"] = Errors;
+                        formData["Status"] = IsOnline;
+                        byte[] responseBytes = webClient.UploadValues("https://vr-kiosk.app/tntools/health_terminal.php", "POST", formData);
+                        string responsefromserver = Encoding.UTF8.GetString(responseBytes);
+                        webClient.Dispose();
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                File.WriteAllText("log.txt", e.Message + "\n");
+                catch (Exception e)
+                {
+                    File.WriteAllText("log.txt", e.Message + "\n");
+                }
             }
         }
 
