@@ -5,6 +5,7 @@ using KioskLife.MVVM.Model.Scanner;
 using KioskLife.MVVM.Model.Scanner.Zebra;
 using System;
 using System.Collections.ObjectModel;
+using System.Net;
 
 namespace KioskLife.MVVM.ViewModel
 {
@@ -37,7 +38,7 @@ namespace KioskLife.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
-        public ScannersViewModel()
+        public ScannersViewModel(HttpListener httpListener)
         {
             ScannersList = new ObservableCollection<Scanner>
             {

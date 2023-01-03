@@ -25,8 +25,6 @@ namespace KioskLife.MVVM.Model.Printer
             }
         }
 
-        private List<string> LastErrors;
-
         public USBPrinter(string name, List<string> errors, string printerProcess, string printerOnline, DeviceType deviceType) : 
             base(name, errors, printerProcess, printerOnline, deviceType)
         {
@@ -43,13 +41,19 @@ namespace KioskLife.MVVM.Model.Printer
                 {
                     LastErrors.Add("Printer Offline");
                     IsOnline = "Offline";
+                    PrinterProcess = "Not Working";
                     IsChanges = true;
+                    AddAction($"{Name} is Offline now!");
                 }
             }
             else
             {
                 if (LastErrors.Remove("Is In Error"))
+                {
                     IsChanges = true;
+                    AddAction($"SOLVED --Online now--");
+                }
+                PrinterProcess = "Working";
                 IsOnline = "Online";
             }
             if (device.IsInError)
@@ -57,39 +61,51 @@ namespace KioskLife.MVVM.Model.Printer
                 if (CheckLastChanges("Is In Error"))
                 {
                     LastErrors.Add("Is In Error");
+                    AddAction($"{Name} has error!");
                     IsChanges = true;
                 }
             }
             else
             {
                 if (LastErrors.Remove("Is In Error"))
+                {
                     IsChanges = true;
+                    AddAction($"SOLVED --No more errors--");
+                }
             }
             if (device.IsPaperJammed)
             {
                 if (CheckLastChanges("Paper Jammed"))
                 {
                     LastErrors.Add("Paper Jammed");
+                    AddAction($"{Name} has paper jam!");
                     IsChanges = true;
                 }
             }
             else
             {
                 if (LastErrors.Remove("Paper Jammed"))
+                {
                     IsChanges = true;
+                    AddAction($"SOLVED --Paper Jammed--");
+                }
             }
             if (device.IsOutOfPaper)
             {
                 if (CheckLastChanges("Is Out Of Paper"))
                 {
                     LastErrors.Add("Is Out Of Paper");
+                    AddAction($"{Name} Is Out Of Paper now");
                     IsChanges = true;
                 }
             }
             else
             {
-                if (LastErrors.Remove("Is Out Of Paper" ))
+                if (LastErrors.Remove("Is Out Of Paper"))
+                {
                     IsChanges = true;
+                    AddAction($"SOLVED --Is Out Of Paper--");
+                }
             }
             for (int i = 0; i < LastErrors.Count; i++)
             {

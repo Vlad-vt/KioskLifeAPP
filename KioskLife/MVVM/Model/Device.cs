@@ -22,6 +22,8 @@ namespace KioskLife.MVVM.Model
         public string WorkingColor { get; set; }
         public DeviceType DeviceType { get; set; }
 
+        protected List<string> LastErrors;
+
         public delegate void DeviceAction(string action);
 
         [JsonIgnore]

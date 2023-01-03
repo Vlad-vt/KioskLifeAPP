@@ -1,12 +1,18 @@
 ﻿using KioskLife.Core;
 using KioskLife.MVVM.Model;
 using KioskLife.MVVM.Model.Dispenser;
+using KioskLife.MVVM.Model.Scanner.Zebra;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace KioskLife.MVVM.ViewModel
 {
@@ -40,32 +46,51 @@ namespace KioskLife.MVVM.ViewModel
             }
         }
 
-        private int _dispensersCount;
+        private string _dispensersCount;
 
-        public int DispensersCount
+        public string DispensersCount
         {
             get { return _dispensersCount; }
             set { _dispensersCount = value; OnPropertyChanged(); }
         }
-        public DispensersViewModel()
+
+        public DispensersViewModel(HttpListener httpListener)
         {
-            DispensersList = new ObservableCollection<Dispenser>
+            Thread dispensersThread = new Thread(() =>
             {
-                new Dispenser("COM1", new List<string>{"Paper Jam", "Cutter Jam", "AAA"}, "Online", Enums.DeviceType.Dispenser),
-                new Dispenser("COM2", new List<string>{"Paper Jam", "Cutter Jam", "AAA"}, "Online", Enums.DeviceType.Dispenser),
-            };
-            ActionList = new ObservableCollection<DeviceAction>
+                DispensersList = new ObservableCollection<Dispenser>();
+                DispensersCount = DispensersList.Count.ToString();
+                while (true)
+                {
+                    HttpListenerContext context = httpListener.GetContext();
+                    context.Response.ContentType = "text/plain, charset=UTF-8";
+                    context.Response.AppendHeader("Access-Control-Allow-Origin", "*");
+                    context.Response.ContentEncoding = Encoding.UTF8;
+                    switch (context.Request.RawUrl)
+                    {
+                        case "/dispensersHealth/":
+                            using (var reader = new StreamReader(context.Request.InputStream))
+                            {
+                                //DispensersHealth dispensersHealth = JsonConvert.DeserializeObject<DispensersHealth>(reader.ReadToEnd());
+                                Application.Current.Dispatcher.Invoke(() => DispensersCount = DispensersList.Count.ToString());
+                                MessageBox.Show(reader.ReadToEnd());
+                            }
+                            break;
+                    }
+                    context.Response.KeepAlive = false;
+                    context.Response.Close();
+                }
+            });
+            dispensersThread.IsBackground = true;
+            dispensersThread.Start();
+        }
+
+        private void NewAction(string action)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                new DeviceAction("Device started working", "[" + DateTime.Now.ToString() + "]:  ", "SIM"),
-                new DeviceAction("Device started working2", "[" + DateTime.Now.ToString() + "]:  ", "SIM"),
-                new DeviceAction("Device started working3", "[" + DateTime.Now.ToString() + "]:  ", "SIM"),
-                new DeviceAction("Device started working",  "[" + DateTime.Now.ToString() + "]:  ", "SIM"),
-                new DeviceAction("Device started working2", "[" + DateTime.Now.ToString() + "]:  ", "SIM"),
-                new DeviceAction("Device started working3", "[" + DateTime.Now.ToString() + "]:  ", "SIM"),
-                new DeviceAction("Device started working",  "[" + DateTime.Now.ToString() + "]:  ", "SIM"),
-                new DeviceAction("Device started working2", "[" + DateTime.Now.ToString() + "]:  ", "SIM"),
-                new DeviceAction("Device started working3", "[" + DateTime.Now.ToString() + "]:  ", "SIM"),
-            };
+                ActionList.Add(new DeviceAction(action, "[" + DateTime.Now.ToString() + "]:  ", "SIM"));
+            });
         }
     }
 }

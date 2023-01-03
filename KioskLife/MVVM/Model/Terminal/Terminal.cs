@@ -13,20 +13,6 @@ namespace KioskLife.MVVM.Model.Terminal
 {
     public class Terminal : Device
     {
-        private string _terminalName;
-        [JsonIgnore]
-        public string TerminalName 
-        { 
-            get
-            {
-                return _terminalName;
-            }
-            private set
-            {
-                _terminalName = value;
-                OnPropertyChanged();
-            }
-        }
         [JsonIgnore]
         public TcpState ZVTConnection { get; set; }
         public bool ProtocolConnection { get; set; }
@@ -75,7 +61,6 @@ namespace KioskLife.MVVM.Model.Terminal
                 }
             }
             Name = "Payment Terminal FEIG";
-            TerminalName = "Payment Terminal FEIG";
             DeviceErrors = new List<TerminalErrors>();
             Network.Network.GetInstance().networkConnection += NetworkConnection;
             ShowChanges();

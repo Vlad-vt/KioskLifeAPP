@@ -9,6 +9,7 @@ using System.Drawing.Printing;
 using System.Printing;
 using System.Reflection;
 using System.Threading;
+using System.Windows;
 
 namespace KioskLife.MVVM.ViewModel
 {
@@ -36,23 +37,41 @@ namespace KioskLife.MVVM.ViewModel
             set { myVar = value; }
         }
 
+        private string _printersCount;
+
+        public string PrintersCount
+        {
+            get { return _printersCount; }
+            set { _printersCount = value; }
+        }
+
+
         public PrintersViewModel()
         {
             Thread printersThread = new Thread(() =>
             {
                 LocalPrintServer server = new LocalPrintServer();
+                PrintersList = new ObservableCollection<Printer>();
+                int count = 0;
                 for (int i = 0; i < PrinterSettings.InstalledPrinters.Count; i++)
                 {
                     if (PrinterSettings.InstalledPrinters[i].Contains("Boca"))
                     {
                         PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
-                        PrintersList.Add(new NetworkPrinter(printQueue.Name, new List<string>(),"Working", "Online", DeviceType.NetworkPrinter));
+                        PrintersList.Add(new NetworkPrinter(printQueue.Name, new List<string>(), "Working", "Online", DeviceType.NetworkPrinter));
+                        PrintersList[count].Action += NewAction;
+                        count++;
+
                     }
-                    if (PrinterSettings.InstalledPrinters[i].Contains(server.DefaultPrintQueue.Name))
+                    else if (PrinterSettings.InstalledPrinters[i].Contains(server.DefaultPrintQueue.Name))
                     {
                         PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
                         PrintersList.Add(new USBPrinter(printQueue.Name, new List<string>(), "Working", "Online", DeviceType.NetworkPrinter));
+                        PrintersList[count].Action += NewAction;
+                        count++;
+
                     }
+                    PrintersCount = PrintersList.Count.ToString();
                 }
                 while (true)
                 {
@@ -65,84 +84,22 @@ namespace KioskLife.MVVM.ViewModel
                         }
                         else if(printer.GetType() == typeof(NetworkPrinter))
                         {
-
+                            (printer as NetworkPrinter).CheckPrinter(true);
                         }
                     }
                     Thread.Sleep(1000);
                 }
             });
-            PrintersList = new ObservableCollection<Printer>
-            {
-                new USBPrinter("NPI Nippon", new System.Collections.Generic.List<string>(), "", "Online", Enums.DeviceType.USBPrinter),
-                new USBPrinter("Boca BDI", new System.Collections.Generic.List<string>(), "", "Online", Enums.DeviceType.NetworkPrinter),
-                //new NetworkPrinter("312dsa", "dasdas"),
-            };
-            ActionList = new ObservableCollection<DeviceAction>
-            {
-                new DeviceAction("Device started working", "[" + DateTime.Now.ToString() + "]:  ", "Printer"),
-                new DeviceAction("Device started working2", "[" + DateTime.Now.ToString() + "]:  ", "Printer"),
-                new DeviceAction("Device started working3", "[" + DateTime.Now.ToString() + "]:  ", "Printer"),
-                 new DeviceAction("Device started working", "[" + DateTime.Now.ToString() + "]:  ", "Printer"),
-                new DeviceAction("Device started working2", "[" + DateTime.Now.ToString() + "]:  ", "Printer"),
-                new DeviceAction("Device started working3", "[" + DateTime.Now.ToString() + "]:  ", "Printer"),
-                 new DeviceAction("Device started working", "[" + DateTime.Now.ToString() + "]:  ", "Printer"),
-                new DeviceAction("Device started working2", "[" + DateTime.Now.ToString() + "]:  ", "Printer"),
-                new DeviceAction("Device started working3", "[" + DateTime.Now.ToString() + "]:  ", "Printer"),
-            };
-            Thread testThread = new Thread(() =>
-            {
-                while (true)
-                {
-                    //Application.Current.Dispatcher.Invoke(() => { PrintersList.Add(new TestClass("AA13", 3000)); });
-                    Thread.Sleep(3000);
-                }
-            });
-            testThread.IsBackground = true;
-            testThread.Start();
+            printersThread.IsBackground = true;
+            printersThread.Start();
         }
 
-        private void GetAllPrinters()
+        private void NewAction(string action)
         {
-            LocalPrintServer server = new LocalPrintServer();
-            for (int i = 0; i < PrinterSettings.InstalledPrinters.Count; i++)
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                if (PrinterSettings.InstalledPrinters[i].Contains("Boca"))
-                {
-                    PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
-                    PrintersList.Add(new NetworkPrinter(printQueue.Name, new System.Collections.Generic.List<string>(), "Working", "Online", Enums.DeviceType.USBPrinter));
-                }
-                if (PrinterSettings.InstalledPrinters[i].Contains(server.DefaultPrintQueue.Name))
-                {
-                    PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
-                    PrintersList.Add(new USBPrinter(printQueue.Name, new System.Collections.Generic.List<string>(), "Working", "Online", Enums.DeviceType.NetworkPrinter));
-                }
-            }
-            do
-            {
-                foreach (Printer printer in PrintersList)
-                {
-                    if (printer.GetType() == typeof(USBPrinter))
-                    {
-                        PrintQueue printQueue = server.GetPrintQueue(printer.Name);
-                        if (printQueue.IsPrinting)
-                            printer.PrinterProcess = "Printing";
-                        else if (printQueue.IsPaused)
-                            printer.PrinterProcess = "Paused";
-                        else if (printQueue.IsBusy)
-                            printer.PrinterProcess = "Busy";
-                        else
-                            printer.PrinterProcess = "Working";
-                        (printer as USBPrinter).CheckForErrors(printQueue);
-                    }
-                    else if (printer.GetType() == typeof(NetworkPrinter))
-                    {
-                        //(printer as NetworkPrinter).CheckPrinter();
-                        //(printer as NetworkPrinter).CheckDeviceConnection();
-                        //(printer as NetworkPrinter).ConnectToDevice();
-                        //(printer as NetworkPrinter).readData();
-                    }
-                }
-            } while (true);
+                ActionList.Add(new DeviceAction(action, "[" + DateTime.Now.ToString() + "]:  ", "Printer"));
+            });
         }
     }
 }

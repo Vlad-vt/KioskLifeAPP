@@ -1,8 +1,8 @@
 {
   "Errors": null,
-  "PrinterProcess": "",
+  "PrinterProcess": "Working",
   "MachineName": "DESKTOP-81ARV17",
-  "Name": "Boca BDI",
+  "Name": "Microsoft Print to PDF",
   "IsOnline": "Online",
   "DeviceType": "NetworkPrinter"
 }

@@ -46,7 +46,7 @@ namespace KioskLife.MVVM.ViewModel
                     ActionList = new ObservableCollection<DeviceAction>();
                     TerminalsList = new ObservableCollection<Terminal>
                     { 
-                        new Terminal("", new System.Collections.Generic.List<string>(), "Online", Enums.DeviceType.Terminal),
+                        new Terminal("Payment Terminal FEIG", new System.Collections.Generic.List<string>(), "Online", Enums.DeviceType.Terminal),
                     };
                     for (int i = 0; i < TerminalsList.Count; i++)
                     {
@@ -65,7 +65,7 @@ namespace KioskLife.MVVM.ViewModel
                         TerminalsList[i].CheckForErrors();
                         TerminalsList[i].CheckDeviceConnection();
                     }
-                    Thread.Sleep(5000);
+                    Thread.Sleep(1000);
                 }
             });
             terminalThread.IsBackground = true;

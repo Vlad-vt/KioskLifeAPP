@@ -5,6 +5,7 @@ using KioskLife.MVVM.Model.Printer;
 using KioskLife.MVVM.View;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Net;
 using System.Threading;
 using System.Windows;
 
@@ -154,8 +155,18 @@ namespace KioskLife.MVVM.ViewModel
             }
         }
         #endregion
+
+        private static HttpListener _httpListener = new HttpListener();
+
         public MainWindowViewModel()
         {
+            #region Start Local Server
+            _httpListener.Prefixes.Add("http://localhost:7000/kiosklife/");
+            _httpListener.Prefixes.Add("http://localhost:7000/dispensersHealth/");
+            _httpListener.Prefixes.Add("http://localhost:7000/zebrascannersHealth/");
+            _httpListener.Start();
+            #endregion
+
             #region DefaultButtons commands
             ExitProgram = new RelayCommand(o => { Application.Current.Shutdown(); });
             HideProgram = new RelayCommand(o => { Application.Current.MainWindow.WindowState = WindowState.Minimized; });
@@ -167,12 +178,14 @@ namespace KioskLife.MVVM.ViewModel
                     Application.Current.MainWindow.WindowState = WindowState.Maximized;
             });
             #endregion
+
             DBVM = new DashBoardViewModel();
             TVM = new TerminalsViewModel();
             CVM = new CamerasViewModel();
-            SVM = new ScannersViewModel();
-            DVM = new DispensersViewModel();
+            SVM = new ScannersViewModel(_httpListener);
+            DVM = new DispensersViewModel(_httpListener);
             PVM = new PrintersViewModel();
+
             #region MenuButtons commands
 
             ShowDashboardsView = new RelayCommand(o =>
