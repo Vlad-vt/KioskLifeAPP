@@ -30,8 +30,20 @@ namespace KioskLife.MVVM.Model.Printer
 
         private bool _isParsing = false;
 
+        private NetworkDeviceData _networkData;
         [JsonProperty("Network")]
-        public NetworkDeviceData NetworkData { get; set; }
+        public NetworkDeviceData NetworkData 
+        { 
+            get
+            {
+                return _networkData;
+            }
+            set
+            {
+                _networkData = value;
+                OnPropertyChanged();
+            }
+        }
 
         private HtmlWeb _webPage;
 

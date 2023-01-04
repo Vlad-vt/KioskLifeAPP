@@ -27,10 +27,6 @@
 
             <StackPanel Grid.Row="0" Margin="10,10,0,0" VerticalAlignment="Top">
                 <TextBlock Text="{Binding Path=Title, ElementName=deviceCardf}" Foreground="#FFBAFFA3" FontSize="18" Margin="0,0,0,5" FontWeight="Bold"/>
-                <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
-                    <TextBlock Text="Network data: " Foreground="#FFF2FFB0" FontSize="15" FontWeight="SemiBold"/>
-                    <TextBlock Text="{Binding Path=NetworkData, ElementName=deviceCardf}" Foreground="#ffffff" FontSize="14" FontWeight="SemiBold" Margin="7, 2, 0,0"/>
-                </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
                     <TextBlock Text="Errors: " Foreground="OrangeRed" FontWeight="SemiBold" FontSize="18"/>
                     <TextBlock Text="{Binding Path=Number, ElementName=deviceCardf}" Foreground="#ffffff" FontSize="14" Width="160" Height="100" TextWrapping="WrapWithOverflow" Margin="7, 3.5, 0,0" FontWeight="SemiBold"/>
