@@ -52,7 +52,7 @@ namespace KioskLife.MVVM.Model.Printer
                 return;
 
             #region Initiation
-            Errors = "-";
+            //Errors = "-";
             string pageText = "", ip = "";
             if (test)
             {
@@ -89,7 +89,6 @@ namespace KioskLife.MVVM.Model.Printer
                 HtmlNode[] nodes1 = document.DocumentNode.SelectNodes("//tr").Where(x => x.InnerHtml.Contains("MAC ID")).ToArray();
                 string macAddress = nodes1[2].InnerText.Substring(nodes1[2].InnerText.IndexOf("MAC ID = ") + "MAC ID = ".Length);
                 NetworkData = new NetworkDeviceData { IP = ip, MacAddress = macAddress, ConnectedToNetwork = true, ManufactoryName = "Boca printer" };
-                IsOnline = "Online";
                 PrinterProcess = "Working";
                 string result = nodes[0].InnerText.Replace("\n", "").Replace("\r", "");
                 #region Getting errors
@@ -118,6 +117,7 @@ namespace KioskLife.MVVM.Model.Printer
                                 {
                                     LastErrors.Add("Not ready!");
                                     AddAction($"{Name} not ready to print now!");
+                                    IsOnline = "Errors";
                                     IsChanges = true;
                                 }
                             }
@@ -131,6 +131,7 @@ namespace KioskLife.MVVM.Model.Printer
                                 if(!LastErrors.Contains("Tickets Low"))
                                 {
                                     LastErrors.Add("Tickets Low");
+                                    IsOnline = "Errors";
                                     AddAction($"{Name} has low tickets!");
                                     IsChanges = true;
                                 }
@@ -153,6 +154,7 @@ namespace KioskLife.MVVM.Model.Printer
                                 if (!LastErrors.Contains("Paper Out"))
                                 {
                                     LastErrors.Add("Paper Out");
+                                    IsOnline = "Errors";
                                     AddAction($"{Name} is out of paper now!");
                                     IsChanges = true;
                                 }
@@ -176,6 +178,7 @@ namespace KioskLife.MVVM.Model.Printer
                                 if (!LastErrors.Contains("Paper Jam"))
                                 {
                                     LastErrors.Add("Paper Jam");
+                                    IsOnline = "Errors";
                                     AddAction($"{Name} has paper jam now!");
                                     IsChanges = true;
                                 }
@@ -199,6 +202,7 @@ namespace KioskLife.MVVM.Model.Printer
                                 if (!LastErrors.Contains("Cutter Jam"))
                                 {
                                     LastErrors.Add("Cutter Jam");
+                                    IsOnline = "Errors";
                                     AddAction($"{Name} has cutter jam now!");
                                     IsChanges = true;
                                 }
@@ -233,8 +237,11 @@ namespace KioskLife.MVVM.Model.Printer
                     else
                         Errors += "," + LastErrors[i];
                 }
+                if(LastErrors.Count == 0)
+                    IsOnline = "Online";
                 if (IsChanges)
                     SendJSON();
+                CheckStatus();
                 _isParsing = false;
             }
             #endregion

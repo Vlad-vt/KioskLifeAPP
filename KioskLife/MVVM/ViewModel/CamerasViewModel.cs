@@ -84,58 +84,58 @@ namespace KioskLife.MVVM.ViewModel
             }
             foreach (FilterInfo filterInfo in filterInfoCollection)
             {
-                //if (filterInfo.Name.Contains("RGB"))
-                //{
-                _device = new VideoCaptureDevice(filterInfo.MonikerString);
-                int num1 = 0;
-                int num2 = 3000000;
-                int index1 = -1;
-                System.Drawing.Size frameSize;
-                if (_device.VideoCapabilities.Length > 0)
+                if (filterInfo.Name.Contains("RGB"))
                 {
-                    for (int index2 = 0; index2 < _device.VideoCapabilities.Length; ++index2)
+                    _device = new VideoCaptureDevice(filterInfo.MonikerString);
+                    int num1 = 0;
+                    int num2 = 3000000;
+                    int index1 = -1;
+                    System.Drawing.Size frameSize;
+                    if (_device.VideoCapabilities.Length > 0)
                     {
-
-                        VideoCapabilities videoCapability = _device.VideoCapabilities[index2];
-                        frameSize = (System.Drawing.Size)videoCapability.FrameSize;
-                        int width = frameSize.Width;
-                        frameSize = (System.Drawing.Size)videoCapability.FrameSize;
-                        int height = frameSize.Height;
-                        int num3 = width * height;
-                        if (num3 > num1 && num3 <= num2)
+                        for (int index2 = 0; index2 < _device.VideoCapabilities.Length; ++index2)
                         {
-                            num1 = num3;
-                            index1 = index2;
+
+                            VideoCapabilities videoCapability = _device.VideoCapabilities[index2];
+                            frameSize = (System.Drawing.Size)videoCapability.FrameSize;
+                            int width = frameSize.Width;
+                            frameSize = (System.Drawing.Size)videoCapability.FrameSize;
+                            int height = frameSize.Height;
+                            int num3 = width * height;
+                            if (num3 > num1 && num3 <= num2)
+                            {
+                                num1 = num3;
+                                index1 = index2;
+                            }
                         }
-                    }
-                    frameSize = _device.VideoCapabilities[index1].FrameSize;
-                    if (CamerasList.Count > 0)
-                    {
-                        if (CamerasList[i].Name != filterInfo.Name)
+                        frameSize = _device.VideoCapabilities[index1].FrameSize;
+                        if (CamerasList.Count > 0)
+                        {
+                            if (CamerasList[i].Name != filterInfo.Name)
+                            {
+                                Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                CamerasList.Add(new Camera(filterInfo.Name, new List<string>(), "Online", frameSize.Height.ToString() + "*" + frameSize.Width.ToString(), Enums.DeviceType.Camera));
+                            });
+                                CamerasList[i].Action += NewAction;
+                                CamerasList[i].ShowChanges();
+                            }
+                            else
+                                CamerasList[i].AddEvent($"Camera {CamerasList[i].Name} checked and it's working properly");
+                        }
+                        else
                         {
                             Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            CamerasList.Add(new Camera(filterInfo.Name, new List<string>(), "Online", frameSize.Height.ToString() + "*" + frameSize.Width.ToString(), Enums.DeviceType.Camera));
-                        });
+                            {
+                                CamerasList.Add(new Camera(filterInfo.Name, new List<string>(), "Online", frameSize.Height.ToString() + "*" + frameSize.Width.ToString(), Enums.DeviceType.Camera));
+                            });
                             CamerasList[i].Action += NewAction;
                             CamerasList[i].ShowChanges();
                         }
-                        else
-                            CamerasList[i].AddEvent($"Camera {CamerasList[i].Name} checked and it's working properly");
+                        i++;
+                        break;
                     }
-                    else
-                    {
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            CamerasList.Add(new Camera(filterInfo.Name, new List<string>(), "Online", frameSize.Height.ToString() + "*" + frameSize.Width.ToString(), Enums.DeviceType.Camera));CamerasList.Add(new Camera(filterInfo.Name, new List<string>(), "Online", frameSize.Height.ToString() + "*" + frameSize.Width.ToString(), Enums.DeviceType.Camera));
-                        });
-                        CamerasList[i].Action += NewAction;
-                        CamerasList[i].ShowChanges();
-                    }
-                    i++;
-                    break;
                 }
-                // }
             }
             CameraCount = CamerasList.Count;
         }
@@ -144,7 +144,7 @@ namespace KioskLife.MVVM.ViewModel
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                ActionList.Add(new DeviceAction(action, "[" + DateTime.Now.ToString() + "]:  ", "Camera"));
+                ActionList.Insert(0, new DeviceAction(action, "[" + DateTime.Now.ToString() + "]:  ", "Camera"));
             });
         }
     }

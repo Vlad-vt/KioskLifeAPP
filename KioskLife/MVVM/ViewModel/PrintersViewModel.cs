@@ -42,7 +42,7 @@ namespace KioskLife.MVVM.ViewModel
         public string PrintersCount
         {
             get { return _printersCount; }
-            set { _printersCount = value; }
+            set { _printersCount = value; OnPropertyChanged(); }
         }
 
 
@@ -50,6 +50,7 @@ namespace KioskLife.MVVM.ViewModel
         {
             Thread printersThread = new Thread(() =>
             {
+                ActionList = new ObservableCollection<DeviceAction>();
                 LocalPrintServer server = new LocalPrintServer();
                 PrintersList = new ObservableCollection<Printer>();
                 int count = 0;
@@ -98,7 +99,7 @@ namespace KioskLife.MVVM.ViewModel
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                ActionList.Add(new DeviceAction(action, "[" + DateTime.Now.ToString() + "]:  ", "Printer"));
+                ActionList.Insert(0, new DeviceAction(action, "[" + DateTime.Now.ToString() + "]:  ", "Printer"));
             });
         }
     }

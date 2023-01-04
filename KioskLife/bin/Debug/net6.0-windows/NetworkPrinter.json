@@ -1,8 +1,14 @@
 {
   "Errors": null,
+  "Network": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
   "PrinterProcess": "Working",
-  "MachineName": "DESKTOP-81ARV17",
-  "Name": "Microsoft Print to PDF",
+  "MachineName": "OTVR_2000",
+  "Name": "Boca BIDI FGL 26/46 200 DPI",
   "IsOnline": "Online",
   "DeviceType": "NetworkPrinter"
 }

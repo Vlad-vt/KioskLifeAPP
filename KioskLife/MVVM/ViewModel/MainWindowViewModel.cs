@@ -395,8 +395,6 @@ namespace KioskLife.MVVM.ViewModel
             TerminalsbuttonStyle = Application.Current.FindResource("menuButton") as Style;
             ActiveButtonStyle = "menuButtonActive";
             CurrentView = DBVM;
-            //Devices.Add(new NetworkPrinter());    
-           // Devices.Add(new USBPrinter());
         }
     }
 }

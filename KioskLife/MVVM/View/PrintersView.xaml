@@ -32,13 +32,6 @@
         </Grid>
         <!--Title-->
         <TextBlock Text="Printers Data" FontSize="26" Foreground="#ccd7ff" HorizontalAlignment="Left" Margin="50,35,0,20"/>
-        <!--Tope Menu-->
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,30,20">
-            <Button Content="Today" Style="{StaticResource topMenuButton}"/>
-            <Button Content="Week" Style="{StaticResource topMenuButton}"/>
-            <Button Content="Month" Style="{StaticResource topMenuButton}"/>
-            <Button Content="Year" Style="{StaticResource topMenuButton}"/>
-        </StackPanel>
 
 
         <!--Orders Section-->
@@ -82,12 +75,14 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="20,0,0,25">
-                        <md:PackIcon Kind="CircleOutline" Style="{StaticResource titleIcon}"/>
-                        <TextBlock Text="Connected printers" Style="{StaticResource titleText}" Margin="10,0,220,0"/>
-                        <TextBlock Text="Found: " Style="{StaticResource titleText}" Foreground="#FFFFFCBB"/>
-                        <TextBlock Text="{Binding PrintersCount}" Style="{StaticResource titleText}"/>
-                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,25">
+                            <md:PackIcon Kind="CircleOutline" Style="{StaticResource titleIcon}"/>
+                            <TextBlock Text="Connected printers" Style="{StaticResource titleText}" HorizontalAlignment="Left" Margin="10,0,220,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20,0,0,25">
+                            <TextBlock Text="Found: " Style="{StaticResource titleText}" Foreground="#FFFFFCBB"/>
+                            <TextBlock Text="{Binding PrintersCount}" Style="{StaticResource titleText}"/>
+                        </StackPanel> 
                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                         <StackPanel>
                             <ItemsControl ItemsSource="{Binding PrintersList}">

@@ -3,6 +3,7 @@ using KioskLife.MVVM.Model;
 using KioskLife.MVVM.Model.Dispenser;
 using KioskLife.MVVM.Model.Scanner.Zebra;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -56,8 +57,10 @@ namespace KioskLife.MVVM.ViewModel
 
         public DispensersViewModel(HttpListener httpListener)
         {
+            System.Diagnostics.Trace.WriteLine("START WORK");
             Thread dispensersThread = new Thread(() =>
             {
+                ActionList = new ObservableCollection<DeviceAction>();
                 DispensersList = new ObservableCollection<Dispenser>();
                 DispensersCount = DispensersList.Count.ToString();
                 while (true)
@@ -66,14 +69,17 @@ namespace KioskLife.MVVM.ViewModel
                     context.Response.ContentType = "text/plain, charset=UTF-8";
                     context.Response.AppendHeader("Access-Control-Allow-Origin", "*");
                     context.Response.ContentEncoding = Encoding.UTF8;
+                    System.Diagnostics.Trace.WriteLine("GETTING INFO");
                     switch (context.Request.RawUrl)
                     {
                         case "/dispensersHealth/":
                             using (var reader = new StreamReader(context.Request.InputStream))
                             {
                                 //DispensersHealth dispensersHealth = JsonConvert.DeserializeObject<DispensersHealth>(reader.ReadToEnd());
-                                Application.Current.Dispatcher.Invoke(() => DispensersCount = DispensersList.Count.ToString());
-                                MessageBox.Show(reader.ReadToEnd());
+                                //Application.Current.Dispatcher.Invoke(() => DispensersCount = DispensersList.Count.ToString());
+                                System.Diagnostics.Trace.WriteLine("INFO: " + reader.ReadToEnd());
+                                //var test = JObject.Parse(reader.ReadToEnd());
+                                //test[""];
                             }
                             break;
                     }
@@ -89,7 +95,7 @@ namespace KioskLife.MVVM.ViewModel
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                ActionList.Add(new DeviceAction(action, "[" + DateTime.Now.ToString() + "]:  ", "SIM"));
+                ActionList.Insert(0, new DeviceAction(action, "[" + DateTime.Now.ToString() + "]:  ", "SIM"));
             });
         }
     }

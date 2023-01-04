@@ -17,9 +17,37 @@ namespace KioskLife.MVVM.Model
         public string MachineName { get; set; }
         public string Name { get; set; }
         protected List<string> DeviceErrors { get; set; }
-        public string IsOnline { get; set; }
+
+        private string _isOnline;
+        public string IsOnline 
+        { 
+            get
+            {
+                return _isOnline;   
+            }
+            set
+            {
+                _isOnline = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _workingColor;
+
         [JsonIgnore]
-        public string WorkingColor { get; set; }
+        public string WorkingColor 
+        { 
+            get
+            {
+                return _workingColor;
+            }
+            set
+            {
+                _workingColor = value;
+                OnPropertyChanged();
+            }
+        }
+
         public DeviceType DeviceType { get; set; }
 
         protected List<string> LastErrors;
@@ -42,6 +70,8 @@ namespace KioskLife.MVVM.Model
                 WorkingColor = "#FF47FF3E";
             else
                 WorkingColor = "#FFFF623E";
+            IsChanges = true;
+            LastErrors = new List<string>();
 
         }
 
@@ -54,6 +84,8 @@ namespace KioskLife.MVVM.Model
         {
             if (IsOnline == "Online")
                 WorkingColor = "#FF47FF3E";
+            else if (IsOnline == "Errors")
+                WorkingColor = "#f5f242";
             else
                 WorkingColor = "#FFFF623E";
         }

@@ -32,13 +32,6 @@
         </Grid>
         <!--Title-->
         <TextBlock Text="Cameras Data" FontSize="26" Foreground="#ccd7ff" HorizontalAlignment="Left" Margin="50,35,0,20"/>
-        <!--Tope Menu-->
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,30,20">
-            <Button Content="Today" Style="{StaticResource topMenuButton}"/>
-            <Button Content="Week" Style="{StaticResource topMenuButton}"/>
-            <Button Content="Month" Style="{StaticResource topMenuButton}"/>
-            <Button Content="Year" Style="{StaticResource topMenuButton}"/>
-        </StackPanel>
 
 
         <!--Orders Section-->
@@ -83,9 +76,11 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="20,0,0,25">
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,25">
                         <md:PackIcon Kind="CircleOutline" Style="{StaticResource titleIcon}"/>
                         <TextBlock Text="Connected cameras" Style="{StaticResource titleText}" Margin="10,0,220,0"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="20,0,0,25">
                         <TextBlock Text="Found: " Style="{StaticResource titleText}" Foreground="#FFFFFCBB"/>
                         <TextBlock Text="{Binding CameraCount}" Style="{StaticResource titleText}"/>
                     </StackPanel>

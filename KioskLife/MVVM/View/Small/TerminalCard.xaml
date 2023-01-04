@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KioskLife.MVVM.View.Small"
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             mc:Ignorable="d" Name="terminalCardf" Width="400" Height="180">
+             mc:Ignorable="d" Name="terminalCardf" Width="520" Height="180">
     <Border Margin="0,0,25,0">
         <Border.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,2">
@@ -15,7 +15,7 @@
         </Border.Background>
 
         <Border.Clip>
-            <RectangleGeometry RadiusX="15" RadiusY="15" Rect="0,0,370,180"/>
+            <RectangleGeometry RadiusX="15" RadiusY="15" Rect="0,0,490,180"/>
         </Border.Clip>
 
         <Grid>
@@ -45,7 +45,7 @@
                 <md:PackIcon Kind="CircleSlice8" Foreground="{Binding Path=WorkingIcon, ElementName=terminalCardf}" Margin="0,9,20,0"/>
             </StackPanel>
 
-            <Ellipse Grid.RowSpan="3" Width="130" Height="130" Margin="0, -55, -50, 0" HorizontalAlignment="Right">
+            <Ellipse Grid.RowSpan="3" Width="150" Height="150" Margin="0, -55, -50, 0" HorizontalAlignment="Right">
                 <Ellipse.Fill>
                     <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
                         <GradientStop Color="{Binding Path=EllipseBackground1, ElementName=terminalCardf}" Offset="0"/>
@@ -54,7 +54,7 @@
                 </Ellipse.Fill>
             </Ellipse>
 
-            <md:PackIcon Kind="{Binding Path=Icon, ElementName=terminalCardf}" Grid.RowSpan="3" Margin="0,0,20,50" Width="35" Height="35" Foreground="#ffffff" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <md:PackIcon Kind="{Binding Path=Icon, ElementName=terminalCardf}" Grid.RowSpan="3" Margin="0,0,20,50" Width="45" Height="45" Foreground="#ffffff" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         </Grid>
     </Border>
 </UserControl>

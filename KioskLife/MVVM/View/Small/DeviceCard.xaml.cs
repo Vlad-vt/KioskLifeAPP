@@ -77,6 +77,19 @@ namespace KioskLife.MVVM.View.Small
         }
         public static readonly DependencyProperty WorkingIconProperty = DependencyProperty.Register("WorkingIcon", typeof(string), typeof(DeviceCard));
 
+        public string NetworkData
+        {
+            get
+            {
+                return (string)GetValue(NetworkDataProperty);
+            }
+            set
+            {
+                SetValue(NetworkDataProperty, value);
+            }
+        }
+        public static readonly DependencyProperty NetworkDataProperty = DependencyProperty.Register("NetworkData", typeof(string), typeof(DeviceCard));
+
         public string Icon
         {
             get

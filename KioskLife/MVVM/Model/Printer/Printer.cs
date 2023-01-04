@@ -10,6 +10,7 @@ namespace KioskLife.MVVM.Model.Printer
         public Printer(string name, List<string> errors, string printerProcess, string isOnline, DeviceType deviceType) : base(name, errors, isOnline, deviceType)
         {
             PrinterProcess = printerProcess;
+            AddAction($"{Name} succesfully initiated");
         }
 
     }

@@ -32,9 +32,17 @@ namespace KioskLife.MVVM.ViewModel
             set { myVar = value; }
         }
 
+        private string _terminalsCount;
+
+        public string TerminalsCount
+        {
+            get { return _terminalsCount; }
+            set { _terminalsCount = value; OnPropertyChanged(); }
+        }
+
         private void TerminalAction(string action)
         {
-            Application.Current.Dispatcher.Invoke(() => ActionList.Add(new DeviceAction(action, "[" + DateTime.Now.ToString() + "]", "Payment")));
+            Application.Current.Dispatcher.Invoke(() => ActionList.Insert(0, new DeviceAction(action, "[" + DateTime.Now.ToString() + "]", "Payment")));
         }
 
         public TerminalsViewModel()
@@ -57,6 +65,10 @@ namespace KioskLife.MVVM.ViewModel
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    TerminalsCount = TerminalsList.Count.ToString();
                 }
                 while(true)
                 {

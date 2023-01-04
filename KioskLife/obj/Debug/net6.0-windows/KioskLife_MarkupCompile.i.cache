@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\KioskLifev2.0\KioskLife\KioskLife\obj\Debug\net6.0-windows\
+D:\KioskLife2\KioskLifeAPP\KioskLife\obj\Debug\net6.0-windows\
 KioskLife
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-D:\KioskLifev2.0\KioskLife\KioskLife\App.xaml
+D:\KioskLife2\KioskLifeAPP\KioskLife\App.xaml
 12401761853
 
 512025385610
-204-1971998465
+2041631870986
 MainWindow.xaml;MVVM\View\CamerasView.xaml;MVVM\View\DashBoardView.xaml;MVVM\View\DispensersView.xaml;MVVM\View\PrintersView.xaml;MVVM\View\ScannersView.xaml;MVVM\View\Small\CamerasCard.xaml;MVVM\View\Small\DeviceCard.xaml;MVVM\View\Small\InfoAction.xaml;MVVM\View\Small\InfoCard.xaml;MVVM\View\Small\TerminalCard.xaml;MVVM\View\TerminalsView.xaml;
 
-True
+False
 

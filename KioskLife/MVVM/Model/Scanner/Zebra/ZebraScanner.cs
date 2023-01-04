@@ -11,9 +11,12 @@ namespace KioskLife.MVVM.Model.Scanner.Zebra
 {
     public class ZebraScanner : Scanner
     {
-        public ZebraScanner(string name, List<string> deviceErrors, string isOnline, DeviceType deviceType) : base(name, deviceErrors, isOnline, deviceType)
+        public string ScannerType;
+        public ZebraScanner(string name, List<string> deviceErrors, string isOnline, DeviceType deviceType, string scannerType) : base(name, deviceErrors, isOnline, deviceType)
         {
             SendJSON();
+            ScannerType = scannerType;
+            CheckStatus();
         }
 
         public void ClearValues()

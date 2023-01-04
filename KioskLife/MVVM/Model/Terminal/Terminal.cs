@@ -120,20 +120,35 @@ namespace KioskLife.MVVM.Model.Terminal
                 else
                     IsChanges = true;
                 IsOnline = "Offline";
+                CheckStatus();
+                if (IsChanges)
+                {
+                    AddAction($"{Name} is offline now!");
+                    SendJSON();
+                }
                 return;
             }
             TcpState state = TcpState.Unknown;
             Network.Network.GetInstance().GetTcpConnection(NetworkData.IP, ref state);
             ZVTConnection = state;
             ProtocolConnection = true;
+            DeviceErrors.Clear();
+            Errors = "-";
+            if (IsChanges)
+            {
+                AddAction($"{Name} is online now!");
+                SendJSON();
+            }
+            if (IsOnline == "Online")
+                IsChanges = false;
+            else
+                IsChanges = true;
             if (ZVTConnection != TcpState.Established)
             {
                 //DeviceErrors.Add(TerminalErrors.TerminalNotConnectedToZVT);
                 //Errors.Add(DeviceErrors[0].ToString());
                 return;
             }
-            DeviceErrors.Clear();
-            Errors = "-";
         }
 
         public void ShowChanges()
