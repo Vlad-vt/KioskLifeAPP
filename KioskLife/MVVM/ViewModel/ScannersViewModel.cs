@@ -81,6 +81,7 @@ namespace KioskLife.MVVM.ViewModel
                                 if (ScannersList.Count < 1)
                                 {
                                     var jobject = JObject.Parse(reader.ReadToEnd())["Zebra Scanners"];
+                                    int number = 0;
                                     foreach (JToken item in jobject.Children())
                                     {
                                         try
@@ -106,7 +107,15 @@ namespace KioskLife.MVVM.ViewModel
                                                 }
                                             }
                                             var myElement = itemProperties.FirstOrDefault(x => x.Name == "Serial number");
-                                            ScannersList.Add(new ZebraScanner($"Zebra ID {field[3].Value}", new List<string>(), "Online", Enums.DeviceType.Scanner, field[2].Value.ToString()));
+                                            if (ScannersList.Count == 0)
+                                            {
+                                                ScannersList.Add(new ZebraScanner($"Zebra ID {field[3].Value}", new List<string>(), "Online", Enums.DeviceType.Scanner, field[2].Value.ToString()));
+                                            }
+                                            else
+                                            {
+                                                if (ScannersList[number].Err)
+                                            }
+                                            number++;
                                             ScannersCount = ScannersList.Count.ToString();
                                         }
                                         catch (Exception e)

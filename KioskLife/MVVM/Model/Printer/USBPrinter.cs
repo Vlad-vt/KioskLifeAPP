@@ -116,6 +116,7 @@ namespace KioskLife.MVVM.Model.Printer
             }
             if (IsChanges)
                 SendJSON();
+            CheckStatus();
         }
 
         private bool CheckLastChanges(string newChange)

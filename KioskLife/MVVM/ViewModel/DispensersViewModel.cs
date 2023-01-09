@@ -74,13 +74,54 @@ namespace KioskLife.MVVM.ViewModel
                     {
                         case "/dispensersHealth/":
                             using (var reader = new StreamReader(context.Request.InputStream))
-                            {
-                                //DispensersHealth dispensersHealth = JsonConvert.DeserializeObject<DispensersHealth>(reader.ReadToEnd());
-                                //Application.Current.Dispatcher.Invoke(() => DispensersCount = DispensersList.Count.ToString());
-                                System.Diagnostics.Trace.WriteLine("INFO: " + reader.ReadToEnd());
-                                //var test = JObject.Parse(reader.ReadToEnd());
-                                //test[""];
-                            }
+                            {/*
+                                   // if (ScannersList.Count < 1)
+                                    //{
+                                        var jobject = JObject.Parse(reader.ReadToEnd())["Zebra Scanners"];
+                                        int number = 0;
+                                        foreach (JToken item in jobject.Children())
+                                        {
+                                            try
+                                            {
+                                                var itemProperties = item.Children<JProperty>();
+                                                JProperty[] field = new JProperty[4];
+                                                for (int i = 0; i < 4; i++)
+                                                {
+                                                    switch (i)
+                                                    {
+                                                        case 0:
+                                                            field[i] = itemProperties.FirstOrDefault(x => x.Name == "Error");
+                                                            break;
+                                                        case 1:
+                                                            field[i] = itemProperties.FirstOrDefault(x => x.Name == "Scanner ID");
+                                                            break;
+                                                        case 2:
+                                                            field[i] = itemProperties.FirstOrDefault(x => x.Name == "Scanner Type");
+                                                            break;
+                                                        case 3:
+                                                            field[i] = itemProperties.FirstOrDefault(x => x.Name == "Serial number");
+                                                            break;
+                                                    }
+                                                }
+                                                var myElement = itemProperties.FirstOrDefault(x => x.Name == "Serial number");
+                                              //  if (ScannersList.Count == 0)
+                                                //{
+                                                //    ScannersList.Add(new ZebraScanner($"Zebra ID {field[3].Value}", new List<string>(), "Online", Enums.DeviceType.Scanner, field[2].Value.ToString()));
+                                                //}
+                                                //else
+                                                //{
+                                                 //   if (ScannersList[number].Err)
+                                          //  }
+                                            //    number++;
+                                              //  ScannersCount = ScannersList.Count.ToString();
+                                            }
+                                            catch (Exception e)
+                                            {
+
+                                            }
+                                        }*/
+                                    
+                                }
                             break;
                     }
                     context.Response.KeepAlive = false;
