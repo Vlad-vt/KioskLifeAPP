@@ -177,7 +177,7 @@ namespace KioskLife.Network
 
         public void PingDevice(string deviceIP)
         {
-            if (deviceIP != "null")
+            if (deviceIP != "null" && deviceIP != null)
             {
                 string[] array = deviceIP.Split('.');
                 string ping_var = array[0] + "." + array[1] + "." + array[2] + "." + array[3];

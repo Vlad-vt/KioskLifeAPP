@@ -164,6 +164,7 @@ namespace KioskLife.MVVM.ViewModel
             _httpListener.Prefixes.Add("http://localhost:7000/kiosklife/");
             _httpListener.Prefixes.Add("http://localhost:7000/dispensersHealth/");
             _httpListener.Prefixes.Add("http://localhost:7000/zebrascannersHealth/");
+            _httpListener.Prefixes.Add("http://localhost:7000/bocaHealth/");
             _httpListener.Start();
             #endregion
 
@@ -395,6 +396,36 @@ namespace KioskLife.MVVM.ViewModel
             TerminalsbuttonStyle = Application.Current.FindResource("menuButton") as Style;
             ActiveButtonStyle = "menuButtonActive";
             CurrentView = DBVM;
+
+            Thread dispensersThread = new Thread(() =>
+            {
+                while (true)
+                {
+                    HttpListenerContext context = _httpListener.GetContext();
+                    context.Response.ContentType = "text/plain, charset=UTF-8";
+                    context.Response.AppendHeader("Access-Control-Allow-Origin", "*");
+                    context.Response.ContentEncoding = System.Text.Encoding.UTF8;
+                    System.Diagnostics.Trace.WriteLine("GETTING INFO");
+                    switch (context.Request.RawUrl)
+                    {
+                        case "/bocaHealth/":
+                            using (var reader = new System.IO.StreamReader(context.Request.InputStream))
+                            {
+                                //DispensersHealth dispensersHealth = JsonConvert.DeserializeObject<DispensersHealth>(reader.ReadToEnd());
+                                //Application.Current.Dispatcher.Invoke(() => DispensersCount = DispensersList.Count.ToString());
+                                System.Diagnostics.Trace.WriteLine("INFO: " + reader.ReadToEnd());
+                                //var test = JObject.Parse(reader.ReadToEnd());
+                                //test[""];
+                            }
+                            break;
+                    }
+                    context.Response.KeepAlive = false;
+                    context.Response.Close();
+                }
+            });
+            dispensersThread.IsBackground = true;
+            dispensersThread.Start();
+
         }
     }
 }

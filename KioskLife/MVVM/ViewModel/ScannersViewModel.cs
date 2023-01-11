@@ -107,11 +107,14 @@ namespace KioskLife.MVVM.ViewModel
                                             }
                                             var myElement = itemProperties.FirstOrDefault(x => x.Name == "Serial number");
                                             ScannersList.Add(new ZebraScanner($"Zebra ID {field[3].Value}", new List<string>(), "Online", Enums.DeviceType.Scanner, field[2].Value.ToString()));
-                                            ScannersCount = ScannersList.Count.ToString();
                                         }
                                         catch (Exception e)
                                         {
 
+                                        }
+                                        finally
+                                        {
+                                            ScannersCount = ScannersList.Count.ToString();
                                         }
                                     }
                                 }

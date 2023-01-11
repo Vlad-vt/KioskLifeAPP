@@ -1,0 +1,4 @@
+[10/01/2023 16:31:34]: System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument argument)
+   at System.Linq.Enumerable.Where[TSource](IEnumerable`1 source, Func`2 predicate)
+   at KioskLife.MVVM.Model.Printer.NetworkPrinter.CheckPrinter(Boolean test) in C:\Users\polytouch\Desktop\KioskLife2\KioskLifeAPP\KioskLife\MVVM\Model\Printer\NetworkPrinter.cs:line 115

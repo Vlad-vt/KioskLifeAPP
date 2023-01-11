@@ -74,70 +74,117 @@ namespace KioskLife.MVVM.ViewModel
         {
             if(CamerasList == null)
                 CamerasList = new ObservableCollection<Camera>();
-            int i = 0;
-            FilterInfoCollection filterInfoCollection = new FilterInfoCollection((Guid)FilterCategory.VideoInputDevice);
-            if (filterInfoCollection == null || ((CollectionBase)filterInfoCollection).Count <= 0)
+            if (CamerasList.Count < 1)
             {
-                Trace.WriteLine("No video devices found");
-                CameraCount = CamerasList.Count;
-                return;
-            }
-            foreach (FilterInfo filterInfo in filterInfoCollection)
-            {
-                if (filterInfo.Name.Contains("RGB"))
+                int i = 0;
+                FilterInfoCollection filterInfoCollection = new FilterInfoCollection((Guid)FilterCategory.VideoInputDevice);
+                if (filterInfoCollection == null || ((CollectionBase)filterInfoCollection).Count <= 0)
                 {
-                    _device = new VideoCaptureDevice(filterInfo.MonikerString);
-                    int num1 = 0;
-                    int num2 = 3000000;
-                    int index1 = -1;
-                    System.Drawing.Size frameSize;
-                    if (_device.VideoCapabilities.Length > 0)
+                    Trace.WriteLine("No video devices found");
+                    CameraCount = CamerasList.Count;
+                    return;
+                }
+                foreach (FilterInfo filterInfo in filterInfoCollection)
+                {
+                    if (filterInfo.Name.Contains("RGB"))
                     {
-                        for (int index2 = 0; index2 < _device.VideoCapabilities.Length; ++index2)
+                        _device = new VideoCaptureDevice(filterInfo.MonikerString);
+                        int num1 = 0;
+                        int num2 = 3000000;
+                        int index1 = -1;
+                        System.Drawing.Size frameSize;
+                        if (_device.VideoCapabilities.Length > 0)
                         {
-
-                            VideoCapabilities videoCapability = _device.VideoCapabilities[index2];
-                            frameSize = (System.Drawing.Size)videoCapability.FrameSize;
-                            int width = frameSize.Width;
-                            frameSize = (System.Drawing.Size)videoCapability.FrameSize;
-                            int height = frameSize.Height;
-                            int num3 = width * height;
-                            if (num3 > num1 && num3 <= num2)
+                            for (int index2 = 0; index2 < _device.VideoCapabilities.Length; ++index2)
                             {
-                                num1 = num3;
-                                index1 = index2;
+
+                                VideoCapabilities videoCapability = _device.VideoCapabilities[index2];
+                                frameSize = (System.Drawing.Size)videoCapability.FrameSize;
+                                int width = frameSize.Width;
+                                frameSize = (System.Drawing.Size)videoCapability.FrameSize;
+                                int height = frameSize.Height;
+                                int num3 = width * height;
+                                if (num3 > num1 && num3 <= num2)
+                                {
+                                    num1 = num3;
+                                    index1 = index2;
+                                }
                             }
-                        }
-                        frameSize = _device.VideoCapabilities[index1].FrameSize;
-                        if (CamerasList.Count > 0)
-                        {
-                            if (CamerasList[i].Name != filterInfo.Name)
+                            frameSize = _device.VideoCapabilities[index1].FrameSize;
+                            if (CamerasList.Count > 0)
+                            {
+                                if (CamerasList[i].Name != filterInfo.Name)
+                                {
+                                    Application.Current.Dispatcher.Invoke(() =>
+                                {
+                                    CamerasList.Add(new Camera(filterInfo.Name, new List<string>(), "Online", frameSize.Height.ToString() + "*" + frameSize.Width.ToString(), Enums.DeviceType.Camera));
+                                });
+                                    CamerasList[i].Action += NewAction;
+                                    CamerasList[i].ShowChanges();
+                                }
+                                else
+                                {
+                                    CamerasList[i].IsChanges = false;
+                                    CamerasList[i].AddEvent($"Camera {CamerasList[i].Name} checked and it's working properly");
+                                }
+                            }
+                            else
                             {
                                 Application.Current.Dispatcher.Invoke(() =>
-                            {
-                                CamerasList.Add(new Camera(filterInfo.Name, new List<string>(), "Online", frameSize.Height.ToString() + "*" + frameSize.Width.ToString(), Enums.DeviceType.Camera));
-                            });
+                                {
+                                    CamerasList.Add(new Camera(filterInfo.Name, new List<string>(), "Online", frameSize.Height.ToString() + "*" + frameSize.Width.ToString(), Enums.DeviceType.Camera));
+                                });
                                 CamerasList[i].Action += NewAction;
                                 CamerasList[i].ShowChanges();
                             }
-                            else
-                                CamerasList[i].AddEvent($"Camera {CamerasList[i].Name} checked and it's working properly");
+                            i++;
+                            break;
                         }
-                        else
+                    }
+                }
+                CameraCount = CamerasList.Count;
+            }
+            else
+            {
+                int i = 0;
+                FilterInfoCollection filterInfoCollection = new FilterInfoCollection((Guid)FilterCategory.VideoInputDevice);
+                if (filterInfoCollection == null || ((CollectionBase)filterInfoCollection).Count <= 0)
+                {
+                    Trace.WriteLine("No video devices found");
+                    for (i = 0; i < CamerasList.Count; i++)
+                    {
+                        CamerasList[i].IsChanges = true;
+                        CamerasList[i].IsOnline = "Offline";
+                        CamerasList[i].AddEvent($"{CamerasList[i].Name} is offline");
+                    }
+                    return;
+                }
+                bool _changes = true;
+                for (i = 0; i < CamerasList.Count; i++)
+                {
+                    foreach (FilterInfo filterInfo in filterInfoCollection)
+                    {
+                        if (filterInfo.Name.Contains("RGB") && (filterInfo.Name == CamerasList[i].Name))
                         {
-                            Application.Current.Dispatcher.Invoke(() =>
-                            {
-                                CamerasList.Add(new Camera(filterInfo.Name, new List<string>(), "Online", frameSize.Height.ToString() + "*" + frameSize.Width.ToString(), Enums.DeviceType.Camera));
-                            });
-                            CamerasList[i].Action += NewAction;
-                            CamerasList[i].ShowChanges();
+                            _changes = false;
                         }
-                        i++;
-                        break;
+                    }
+                    if (!_changes)
+                    {
+                        CamerasList[i].IsChanges = false;
+                        CamerasList[i].IsOnline = "Online";
+                        CamerasList[i].Errors = "-";
+                        CamerasList[i].AddEvent("Camera checked");
+                    }
+                    else
+                    {
+                        CamerasList[i].IsChanges = true;
+                        CamerasList[i].IsOnline = "Offline";
+                        CamerasList[i].Errors = "Camera is offline";
+                        CamerasList[i].AddEvent($"{CamerasList[i].Name} is offline now!");
                     }
                 }
             }
-            CameraCount = CamerasList.Count;
         }
 
         private void NewAction(string action)

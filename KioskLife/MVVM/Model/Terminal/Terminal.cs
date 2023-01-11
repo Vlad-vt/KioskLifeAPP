@@ -103,14 +103,27 @@ namespace KioskLife.MVVM.Model.Terminal
                 if (NetworkData.ConnectedToNetwork != status)
                 {
                     NetworkData = new NetworkDeviceData(NetworkData, status);
+                    IsChanges = true;
+                    if (status)
+                    {
+                        IsOnline = "Online";
+                        Errors = "-";
+                    }
+                    else
+                    {
+                        IsOnline = "Offline";
+                        Errors = "Terminal Offline";
+                    }
+                    CheckStatus();
                 }
             }
         }
 
         public void CheckForErrors()
         {
+            if (!NetworkData.ConnectedToNetwork)
+                return;
             DeviceErrors.Clear();
-            Errors = "";
             if (NetworkData.IP == "null")
             {
                 DeviceErrors.Add(TerminalErrors.TerminalOffline);

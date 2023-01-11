@@ -29,7 +29,7 @@ namespace KioskLife.MVVM.ViewModel
         public ObservableCollection<Terminal> TerminalsList
         {
             get { return myVar; }
-            set { myVar = value; }
+            set { myVar = value; OnPropertyChanged(); }
         }
 
         private string _terminalsCount;

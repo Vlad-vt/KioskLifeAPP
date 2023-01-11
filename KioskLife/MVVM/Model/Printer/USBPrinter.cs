@@ -48,7 +48,7 @@ namespace KioskLife.MVVM.Model.Printer
             }
             else
             {
-                if (LastErrors.Remove("Is In Error"))
+                if (LastErrors.Remove("Printer Offline"))
                 {
                     IsChanges = true;
                     AddAction($"SOLVED --Online now--");
@@ -63,6 +63,7 @@ namespace KioskLife.MVVM.Model.Printer
                     LastErrors.Add("Is In Error");
                     AddAction($"{Name} has error!");
                     IsChanges = true;
+                    IsOnline = "Errors";
                 }
             }
             else
@@ -80,6 +81,7 @@ namespace KioskLife.MVVM.Model.Printer
                     LastErrors.Add("Paper Jammed");
                     AddAction($"{Name} has paper jam!");
                     IsChanges = true;
+                    IsOnline = "Errors";
                 }
             }
             else
@@ -97,6 +99,7 @@ namespace KioskLife.MVVM.Model.Printer
                     LastErrors.Add("Is Out Of Paper");
                     AddAction($"{Name} Is Out Of Paper now");
                     IsChanges = true;
+                    IsOnline = "Errors";
                 }
             }
             else
@@ -114,6 +117,7 @@ namespace KioskLife.MVVM.Model.Printer
                 else
                     Errors += "," + LastErrors[i];
             }
+            CheckStatus();
             if (IsChanges)
                 SendJSON();
         }
@@ -147,6 +151,7 @@ namespace KioskLife.MVVM.Model.Printer
         {
             try
             {
+                IsChanges = false;
                 using (WebClient webClient = new WebClient())
                 {
                     NameValueCollection formData = new NameValueCollection();

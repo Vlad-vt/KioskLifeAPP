@@ -86,6 +86,9 @@ namespace KioskLife.MVVM.ViewModel
                         else if(printer.GetType() == typeof(NetworkPrinter))
                         {
                             (printer as NetworkPrinter).CheckPrinter(true);
+                            (printer as NetworkPrinter).CheckDeviceConnection();
+                            (printer as NetworkPrinter).ConnectToDevice();
+                            (printer as NetworkPrinter).readData();
                         }
                     }
                     Thread.Sleep(1000);

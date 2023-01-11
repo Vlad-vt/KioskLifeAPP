@@ -9,6 +9,7 @@ using System.Collections.Specialized;
 using System.Net;
 using System.Text;
 using System.Linq;
+using System.Net.Sockets;
 
 namespace KioskLife.MVVM.Model.Printer
 {
@@ -49,13 +50,27 @@ namespace KioskLife.MVVM.Model.Printer
 
         private HtmlDocument _htmlDocument;
 
+        private TcpClient _printer { get; set; }
+        private Stream _printerStream { get; set; }
+        private StreamReader _streamReader { get; set; }
+        private string _incomingData { get; set; }
+        private char[] _incomingCharData { get; set; }
+        private bool _parsingError { get; set; }
+
         public NetworkPrinter(string name, List<string> errors, string printerProcess, string printerOnline, DeviceType deviceType) :
             base(name, errors, printerProcess, printerOnline, deviceType)
         {
             NetworkData = new NetworkDeviceData();
             _webPage= new HtmlWeb();
             _htmlDocument= new HtmlDocument();
-            WriteJSON();
+            _parsingError = false;
+            Network.Network.GetInstance().PingDevice("192.168.0.155");
+            Network.Network.GetInstance().networkConnection += NetworkConnection;
+        }
+
+        public void CheckDeviceConnection()
+        {
+            Network.Network.GetInstance().PingDevice(NetworkData.IP);
         }
 
         public void CheckPrinter(bool test)
@@ -143,7 +158,7 @@ namespace KioskLife.MVVM.Model.Printer
                                 if(!LastErrors.Contains("Tickets Low"))
                                 {
                                     LastErrors.Add("Tickets Low");
-                                    IsOnline = "Errors";
+                                    IsOnline = "Online";
                                     AddAction($"{Name} has low tickets!");
                                     IsChanges = true;
                                 }
@@ -166,8 +181,8 @@ namespace KioskLife.MVVM.Model.Printer
                                 if (!LastErrors.Contains("Paper Out"))
                                 {
                                     LastErrors.Add("Paper Out");
-                                    IsOnline = "Errors";
                                     AddAction($"{Name} is out of paper now!");
+                                    IsOnline = "Errors";
                                     IsChanges = true;
                                 }
                                 text = "YES";
@@ -187,10 +202,10 @@ namespace KioskLife.MVVM.Model.Printer
                             text = text.Substring(text.IndexOf("PAPER JAM") + "PAPER JAM".Length + 1);
                             if (text[0].ToString() + text[1].ToString() == "YE" || text[0].ToString() == "E" || text[0].ToString() == "S")
                             {
+                                IsOnline = "Errors";
                                 if (!LastErrors.Contains("Paper Jam"))
                                 {
                                     LastErrors.Add("Paper Jam");
-                                    IsOnline = "Errors";
                                     AddAction($"{Name} has paper jam now!");
                                     IsChanges = true;
                                 }
@@ -211,10 +226,10 @@ namespace KioskLife.MVVM.Model.Printer
                             text = text.Substring(text.IndexOf("CUTTER JAM") + "CUTTER JAM".Length + 1);
                             if (text[0].ToString() + text[1].ToString() == "YE")
                             {
+                                IsOnline = "Errors";
                                 if (!LastErrors.Contains("Cutter Jam"))
                                 {
                                     LastErrors.Add("Cutter Jam");
-                                    IsOnline = "Errors";
                                     AddAction($"{Name} has cutter jam now!");
                                     IsChanges = true;
                                 }
@@ -239,6 +254,7 @@ namespace KioskLife.MVVM.Model.Printer
                 if (!File.Exists(Directory.GetCurrentDirectory() + "/log.txt"))
                     File.Create(Directory.GetCurrentDirectory() + "/log.txt");
                 File.WriteAllText(Directory.GetCurrentDirectory() + "/log.txt", "[" + DateTime.Now.ToString() + "]: " + e);
+                _parsingError = true;
             }
             finally
             {
@@ -249,8 +265,10 @@ namespace KioskLife.MVVM.Model.Printer
                     else
                         Errors += "," + LastErrors[i];
                 }
-                if(LastErrors.Count == 0)
+                if (LastErrors.Count == 0 || (LastErrors.Count == 1 && LastErrors.Contains("Tickets Low")))
                     IsOnline = "Online";
+                else
+                    IsOnline = "Errors";
                 if (IsChanges)
                     SendJSON();
                 CheckStatus();
@@ -259,10 +277,30 @@ namespace KioskLife.MVVM.Model.Printer
             #endregion
         }
 
+        public void NetworkConnection(string ip, bool status)
+        {
+            if (ip == NetworkData.IP && _parsingError)
+            {
+                if (status)
+                {
+                    IsOnline = "Online";
+                }
+                else
+                {
+                    IsOnline = "Offline";
+                }
+                if (NetworkData.ConnectedToNetwork != status)
+                {
+                    NetworkData = new NetworkDeviceData(NetworkData, status);
+                }
+            }
+        }
+
         protected override void SendJSON()
         {
             try
             {
+                IsChanges = false;
                 using (WebClient webClient = new WebClient())
                 {
                     NameValueCollection formData = new NameValueCollection();
@@ -284,6 +322,241 @@ namespace KioskLife.MVVM.Model.Printer
             {
                 File.WriteAllText("log.txt", e.Message + "\n");
             }
+        }
+
+        public void ConnectToDevice()
+        {
+            try
+            {
+                if (NetworkData.IP != null)
+                {
+                    _incomingCharData = new char[100];
+                    _printer = new TcpClient(NetworkData.IP, 9100);
+                    _printerStream = _printer.GetStream();
+                    _streamReader = new StreamReader(_printerStream);
+                    _printerStream.ReadTimeout = 500;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        private string receiveData()
+        {
+            string data = "0";
+            try
+            {
+                char[] buffer = new char[_printer.Available];
+                while (_printer.Available > 0)
+                {
+                    try
+                    {
+                        int num = _streamReader.Read(buffer, 0, _printer.Available);
+                        for (int index = 0; index < num; ++index)
+                            data += buffer[index].ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+            return data;
+        }
+
+        public void readData()
+        {
+            try
+            {
+                if (NetworkData.IP != null && _parsingError)
+                {
+                    _incomingData = receiveData();
+                    if (_incomingData.Length > 0)
+                    {
+                        Establish_Status();
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+
+            }
+        }
+
+        private bool CheckLastChanges(string newChange)
+        {
+            bool changes = true;
+            for (int i = 0; i < LastErrors.Count; i++)
+            {
+                if (LastErrors[i] == newChange)
+                    changes = false;
+            }
+            return changes;
+        }
+
+        private void Establish_Status()
+        {
+            _incomingCharData = _incomingData.ToCharArray();
+            int length = _incomingData.Length;
+            _incomingData = "";
+            string text2 = "";
+            List<string> currentChanges = new List<string>();
+            for (int index = 0; index < length; ++index)
+            {
+                int num = (int)_incomingCharData[index];
+                switch (num)
+                {
+                    case 0:
+                        text2 = "a";
+                        break;
+                    case 1:
+                        text2 = "Start of Heading";
+                        break;
+                    case 2:
+                        text2 = "Start of Text";
+                        break;
+                    case 3:
+                        text2 = "b";
+                        break;
+                    case 4:
+                        text2 = "c";
+                        break;
+                    case 5:
+                        text2 = "Test Button Ticket ACK";
+                        break;
+                    case 6:
+                        text2 = "Ticket ACK";
+                        break;
+                    case 7:
+                        text2 = "Wrong File Identifier During Update";
+                        break;
+                    case 8:
+                        text2 = "Invalid Checksum";
+                        break;
+                    case 9:
+                        text2 = "Valid Checksum";
+                        break;
+                    case 10:
+                        text2 = "a10";
+                        break;
+                    case 11:
+                        text2 = "b11";
+                        break;
+                    case 12:
+                        text2 = "c14";
+                        break;
+                    case 13:
+                        text2 = "d";
+                        break;
+                    case 14:
+                        text2 = "e";
+                        break;
+                    case 15:
+                        text2 = "Tickets Low";
+                        break;
+                    case 16:
+                        text2 = "Out of Tickets";
+                        break;
+                    case 17:
+                        text2 = "Paper full";
+                        break;
+                    case 18:
+                        text2 = "Power On";
+                        break;
+                    case 19:
+                        text2 = "Paper Out";
+                        break;
+                    case 20:
+                        text2 = "Bad Flash Memory";
+                        break;
+                    case 21:
+                        text2 = "Ticket NAK";
+                        break;
+                    case 22:
+                        text2 = "Ribbon Low";
+                        break;
+                    case 23:
+                        text2 = "Ribbon Out";
+                        break;
+                    case 24:
+                        text2 = "Ticket Jam";
+                        break;
+                    case 25:
+                        text2 = "Illegal Data";
+                        break;
+                    case 26:
+                        text2 = "Power Up Problem";
+                        break;
+                    case 27:
+                        text2 = "Ticket NAK";
+                        break;
+                    case 28:
+                        text2 = "Downloading Error";
+                        break;
+                    case 29:
+                        text2 = "Cutter Jam";
+                        break;
+                    default:
+                        text2 = "hah";
+                        break;
+                }
+                currentChanges.Add(text2);
+                LastErrors.Add(text2);
+                /*if (text2 != "Low Paper" && text2 != "Paper full")
+                {
+                    if (CheckLastChanges(text2))
+                    {
+                        LastErrors.Add(text2);
+                        IsOnline = "Errors";
+                        IsChanges = true;
+                    }
+                }
+                else if (LastErrors.Count > 0)
+                {
+                    LastErrors.Clear();
+                    IsOnline = "Online";
+                    IsChanges = true;
+                }*/
+            }
+            bool _somechanges = true;
+            IsChanges = false;
+            for (int i = 0; i < LastErrors.Count; i++)
+            {
+                for (int j = 0; j < currentChanges.Count; j++)
+                {
+                    if (LastErrors[i] == currentChanges[i])
+                    {
+                        _somechanges = false;
+                        break;
+                    }
+                }
+                if (_somechanges)
+                {
+                    IsChanges = true;
+                    LastErrors.RemoveAt(i);
+                }
+            }
+            for (int i = 0; i < LastErrors.Count; i++)
+            {
+                if (i == 0)
+                    Errors = LastErrors[i];
+                else
+                    Errors += "," + LastErrors[i];
+                AddAction($"{Name} {LastErrors[i]}!");
+            }
+            if (LastErrors.Count <= 1 && (LastErrors[0] == "Tickets Low" || LastErrors[0] == "Paper full"))
+                IsOnline = "Online";
+            else
+                IsOnline = "Errors";
+            if (IsChanges)
+                SendJSON();
+
         }
     }
 }

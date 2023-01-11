@@ -89,7 +89,7 @@
                             <ItemsControl ItemsSource="{Binding ScannersList}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <dc:DeviceCard Title="{Binding ScannerName}" Number="{Binding Errors}" Icon="Scanner" Background1="#FF3754AB" Background2="#FF517BF9" 
+                                        <dc:DeviceCard Title="{Binding ScannerName}" Number="{Binding Errors}" WorkingIcon="{Binding WorkingColor}" WorkingStatus="{Binding IsOnline}" Icon="Scanner" Background1="#FF3754AB" Background2="#FF517BF9" 
                              EllipseBackground1="#FF3861DE" EllipseBackground2="#FF89A6FF" Margin="0,0,0,50"/>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
