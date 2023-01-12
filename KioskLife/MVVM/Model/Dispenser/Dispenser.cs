@@ -79,6 +79,7 @@ namespace KioskLife.MVVM.Model.Dispenser
                     using (WebClient webClient = new WebClient())
                     {
                         NameValueCollection formData = new NameValueCollection();
+                        formData["MachineName"] = MachineName;
                         formData["Type"] = DeviceType.ToString();
                         formData["COM"] = Name;
                         formData["Errors"] = Errors;

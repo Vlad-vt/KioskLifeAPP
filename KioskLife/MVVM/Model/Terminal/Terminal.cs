@@ -185,6 +185,7 @@ namespace KioskLife.MVVM.Model.Terminal
                 using (WebClient webClient = new WebClient())
                 {
                     NameValueCollection formData = new NameValueCollection();
+                    formData["MachineName"] = MachineName;
                     formData["Type"] = DeviceType.ToString();
                     formData["Name"] = Name;
                     formData["IP"] = NetworkData.IP;

@@ -155,6 +155,7 @@ namespace KioskLife.MVVM.Model.Printer
                 using (WebClient webClient = new WebClient())
                 {
                     NameValueCollection formData = new NameValueCollection();
+                    formData["MachineName"] = MachineName;
                     formData["Type"] = DeviceType.ToString();
                     formData["Name"] = Name;
                     formData["Process"] = PrinterProcess;

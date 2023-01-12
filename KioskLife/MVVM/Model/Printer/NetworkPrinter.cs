@@ -304,6 +304,7 @@ namespace KioskLife.MVVM.Model.Printer
                 using (WebClient webClient = new WebClient())
                 {
                     NameValueCollection formData = new NameValueCollection();
+                    formData["MachineName"] = MachineName;
                     formData["Type"] = DeviceType.ToString();
                     formData["Name"] = Name;
                     formData["Process"] = PrinterProcess;
@@ -506,8 +507,11 @@ namespace KioskLife.MVVM.Model.Printer
                         text2 = "hah";
                         break;
                 }
-                currentChanges.Add(text2);
-                LastErrors.Add(text2);
+                if (text2 != "Power On" || text2 != "hah")
+                {
+                    currentChanges.Add(text2);
+                    LastErrors.Add(text2);
+                }
                 /*if (text2 != "Low Paper" && text2 != "Paper full")
                 {
                     if (CheckLastChanges(text2))

@@ -55,6 +55,7 @@ namespace KioskLife.MVVM.Model.Camera
                     using (WebClient webClient = new WebClient())
                     {
                         NameValueCollection formData = new NameValueCollection();
+                        formData["MachineName"] = MachineName;
                         formData["Type"] = DeviceType.ToString();
                         formData["Name"] = Name;
                         formData["Resolution"] = Resolution;

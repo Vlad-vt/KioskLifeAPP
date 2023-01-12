@@ -146,6 +146,7 @@ namespace KioskLife.MVVM.Model.Scanner.Zebra
                 using (WebClient webClient = new WebClient())
                 {
                     NameValueCollection formData = new NameValueCollection();
+                    formData["MachineName"] = MachineName;
                     formData["Type"] = DeviceType.ToString();
                     formData["Name"] = Name;
                     formData["Errors"] = Errors;
