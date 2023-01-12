@@ -35,6 +35,8 @@ namespace KioskLife.Network
             string path = "oui.txt";
             DeviceCreator = new Dictionary<string, string>();
             _devicedata = new NetworkDeviceData { IP = "null", MacAddress = "null", ManufactoryName = "null", ConnectedToNetwork = false };
+            if (!File.Exists(path))
+                path = @"C:\VreKiosk\Telenorma\KioskLifeAPP\oui.txt";
             using (StreamReader reader = new StreamReader(path))
             {
                 int startLine = 0;
