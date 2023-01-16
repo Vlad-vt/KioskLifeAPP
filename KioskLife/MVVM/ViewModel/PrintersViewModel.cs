@@ -67,7 +67,7 @@ namespace KioskLife.MVVM.ViewModel
                     else if (PrinterSettings.InstalledPrinters[i].Contains(server.DefaultPrintQueue.Name))
                     {
                         PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
-                        PrintersList.Add(new USBPrinter(printQueue.Name, new List<string>(), "Working", "Online", DeviceType.NetworkPrinter));
+                        PrintersList.Add(new USBPrinter(printQueue.Name, new List<string>(), "Working", "Online", DeviceType.USBPrinter));
                         PrintersList[count].Action += NewAction;
                         count++;
 
