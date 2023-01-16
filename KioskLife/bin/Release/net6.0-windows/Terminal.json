@@ -1,0 +1,14 @@
+{
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "DESKTOP-3ICAI2C",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}

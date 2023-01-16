@@ -168,7 +168,7 @@ namespace KioskLife.MVVM.Model.Printer
             }
             catch (Exception e)
             {
-                File.WriteAllText("log.txt", e.Message + "\n");
+                File.WriteAllText(@"C:\VReKiosk\Telenorma\KioskLifeAPP\log.txt", e.Message + "\n");
             }
         }
     }

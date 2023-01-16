@@ -35,44 +35,53 @@ namespace KioskLife.Network
             string path = "oui.txt";
             DeviceCreator = new Dictionary<string, string>();
             _devicedata = new NetworkDeviceData { IP = "null", MacAddress = "null", ManufactoryName = "null", ConnectedToNetwork = false };
-            using (StreamReader reader = new StreamReader(path))
+            try
             {
-                int startLine = 0;
-                int workLine = 0;
-                string? line;
-                string? key;
-                string? value;
-                while ((line = reader.ReadLine()) != null)
+                if (!File.Exists(path))
+                    path = @"C:\VReKiosk\Telenorma\KioskLifeAPP\oui.txt";
+                using (StreamReader reader = new StreamReader(path))
                 {
-                    if (startLine >= 4)
+                    int startLine = 0;
+                    int workLine = 0;
+                    string? line;
+                    string? key;
+                    string? value;
+                    while ((line = reader.ReadLine()) != null)
                     {
-                        if (workLine > 0 && workLine < 2)
+                        if (startLine >= 4)
                         {
-                            try
+                            if (workLine > 0 && workLine < 2)
                             {
-                                line = Regex.Replace(line, @"\s+", " ");
-                                key = line.Remove(line.IndexOf(' '));
-                                if (key != "")
+                                try
                                 {
-                                    line = line.Remove(0, line.IndexOf(' ') + 1);
-                                    line = line.Remove(0, line.IndexOf(' ') + 1);
-                                    value = line.Remove(0, line.IndexOf(' ') + 1);
-                                    DeviceCreator.Add(key, value);
+                                    line = Regex.Replace(line, @"\s+", " ");
+                                    key = line.Remove(line.IndexOf(' '));
+                                    if (key != "")
+                                    {
+                                        line = line.Remove(0, line.IndexOf(' ') + 1);
+                                        line = line.Remove(0, line.IndexOf(' ') + 1);
+                                        value = line.Remove(0, line.IndexOf(' ') + 1);
+                                        DeviceCreator.Add(key, value);
+                                    }
                                 }
-                            }
-                            catch
-                            {
+                                catch
+                                {
+
+                                }
 
                             }
-
+                            workLine++;
+                            if (workLine == 6)
+                                workLine = 0;
                         }
-                        workLine++;
-                        if (workLine == 6)
-                            workLine = 0;
+                        else
+                            startLine++;
                     }
-                    else
-                        startLine++;
                 }
+            }
+            catch(Exception e)
+            {
+                File.WriteAllText(@"C:\VReKiosk\Telenorma\KioskLifeAPP\log.txt", e.Message);
             }
         }
 

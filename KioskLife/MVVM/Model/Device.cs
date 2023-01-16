@@ -106,7 +106,7 @@ namespace KioskLife.MVVM.Model
             var jsonSerializerSettings = new JsonSerializerSettings();
             jsonSerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
             json = JsonConvert.SerializeObject(this, Formatting.Indented, jsonSerializerSettings);
-            File.WriteAllText($"{DeviceType}.json", json);
+            File.WriteAllText($@"C:\VReKiosk\Telenorma\KioskLifeAPP\{DeviceType}.json", json);
         }
     }
 }

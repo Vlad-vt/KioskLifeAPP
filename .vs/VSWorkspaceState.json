@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\KioskLife",
-    "\\KioskLife\\MVVM"
+    "\\KioskLife\\MVVM",
+    "\\KioskLife\\MVVM\\Model",
+    "\\KioskLife\\MVVM\\Model\\Printer"
   ],
-  "SelectedNode": "\\KioskLife\\MainWindow.xaml.cs",
   "PreviewInSolutionExplorer": false
 }
