@@ -3,8 +3,10 @@ using KioskLife.Enums;
 using KioskLife.MVVM.Model;
 using KioskLife.MVVM.Model.Printer;
 using KioskLife.MVVM.View;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Threading;
 using System.Windows;
@@ -161,11 +163,19 @@ namespace KioskLife.MVVM.ViewModel
         public MainWindowViewModel()
         {
             #region Start Local Server
-            _httpListener.Prefixes.Add("http://localhost:7000/kiosklife/");
-            _httpListener.Prefixes.Add("http://localhost:7000/dispensersHealth/");
-            _httpListener.Prefixes.Add("http://localhost:7000/zebrascannersHealth/");
-            _httpListener.Prefixes.Add("http://localhost:7000/bocaHealth/");
-            _httpListener.Start();
+            try
+            {
+                _httpListener.Prefixes.Add("http://localhost:7000/kiosklife/");
+                _httpListener.Prefixes.Add("http://localhost:7000/dispensersHealth/");
+                _httpListener.Prefixes.Add("http://localhost:7000/zebrascannersHealth/");
+                _httpListener.Prefixes.Add("http://localhost:7000/bocaHealth/");
+                _httpListener.Start();
+            }
+            catch(Exception e)
+            {
+                File.WriteAllText(@"C:\VReKiosk\Telenorma\KioskLifeAPP\serverlog.txt", e.Message + "\n");
+                Application.Current.Shutdown();
+            }
             #endregion
 
             #region DefaultButtons commands

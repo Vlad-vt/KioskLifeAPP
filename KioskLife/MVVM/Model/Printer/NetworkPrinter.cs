@@ -462,7 +462,7 @@ namespace KioskLife.MVVM.Model.Printer
                         text2 = "Tickets Low";
                         break;
                     case 16:
-                        text2 = "Out of Tickets";
+                        text2 = "Paper Out";
                         break;
                     case 17:
                         text2 = "Paper full";
@@ -502,9 +502,6 @@ namespace KioskLife.MVVM.Model.Printer
                         break;
                     case 29:
                         text2 = "Cutter Jam";
-                        break;
-                    default:
-                        text2 = "hah";
                         break;
                 }
                 if (text2 != "Power On" || text2 != "hah")
