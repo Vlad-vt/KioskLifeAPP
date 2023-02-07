@@ -247,28 +247,34 @@ namespace KioskLife.MVVM.Model.Printer
                             break;
                     }
                 }
+                _parsingError = false;
                 #endregion
             }
             catch (Exception e)
             {
-                if (!File.Exists(Directory.GetCurrentDirectory() + "/log.txt"))
-                    File.Create(Directory.GetCurrentDirectory() + "/log.txt");
-                File.WriteAllText(Directory.GetCurrentDirectory() + "/log.txt", "[" + DateTime.Now.ToString() + "]: " + e);
+                if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/log.txt"))
+                    File.Create(AppDomain.CurrentDomain.BaseDirectory + "/log.txt");
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/log.txt", "[" + DateTime.Now.ToString() + "]: " + e);
                 _parsingError = true;
+                IsOnline = "Offline";
+                Errors = "Printer WebInterface doesn't working";
             }
             finally
             {
-                for (int i = 0; i < LastErrors.Count; i++)
+                if (!_parsingError)
                 {
-                    if (i == 0)
-                        Errors = LastErrors[i];
+                    for (int i = 0; i < LastErrors.Count; i++)
+                    {
+                        if (i == 0)
+                            Errors = LastErrors[i];
+                        else
+                            Errors += "," + LastErrors[i];
+                    }
+                    if (LastErrors.Count == 0 || (LastErrors.Count == 1 && LastErrors.Contains("Tickets Low")))
+                        IsOnline = "Online";
                     else
-                        Errors += "," + LastErrors[i];
+                        IsOnline = "Errors";
                 }
-                if (LastErrors.Count == 0 || (LastErrors.Count == 1 && LastErrors.Contains("Tickets Low")))
-                    IsOnline = "Online";
-                else
-                    IsOnline = "Errors";
                 if (IsChanges)
                     SendJSON();
                 CheckStatus();
@@ -321,7 +327,7 @@ namespace KioskLife.MVVM.Model.Printer
             }
             catch (Exception e)
             {
-                File.WriteAllText("log.txt", e.Message + "\n");
+                File.AppendAllText("log.txt", e.Message + "\n");
             }
         }
 

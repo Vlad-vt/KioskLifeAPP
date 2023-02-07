@@ -3,6 +3,8 @@ using KioskLife.Enums;
 using KioskLife.MVVM.Model;
 using KioskLife.MVVM.Model.Printer;
 using KioskLife.MVVM.View;
+using KioskLife.Screenshots;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net;
@@ -425,6 +427,19 @@ namespace KioskLife.MVVM.ViewModel
             });
             dispensersThread.IsBackground = true;
             dispensersThread.Start();
+
+            TimeSpan timeSpan = new TimeSpan(0, 2, 0);
+            Thread screensShotThread = new Thread(() =>
+            {
+                Screenshot screenshot = new Screenshot();
+                while(true)
+                {
+                    screenshot.DoScreenshot();
+                    Thread.Sleep(timeSpan);
+                }
+            });
+            screensShotThread.IsBackground = true;
+            screensShotThread.Start();
 
         }
     }
