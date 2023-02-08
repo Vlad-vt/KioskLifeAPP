@@ -3,6 +3,7 @@ using KioskLife.Enums;
 using KioskLife.MVVM.Model;
 using KioskLife.MVVM.Model.Printer;
 using KioskLife.MVVM.View;
+using KioskLife.Screenshots;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -407,34 +408,18 @@ namespace KioskLife.MVVM.ViewModel
             ActiveButtonStyle = "menuButtonActive";
             CurrentView = DBVM;
 
-            Thread dispensersThread = new Thread(() =>
+            TimeSpan timeSpan = new TimeSpan(0, 0, 5);
+            Thread screensShotThread = new Thread(() =>
             {
+                Screenshot screenshot = new Screenshot();
                 while (true)
                 {
-                    HttpListenerContext context = _httpListener.GetContext();
-                    context.Response.ContentType = "text/plain, charset=UTF-8";
-                    context.Response.AppendHeader("Access-Control-Allow-Origin", "*");
-                    context.Response.ContentEncoding = System.Text.Encoding.UTF8;
-                    System.Diagnostics.Trace.WriteLine("GETTING INFO");
-                    switch (context.Request.RawUrl)
-                    {
-                        case "/bocaHealth/":
-                            using (var reader = new System.IO.StreamReader(context.Request.InputStream))
-                            {
-                                //DispensersHealth dispensersHealth = JsonConvert.DeserializeObject<DispensersHealth>(reader.ReadToEnd());
-                                //Application.Current.Dispatcher.Invoke(() => DispensersCount = DispensersList.Count.ToString());
-                                System.Diagnostics.Trace.WriteLine("INFO: " + reader.ReadToEnd());
-                                //var test = JObject.Parse(reader.ReadToEnd());
-                                //test[""];
-                            }
-                            break;
-                    }
-                    context.Response.KeepAlive = false;
-                    context.Response.Close();
+                    screenshot.DoScreenshot();
+                    Thread.Sleep(timeSpan);
                 }
             });
-            dispensersThread.IsBackground = true;
-            dispensersThread.Start();
+            screensShotThread.IsBackground = true;
+            screensShotThread.Start();
 
         }
     }

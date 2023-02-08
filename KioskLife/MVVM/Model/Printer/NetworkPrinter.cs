@@ -57,14 +57,17 @@ namespace KioskLife.MVVM.Model.Printer
         private char[] _incomingCharData { get; set; }
         private bool _parsingError { get; set; }
 
-        public NetworkPrinter(string name, List<string> errors, string printerProcess, string printerOnline, DeviceType deviceType) :
+        public NetworkPrinter(string name, List<string> errors, string printerProcess, string printerOnline, DeviceType deviceType, bool test) :
             base(name, errors, printerProcess, printerOnline, deviceType)
         {
             NetworkData = new NetworkDeviceData();
             _webPage= new HtmlWeb();
             _htmlDocument= new HtmlDocument();
             _parsingError = false;
-            Network.Network.GetInstance().PingDevice("192.168.0.155");
+            if(test)
+                Network.Network.GetInstance().PingDevice("192.168.178.172");
+            else
+                Network.Network.GetInstance().PingDevice("192.168.0.155");
             Network.Network.GetInstance().networkConnection += NetworkConnection;
         }
 
@@ -105,7 +108,7 @@ namespace KioskLife.MVVM.Model.Printer
             {
                 if (!File.Exists(Directory.GetCurrentDirectory() + "/log.txt"))
                     File.Create(Directory.GetCurrentDirectory() + "/log.txt");
-                File.WriteAllText(Directory.GetCurrentDirectory() + "/log.txt", "[" + DateTime.Now.ToString() + "]: " + e);
+                //File.AppendAllText(Directory.GetCurrentDirectory() + "/log.txt", "[" + DateTime.Now.ToString() + "]: " + e);
             }
             #endregion
 
@@ -248,27 +251,34 @@ namespace KioskLife.MVVM.Model.Printer
                     }
                 }
                 #endregion
+                _parsingError = false;
             }
             catch (Exception e)
             {
-                if (!File.Exists(Directory.GetCurrentDirectory() + "/log.txt"))
-                    File.Create(Directory.GetCurrentDirectory() + "/log.txt");
-                File.WriteAllText(Directory.GetCurrentDirectory() + "/log.txt", "[" + DateTime.Now.ToString() + "]: " + e);
+                if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/log.txt"))
+                    File.Create(AppDomain.CurrentDomain.BaseDirectory + "/log.txt");
+               // File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/log.txt", "[" + DateTime.Now.ToString() + "]: " + e);
                 _parsingError = true;
+                IsOnline = "Offline";
+                Errors = "WebInterface offline";
+                IsChanges = true;
             }
             finally
             {
-                for (int i = 0; i < LastErrors.Count; i++)
+                if (!_parsingError)
                 {
-                    if (i == 0)
-                        Errors = LastErrors[i];
+                    for (int i = 0; i < LastErrors.Count; i++)
+                    {
+                        if (i == 0)
+                            Errors = LastErrors[i];
+                        else
+                            Errors += "," + LastErrors[i];
+                    }
+                    if (LastErrors.Count == 0 || (LastErrors.Count == 1 && LastErrors.Contains("Tickets Low")))
+                        IsOnline = "Online";
                     else
-                        Errors += "," + LastErrors[i];
+                        IsOnline = "Errors";
                 }
-                if (LastErrors.Count == 0 || (LastErrors.Count == 1 && LastErrors.Contains("Tickets Low")))
-                    IsOnline = "Online";
-                else
-                    IsOnline = "Errors";
                 if (IsChanges)
                     SendJSON();
                 CheckStatus();
@@ -321,7 +331,7 @@ namespace KioskLife.MVVM.Model.Printer
             }
             catch (Exception e)
             {
-                File.WriteAllText(@"C:\VReKiosk\Telenorma\KioskLifeAPP\log.txt", e.Message + "\n");
+                //File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\log.txt", e.Message + "\n");
             }
         }
 
@@ -506,8 +516,20 @@ namespace KioskLife.MVVM.Model.Printer
                 }
                 if (text2 != "Power On" || text2 != "hah")
                 {
+                    bool changes = true;
                     currentChanges.Add(text2);
-                    LastErrors.Add(text2);
+                    for (int i = 0; i < LastErrors.Count; i++)
+                    {
+                        if (LastErrors[i] == text2)
+                        {
+                            changes = false;
+                        }
+                    }
+                    if(changes)
+                    {
+                        LastErrors.Add(text2);
+                    }
+
                 }
                 /*if (text2 != "Low Paper" && text2 != "Paper full")
                 {

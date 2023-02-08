@@ -59,7 +59,7 @@ namespace KioskLife.MVVM.ViewModel
                     if (PrinterSettings.InstalledPrinters[i].Contains("Boca"))
                     {
                         PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
-                        PrintersList.Add(new NetworkPrinter(printQueue.Name, new List<string>(), "Working", "Online", DeviceType.NetworkPrinter));
+                        PrintersList.Add(new NetworkPrinter(printQueue.Name, new List<string>(), "Working", "Online", DeviceType.NetworkPrinter, true));
                         PrintersList[count].Action += NewAction;
                         count++;
 
@@ -85,7 +85,7 @@ namespace KioskLife.MVVM.ViewModel
                         }
                         else if(printer.GetType() == typeof(NetworkPrinter))
                         {
-                            (printer as NetworkPrinter).CheckPrinter(false);
+                            (printer as NetworkPrinter).CheckPrinter(true);
                             (printer as NetworkPrinter).CheckDeviceConnection();
                             (printer as NetworkPrinter).ConnectToDevice();
                             (printer as NetworkPrinter).readData();
