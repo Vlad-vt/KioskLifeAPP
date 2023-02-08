@@ -158,7 +158,21 @@ namespace KioskLife.MVVM.Model.Scanner.Zebra
             }
             catch (Exception e)
             {
-                File.WriteAllText(@"C:\VReKiosk\Telenorma\KioskLifeAPP\log.txt", e.Message + "\n");
+                try
+                {
+                    Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Scanners\ZebraScanner\");
+                    if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Scanners\ZebraScanner\log.txt"))
+                    {
+                        File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Scanners\ZebraScanner\log.txt",
+                            $"[{DateTime.Now}]: {e.Message}");
+                    }
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Scanners\ZebraScanner\log.txt",
+                            $"[{DateTime.Now}]: {e.Message}");
+                }
+                catch (IOException)
+                {
+
+                }
             }
         }
     }

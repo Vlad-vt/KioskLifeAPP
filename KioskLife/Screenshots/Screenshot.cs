@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
 
 namespace KioskLife.Screenshots
@@ -39,7 +40,14 @@ namespace KioskLife.Screenshots
             }
             catch (Exception e)
             {
-
+                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\");
+                if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\log.txt"))
+                {
+                    File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\log.txt",
+                        $"[{DateTime.Now}]: {e.Message}");
+                }
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\log.txt",
+                        $"[{DateTime.Now}]: {e.Message}");
             }
             finally
             {
@@ -64,7 +72,14 @@ namespace KioskLife.Screenshots
             }
             catch (Exception e)
             {
-                System.Windows.Forms.MessageBox.Show(e.Message);
+                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\");
+                if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\log.txt"))
+                {
+                    File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\log.txt",
+                        $"[{DateTime.Now}]: {e.Message}");
+                }
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\log.txt",
+                        $"[{DateTime.Now}]: {e.Message}");
             }
         }
     }

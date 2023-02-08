@@ -168,7 +168,21 @@ namespace KioskLife.MVVM.Model.Printer
             }
             catch (Exception e)
             {
-                File.WriteAllText(@"C:\VReKiosk\Telenorma\KioskLifeAPP\log.txt", e.Message + "\n");
+                try
+                {
+                    Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\USBPrinters\");
+                    if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\USBPrinters\log.txt"))
+                    {
+                        File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\USBPrinters\log.txt",
+                            $"[{DateTime.Now}]: {e.Message}");
+                    }
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\USBPrinters\log.txt",
+                            $"[{DateTime.Now}]: {e.Message}");
+                }
+                catch (IOException)
+                {
+
+                }
             }
         }
     }

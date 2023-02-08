@@ -106,9 +106,21 @@ namespace KioskLife.MVVM.Model.Printer
             }
             catch (Exception e)
             {
-                if (!File.Exists(Directory.GetCurrentDirectory() + "/log.txt"))
-                    File.Create(Directory.GetCurrentDirectory() + "/log.txt");
-                //File.AppendAllText(Directory.GetCurrentDirectory() + "/log.txt", "[" + DateTime.Now.ToString() + "]: " + e);
+                try
+                {
+                    Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\");
+                    if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\webinterfacelog.txt"))
+                    {
+                        File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\webinterfacelog.txt",
+                            $"[{DateTime.Now}]: {e.Message}");
+                    }
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\webinterfacelog.txt",
+                            $"[{DateTime.Now}]: {e.Message}");
+                }
+                catch (IOException)
+                {
+
+                }
             }
             #endregion
 
@@ -331,7 +343,21 @@ namespace KioskLife.MVVM.Model.Printer
             }
             catch (Exception e)
             {
-                //File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\log.txt", e.Message + "\n");
+                try
+                {
+                    Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\");
+                    if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\log.txt"))
+                    {
+                        File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\log.txt",
+                            $"[{DateTime.Now}]: {e.Message}");
+                    }
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\log.txt",
+                            $"[{DateTime.Now}]: {e.Message}");
+                }
+                catch(IOException)
+                {
+
+                }
             }
         }
 
@@ -350,7 +376,21 @@ namespace KioskLife.MVVM.Model.Printer
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                try
+                {
+                    Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\");
+                    if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\connectionlog.txt"))
+                    {
+                        File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\connectionlog.txt",
+                            $"[{DateTime.Now}]: {e.Message}");
+                    }
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\connectionlog.txt",
+                            $"[{DateTime.Now}]: {e.Message}");
+                }
+                catch (IOException)
+                {
+
+                }
             }
         }
 
@@ -370,7 +410,21 @@ namespace KioskLife.MVVM.Model.Printer
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.ToString());
+                        try
+                        {
+                            Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\");
+                            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\log.txt"))
+                            {
+                                File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\log.txt",
+                                    $"[{DateTime.Now}]: {ex.Message}");
+                            }
+                            File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\log.txt",
+                                    $"[{DateTime.Now}]: {ex.Message}");
+                        }
+                        catch (IOException)
+                        {
+
+                        }
                     }
                 }
             }
@@ -396,7 +450,21 @@ namespace KioskLife.MVVM.Model.Printer
             }
             catch(Exception e)
             {
+                try
+                {
+                    Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\");
+                    if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\log.txt"))
+                    {
+                        File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\log.txt",
+                            $"[{DateTime.Now}]: {e.Message}");
+                    }
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\log.txt",
+                            $"[{DateTime.Now}]: {e.Message}");
+                }
+                catch (IOException)
+                {
 
+                }
             }
         }
 
@@ -531,21 +599,6 @@ namespace KioskLife.MVVM.Model.Printer
                     }
 
                 }
-                /*if (text2 != "Low Paper" && text2 != "Paper full")
-                {
-                    if (CheckLastChanges(text2))
-                    {
-                        LastErrors.Add(text2);
-                        IsOnline = "Errors";
-                        IsChanges = true;
-                    }
-                }
-                else if (LastErrors.Count > 0)
-                {
-                    LastErrors.Clear();
-                    IsOnline = "Online";
-                    IsChanges = true;
-                }*/
             }
             bool _somechanges = true;
             IsChanges = false;

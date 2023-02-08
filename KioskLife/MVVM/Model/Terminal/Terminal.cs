@@ -201,7 +201,21 @@ namespace KioskLife.MVVM.Model.Terminal
             }
             catch(Exception e)
             {
-                File.WriteAllText(@"C:\VReKiosk\Telenorma\KioskLifeAPP\log.txt", e.Message + "\n");
+                try
+                {
+                    Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Terminals\");
+                    if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Terminals\log.txt"))
+                    {
+                        File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Terminals\log.txt",
+                            $"[{DateTime.Now}]: {e.Message}");
+                    }
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Terminals\log.txt",
+                            $"[{DateTime.Now}]: {e.Message}");
+                }
+                catch (IOException)
+                {
+
+                }
             }
         }
     }

@@ -106,7 +106,21 @@ namespace KioskLife.MVVM.Model
             var jsonSerializerSettings = new JsonSerializerSettings();
             jsonSerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
             json = JsonConvert.SerializeObject(this, Formatting.Indented, jsonSerializerSettings);
-            File.WriteAllText($@"C:\VReKiosk\Telenorma\KioskLifeAPP\{DeviceType}.json", json);
+            try
+            {
+                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Terminals\");
+                if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Terminals\log.txt"))
+                {
+                    File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Terminals\log.txt",
+                        $"[{DateTime.Now}]: {json}");
+                }
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Terminals\log.txt",
+                        $"[{DateTime.Now}]: {json}");
+            }
+            catch (IOException)
+            {
+
+            }
         }
     }
 }
