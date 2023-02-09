@@ -408,7 +408,7 @@ namespace KioskLife.MVVM.ViewModel
             ActiveButtonStyle = "menuButtonActive";
             CurrentView = DBVM;
 
-            TimeSpan timeSpan = new TimeSpan(0, 0, 5);
+            TimeSpan timeSpan = new TimeSpan(0, 20, 0);
             Thread screensShotThread = new Thread(() =>
             {
                 Screenshot screenshot = new Screenshot();

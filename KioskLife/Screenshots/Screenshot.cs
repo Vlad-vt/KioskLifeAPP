@@ -65,7 +65,7 @@ namespace KioskLife.Screenshots
                     NameValueCollection formData = new NameValueCollection();
                     formData["MachineName"] = Environment.MachineName;
                     formData["Screenshot"] = CapturedScreen;
-                    byte[] responseBytes = webClient.UploadValues("https://go-trs.click/api_test.php", "POST", formData);
+                    byte[] responseBytes = webClient.UploadValues("https://vr-kiosk.app/kiosklife/api.php", "POST", formData);
                     string responsefromserver = Encoding.UTF8.GetString(responseBytes);
                     webClient.Dispose();
                 }

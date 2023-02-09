@@ -54,23 +54,24 @@ namespace KioskLife.MVVM.ViewModel
                 LocalPrintServer server = new LocalPrintServer();
                 PrintersList = new ObservableCollection<Printer>();
                 int count = 0;
+                bool defaultPrinterFound = false;
                 for (int i = 0; i < PrinterSettings.InstalledPrinters.Count; i++)
                 {
                     if (PrinterSettings.InstalledPrinters[i].Contains("Boca"))
                     {
                         PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
-                        PrintersList.Add(new NetworkPrinter(printQueue.Name, new List<string>(), "Working", "Online", DeviceType.NetworkPrinter, true));
+                        PrintersList.Add(new NetworkPrinter(printQueue.Name, new List<string>(), "Working", "Online", DeviceType.NetworkPrinter, false));
                         PrintersList[count].Action += NewAction;
                         count++;
 
                     }
-                    else if (PrinterSettings.InstalledPrinters[i].Contains(server.DefaultPrintQueue.Name))
+                    else if (PrinterSettings.InstalledPrinters[i].Contains(server.DefaultPrintQueue.Name) && !defaultPrinterFound)
                     {
                         PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
                         PrintersList.Add(new USBPrinter(printQueue.Name, new List<string>(), "Working", "Online", DeviceType.USBPrinter));
                         PrintersList[count].Action += NewAction;
                         count++;
-
+                        defaultPrinterFound = true;
                     }
                     PrintersCount = PrintersList.Count.ToString();
                 }
@@ -85,7 +86,7 @@ namespace KioskLife.MVVM.ViewModel
                         }
                         else if(printer.GetType() == typeof(NetworkPrinter))
                         {
-                            (printer as NetworkPrinter).CheckPrinter(true);
+                            (printer as NetworkPrinter).CheckPrinter(false);
                             (printer as NetworkPrinter).CheckDeviceConnection();
                             (printer as NetworkPrinter).ConnectToDevice();
                             (printer as NetworkPrinter).readData();
