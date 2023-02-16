@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\KioskLife",
+    "\\KioskLife\\MVVM",
+    "\\KioskLife\\MVVM\\Model"
   ],
-  "SelectedNode": "\\KioskLife.sln",
+  "SelectedNode": "\\KioskLife\\MVVM\\Model\\Device.cs",
   "PreviewInSolutionExplorer": false
 }

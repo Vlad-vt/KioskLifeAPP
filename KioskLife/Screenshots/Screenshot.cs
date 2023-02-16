@@ -13,13 +13,26 @@ namespace KioskLife.Screenshots
     internal sealed class Screenshot
     {
         public string CapturedScreen { get; private set; }
-        private int numbers { get; set; }
+       // private int numbers { get; set; }
 
         public Screenshot()
         {
-            if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Screenshots\"))
-                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Screenshots\");
-            numbers = 1;
+            try
+            {
+                if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Screenshots\"))
+                    Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Screenshots\");
+                else
+                {
+                    Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + @"\Screenshots\", true);
+                    System.Threading.Thread.Sleep(2000);
+                    Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Screenshots\");
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            //numbers = 1;
         }
 
         public void DoScreenshot()
@@ -30,7 +43,9 @@ namespace KioskLife.Screenshots
                 Rectangle captureRectangle = Screen.AllScreens[0].Bounds;
                 Graphics captureGraphics = Graphics.FromImage(captureBitmap);
                 captureGraphics.CopyFromScreen(captureRectangle.Left, captureRectangle.Top, 0, 0, captureRectangle.Size);
-                captureBitmap.Save(AppDomain.CurrentDomain.BaseDirectory + @$"\Screenshots\Capture{numbers}.jpg", ImageFormat.Jpeg);
+                if (File.Exists(@$"\Screenshots\Capture.jpg"))
+                    File.Delete(@$"\Screenshots\Capture.jpg");
+                captureBitmap.Save(AppDomain.CurrentDomain.BaseDirectory + @$"\Screenshots\Capture.jpg", ImageFormat.Jpeg);
                 using (MemoryStream ms = new MemoryStream())
                 {
                     captureBitmap.Save(ms, ImageFormat.Jpeg);
@@ -44,14 +59,14 @@ namespace KioskLife.Screenshots
                 if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\log.txt"))
                 {
                     File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\log.txt",
-                        $"[{DateTime.Now}]: {e.Message}");
+                        $"[{DateTime.Now}]: {e.Message}\n");
                 }
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\log.txt",
-                        $"[{DateTime.Now}]: {e.Message}");
+                        $"[{DateTime.Now}]: {e.Message}\n");
             }
             finally
             {
-                numbers++;
+                //numbers++;
             }
         }
 
@@ -65,7 +80,7 @@ namespace KioskLife.Screenshots
                     NameValueCollection formData = new NameValueCollection();
                     formData["MachineName"] = Environment.MachineName;
                     formData["Screenshot"] = CapturedScreen;
-                    byte[] responseBytes = webClient.UploadValues("https://go-trs.click/api_test.php", "POST", formData);
+                    byte[] responseBytes = webClient.UploadValues("https://vr-kiosk.app/kiosklife/api.php", "POST", formData);
                     string responsefromserver = Encoding.UTF8.GetString(responseBytes);
                     webClient.Dispose();
                 }
