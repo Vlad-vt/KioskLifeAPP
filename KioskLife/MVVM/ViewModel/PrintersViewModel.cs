@@ -85,7 +85,7 @@ namespace KioskLife.MVVM.ViewModel
                 }
                 while (true)
                 {
-                    Parallel.ForEach(PrintersList, async printer =>
+                    Parallel.ForEach(PrintersList, printer =>
                     {
                         if(printer.DeviceIsRunning)
                         {
