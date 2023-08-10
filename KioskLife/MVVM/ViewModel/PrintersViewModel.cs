@@ -51,106 +51,133 @@ namespace KioskLife.MVVM.ViewModel
         {
             Thread printersThread = new Thread(() =>
             {
-                ActionList = new ObservableCollection<DeviceAction>();
-                LocalPrintServer server = new LocalPrintServer();
-                PrintersList = new ObservableCollection<Printer>();
-                int count = 0;
-                for (int i = 0; i < PrinterSettings.InstalledPrinters.Count; i++)
-                {
-                    if (PrinterSettings.InstalledPrinters[i].Contains("Boca"))
-                    {
-                        PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
-                        PrintersList.Add(new NetworkPrinter(printQueue.Name, new List<string>(), "Working", "Online", DeviceType.NetworkPrinter, false, true));
-                        PrintersList[count].Action += NewAction;
-                        count++;
 
-                    }
-                    else if (PrinterSettings.InstalledPrinters[i].Contains(server.DefaultPrintQueue.Name))
-                    {
-                        PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
-                        PrintersList.Add(new USBPrinter(printQueue.Name, new List<string>(), "Working", "Online", DeviceType.USBPrinter, true));
-                        PrintersList[count].Action += NewAction;
-                        count++;
-
-                    }
-                    PrintersCount = PrintersList.Count.ToString();
-                }
-                if(PrintersList.Count < 2)
-                {
-                    if (PrintersList[0].DeviceType == DeviceType.NetworkPrinter) 
-                    {
-                        PrintersList.Add(new NetworkPrinter("NIPPON usb printer", new List<string>(), "Not working", "Offline", DeviceType.NetworkPrinter, false, false));
-                        count++;
-                    }
-                }
                 while (true)
                 {
-                    Parallel.ForEach(PrintersList, printer =>
-                    {
-                        if (printer.DeviceIsRunning)
-                        {
-                            if (printer is USBPrinter usbPrinter)
-                            {
-                                PrintQueue printQueue = server.GetPrintQueue(printer.Name);
-                                usbPrinter.CheckForErrors(printQueue);
-                            }
-                            else if (printer is NetworkPrinter networkPrinter)
-                            {
-                                networkPrinter.CheckPrinter(false);
-                                networkPrinter.CheckDeviceConnection();
-                                networkPrinter.ConnectToDevice();
-                                networkPrinter.readData();
-                            }
-                        }
-                        else
-                        {
-                            for (int i = 0; i < PrinterSettings.InstalledPrinters.Count; i++)
-                            {
-                                if (PrinterSettings.InstalledPrinters[i].Contains(server.DefaultPrintQueue.Name))
-                                {
-                                    PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
-                                    PrintersList.Add(new USBPrinter(printQueue.Name, new List<string>(), "Working", "Online", DeviceType.USBPrinter, true));
-                                    PrintersList[count].Action += NewAction;
-                                    count++;
+                    var tasks = new List<Task>();
 
-                                }
-                                PrintersCount = PrintersList.Count.ToString();
-                            }
-
-                        }
-                       /* if (printer.GetType() == typeof(USBPrinter) && printer.DeviceIsRunning)
-                        {
-                            PrintQueue printQueue = server.GetPrintQueue(printer.Name);
-                            (printer as USBPrinter).CheckForErrors(printQueue);
-                        }
-                        else if (printer.GetType() == typeof(NetworkPrinter) && printer.DeviceIsRunning)
-                        {
-                            (printer as NetworkPrinter).CheckPrinter(false);
-                            (printer as NetworkPrinter).CheckDeviceConnection();
-                            (printer as NetworkPrinter).ConnectToDevice();
-                            (printer as NetworkPrinter).readData();
-                        }*/
-                    });
-                    /*foreach (var printer in PrintersList)
+                    foreach (var printer in PrintersList)
                     {
-                        if(printer.GetType() == typeof(USBPrinter) && printer.DeviceIsRunning)
-                        {
-                            PrintQueue printQueue = server.GetPrintQueue(printer.Name);
-                            (printer as USBPrinter).CheckForErrors(printQueue);
-                        }
-                        else if(printer.GetType() == typeof(NetworkPrinter) && printer.DeviceIsRunning)
-                        {
-                            (printer as NetworkPrinter).CheckPrinter(false);
-                            (printer as NetworkPrinter).CheckDeviceConnection();
-                            (printer as NetworkPrinter).ConnectToDevice();
-                            (printer as NetworkPrinter).readData();
-                        }
-                    }*/
+                        tasks.Add(ProcessPrinterAsync(printer, server));
+                    }
+
+                    await Task.WhenAll(tasks);
                     Thread.Sleep(2000);
+                    /* Parallel.ForEach(PrintersList, printer =>
+                     {
+                         if (printer.DeviceIsRunning)
+                         {
+                             if (printer is USBPrinter usbPrinter)
+                             {
+                                 PrintQueue printQueue = server.GetPrintQueue(printer.Name);
+                                 usbPrinter.CheckForErrors(printQueue);
+                             }
+                             else if (printer is NetworkPrinter networkPrinter)
+                             {
+                                 networkPrinter.CheckPrinter(false);
+                                 networkPrinter.CheckDeviceConnection();
+                                 networkPrinter.ConnectToDevice();
+                                 networkPrinter.readData();
+                             }
+                         }
+                         else
+                         {
+                             for (int i = 0; i < PrinterSettings.InstalledPrinters.Count; i++)
+                             {
+                                 if (PrinterSettings.InstalledPrinters[i].Contains(server.DefaultPrintQueue.Name))
+                                 {
+                                     PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
+                                     PrintersList.Add(new USBPrinter(printQueue.Name, new List<string>(), "Working", "Online", DeviceType.USBPrinter, true));
+                                     PrintersList[count].Action += NewAction;
+                                     count++;
+
+                                 }
+                                 PrintersCount = PrintersList.Count.ToString();
+                             }
+
+                         }
+                         if (printer.GetType() == typeof(USBPrinter) && printer.DeviceIsRunning)
+                         {
+                             PrintQueue printQueue = server.GetPrintQueue(printer.Name);
+                             (printer as USBPrinter).CheckForErrors(printQueue);
+                         }
+                         else if (printer.GetType() == typeof(NetworkPrinter) && printer.DeviceIsRunning)
+                         {
+                             (printer as NetworkPrinter).CheckPrinter(false);
+                             (printer as NetworkPrinter).CheckDeviceConnection();
+                             (printer as NetworkPrinter).ConnectToDevice();
+                             (printer as NetworkPrinter).readData();
+                         }
+                     });
+                     foreach (var printer in PrintersList)
+                     {
+                         if(printer.GetType() == typeof(USBPrinter) && printer.DeviceIsRunning)
+                         {
+                             PrintQueue printQueue = server.GetPrintQueue(printer.Name);
+                             (printer as USBPrinter).CheckForErrors(printQueue);
+                         }
+                         else if(printer.GetType() == typeof(NetworkPrinter) && printer.DeviceIsRunning)
+                         {
+                             (printer as NetworkPrinter).CheckPrinter(false);
+                             (printer as NetworkPrinter).CheckDeviceConnection();
+                             (printer as NetworkPrinter).ConnectToDevice();
+                             (printer as NetworkPrinter).readData();
+                         }
+                     }
+                     Thread.Sleep(2000);*/
                 }
             });
             printersThread.IsBackground = true;
             printersThread.Start();
+        }
+
+        private async Task ProcessPrintersAsync()
+        {
+            ActionList = new ObservableCollection<DeviceAction>();
+            LocalPrintServer server = new LocalPrintServer();
+            PrintersList = new ObservableCollection<Printer>();
+            int count = 0;
+            for (int i = 0; i < PrinterSettings.InstalledPrinters.Count; i++)
+            {
+                if (PrinterSettings.InstalledPrinters[i].Contains("Boca"))
+                {
+                    PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
+                    PrintersList.Add(new NetworkPrinter(printQueue.Name, new List<string>(), "Working", "Online", DeviceType.NetworkPrinter, false, true));
+                    PrintersList[count].Action += NewAction;
+                    count++;
+
+                }
+                else if (PrinterSettings.InstalledPrinters[i].Contains(server.DefaultPrintQueue.Name))
+                {
+                    PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
+                    PrintersList.Add(new USBPrinter(printQueue.Name, new List<string>(), "Working", "Online", DeviceType.USBPrinter, true));
+                    PrintersList[count].Action += NewAction;
+                    count++;
+
+                }
+                PrintersCount = PrintersList.Count.ToString();
+            }
+            if (PrintersList.Count < 2)
+            {
+                if (PrintersList[0].DeviceType == DeviceType.NetworkPrinter)
+                {
+                    PrintersList.Add(new NetworkPrinter("NIPPON usb printer", new List<string>(), "Not working", "Offline", DeviceType.NetworkPrinter, false, false));
+                    count++;
+                }
+            }
+
+            while (true)
+            {
+                var tasks = new List<Task>();
+
+                foreach (var printer in PrintersList)
+                {
+                    tasks.Add(ProcessPrinterAsync(printer, server));
+                }
+
+                await Task.WhenAll(tasks);
+                Thread.Sleep(2000);
+            }
         }
 
         private async Task ProcessPrinterAsync(Printer printer, LocalPrintServer server)
@@ -172,9 +199,7 @@ namespace KioskLife.MVVM.ViewModel
             }
             else
             {
-                // Обработка ситуации, когда устройство не работает
-                // Здесь вы можете добавить новый принтер в PrintersList
-                // и выполнить необходимые операции с синхронизацией
+                
             }
         }
 
