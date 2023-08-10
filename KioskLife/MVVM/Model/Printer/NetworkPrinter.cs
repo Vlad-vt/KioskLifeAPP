@@ -57,8 +57,8 @@ namespace KioskLife.MVVM.Model.Printer
         private char[] _incomingCharData { get; set; }
         private bool _parsingError { get; set; }
 
-        public NetworkPrinter(string name, List<string> errors, string printerProcess, string printerOnline, DeviceType deviceType, bool test) :
-            base(name, errors, printerProcess, printerOnline, deviceType)
+        public NetworkPrinter(string name, List<string> errors, string printerProcess, string printerOnline, DeviceType deviceType, bool test, bool deviceISfound) :
+            base(name, errors, printerProcess, printerOnline, deviceType, deviceISfound)
         {
             NetworkData = new NetworkDeviceData();
             _webPage= new HtmlWeb();

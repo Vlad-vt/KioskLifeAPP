@@ -25,8 +25,8 @@ namespace KioskLife.MVVM.Model.Printer
             }
         }
 
-        public USBPrinter(string name, List<string> errors, string printerProcess, string printerOnline, DeviceType deviceType) : 
-            base(name, errors, printerProcess, printerOnline, deviceType)
+        public USBPrinter(string name, List<string> errors, string printerProcess, string printerOnline, DeviceType deviceType, bool deviceISFound) : 
+            base(name, errors, printerProcess, printerOnline, deviceType, deviceISFound)
         {
             WriteJSON();
             LastErrors = new List<string>();
