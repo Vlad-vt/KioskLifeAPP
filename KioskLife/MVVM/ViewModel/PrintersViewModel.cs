@@ -57,8 +57,10 @@ namespace KioskLife.MVVM.ViewModel
             printersThread.Start();
         }
 
+        private int brokenDevice;
+
         private async Task ProcessPrintersAsync()
-        { 
+        {
             ActionList = new ObservableCollection<DeviceAction>();
             LocalPrintServer server = new LocalPrintServer();
             PrintersList = new ObservableCollection<Printer>();
@@ -94,19 +96,37 @@ namespace KioskLife.MVVM.ViewModel
 
             while (true)
             {
+                server = new LocalPrintServer();
+                brokenDevice = -1;
                 var tasks = new List<Task>();
-
+                var num = 0;
+                var defPrinterName = server.DefaultPrintQueue.Name;
                 foreach (var printer in PrintersList)
                 {
-                    tasks.Add(ProcessPrinterAsync(printer, server));
+                    tasks.Add(ProcessPrinterAsync(printer, server, num));
+                    num++;
                 }
-
                 await Task.WhenAll(tasks);
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    lock (PrintersList)
+                    {
+                        if (defPrinterName.Contains("NPI") && brokenDevice != -1)
+                        {
+
+                            PrintersList.RemoveAt(brokenDevice);
+                            PrintersList.Add(new USBPrinter(defPrinterName, new List<string>(), "Working", "Offline", DeviceType.USBPrinter, true));
+                            PrintersList[1].Action += NewAction;
+                            brokenDevice = -1;
+
+                        }
+                    }
+                });
                 Thread.Sleep(2000);
             }
         }
 
-        private async Task ProcessPrinterAsync(Printer printer, LocalPrintServer server)
+        private async Task ProcessPrinterAsync(Printer printer, LocalPrintServer server, int deviceNumber)
         {
             if (printer.DeviceIsRunning)
             {
@@ -125,7 +145,7 @@ namespace KioskLife.MVVM.ViewModel
             }
             else
             {
-                
+                brokenDevice = deviceNumber;
             }
         }
 
