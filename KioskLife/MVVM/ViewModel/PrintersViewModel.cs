@@ -58,7 +58,7 @@ namespace KioskLife.MVVM.ViewModel
         }
 
         private async Task ProcessPrintersAsync()
-        {
+        { 
             ActionList = new ObservableCollection<DeviceAction>();
             LocalPrintServer server = new LocalPrintServer();
             PrintersList = new ObservableCollection<Printer>();
