@@ -10,6 +10,7 @@ using System.Net;
 using System.Text;
 using System.Linq;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace KioskLife.MVVM.Model.Printer
 {
@@ -370,7 +371,7 @@ namespace KioskLife.MVVM.Model.Printer
                     _incomingCharData = new char[100];
                     _printer = new TcpClient(NetworkData.IP, 9100);
                     _printerStream = _printer.GetStream();
-                    _streamReader = new StreamReader(_printerStream);
+                    //_streamReader = new StreamReader(_printerStream);
                     _printerStream.ReadTimeout = 500;
                 }
             }
@@ -435,6 +436,48 @@ namespace KioskLife.MVVM.Model.Printer
             return data;
         }
 
+        public async Task<string> ReceiveDataAsync()
+        {
+            string data = "0";
+            try
+            {
+                byte[] buffer = new byte[_printer.Available];
+                while (_printer.Available > 0)
+                {
+                    try
+                    {
+                        int bytesRead = await _printerStream.ReadAsync(buffer, 0, buffer.Length);
+                        data += Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                    }
+                    catch (Exception ex)
+                    {
+                        await LogErrorAsync(ex.Message);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                
+            }
+            return data;
+        }
+
+        private async Task LogErrorAsync(string errorMessage)
+        {
+            try
+            {
+                string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Logs\NetworkPrinters\log.txt");
+                Directory.CreateDirectory(Path.GetDirectoryName(logPath));
+
+                await File.AppendAllTextAsync(logPath, $"[{DateTime.Now}]: {errorMessage}");
+            }
+            catch (IOException)
+            {
+                
+            }
+        }
+
+
         public void readData()
         {
             try
@@ -467,6 +510,44 @@ namespace KioskLife.MVVM.Model.Printer
                 }
             }
         }
+
+        public async Task ReadDataAsync()
+        {
+            try
+            {
+                if (NetworkData.IP != null && _parsingError)
+                {
+                    _incomingData = await ReceiveDataAsync();
+                    if (_incomingData.Length > 0)
+                    {
+                        Establish_Status();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                try
+                {
+                    Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\");
+                    if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\log.txt"))
+                    {
+                        File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\log.txt",
+                            $"[{DateTime.Now}]: {e.Message}");
+                    }
+                    else
+                    {
+                        File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\NetworkPrinters\log.txt",
+                            $"[{DateTime.Now}]: {e.Message}");
+                    }
+                }
+                catch (IOException)
+                {
+                    
+                }
+            }
+        }
+    
+        
 
         private bool CheckLastChanges(string newChange)
         {

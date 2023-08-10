@@ -87,9 +87,9 @@ namespace KioskLife.MVVM.ViewModel
                 {
                     Parallel.ForEach(PrintersList, printer =>
                     {
-                        if(printer.DeviceIsRunning)
+                        if (printer.DeviceIsRunning)
                         {
-                            if(printer is USBPrinter usbPrinter)
+                            if (printer is USBPrinter usbPrinter)
                             {
                                 PrintQueue printQueue = server.GetPrintQueue(printer.Name);
                                 usbPrinter.CheckForErrors(printQueue);
@@ -116,6 +116,7 @@ namespace KioskLife.MVVM.ViewModel
                                 }
                                 PrintersCount = PrintersList.Count.ToString();
                             }
+
                         }
                        /* if (printer.GetType() == typeof(USBPrinter) && printer.DeviceIsRunning)
                         {
@@ -150,6 +151,31 @@ namespace KioskLife.MVVM.ViewModel
             });
             printersThread.IsBackground = true;
             printersThread.Start();
+        }
+
+        private async Task ProcessPrinterAsync(Printer printer, LocalPrintServer server)
+        {
+            if (printer.DeviceIsRunning)
+            {
+                if (printer is USBPrinter usbPrinter)
+                {
+                    PrintQueue printQueue = server.GetPrintQueue(printer.Name);
+                    usbPrinter.CheckForErrors(printQueue);
+                }
+                else if (printer is NetworkPrinter networkPrinter)
+                {
+                    networkPrinter.CheckPrinter(false);
+                    networkPrinter.CheckDeviceConnection();
+                    networkPrinter.ConnectToDevice();
+                    await networkPrinter.ReadDataAsync();
+                }
+            }
+            else
+            {
+                // Обработка ситуации, когда устройство не работает
+                // Здесь вы можете добавить новый принтер в PrintersList
+                // и выполнить необходимые операции с синхронизацией
+            }
         }
 
         private void NewAction(string action)
