@@ -94,8 +94,8 @@ namespace KioskLife.MVVM.ViewModel
                     int num = printersData.GetValueOrDefault("USBPrinter");
                     try
                     {
-                        lock (PrintersList)
-                        {
+                        //lock (PrintersList)
+                       // {
                             //System.Windows.MessageBox.Show($"DEVICE IS FOUND? {PrintersList[num].DeviceIsRunning}");
                             if (PrintersList[num].DeviceIsRunning)
                             {
@@ -121,12 +121,12 @@ namespace KioskLife.MVVM.ViewModel
                             {
                                 (PrintersList[num] as USBPrinter).SendDeviceNotConnected();
                             }
-                        }
+                        //}
                     }
                     catch (Exception ex)
                     {
-                        lock (PrintersList)
-                        {
+                        //lock (PrintersList)
+                       // {
                             App.Current.Dispatcher.Invoke(() =>
                             {
                                 (PrintersList[num] as USBPrinter).UpdatePrinterData("NIPPON usb printer not found", "Not working", "Offline", true);
@@ -136,7 +136,7 @@ namespace KioskLife.MVVM.ViewModel
                                 //printersData.Add("USBPrinter", 1);
                                 //PrintersCount = PrintersList.Count.ToString();
                             });
-                        }
+                       // }
                         //MessageBox.Show(ex.Message);
                     }
                     finally
@@ -154,26 +154,26 @@ namespace KioskLife.MVVM.ViewModel
                     try
                     {
                         int num = printersData.GetValueOrDefault("NetworkPrinter");
-                        lock (PrintersList)
-                        {
+                        //lock (PrintersList)
+                        //{
                             (PrintersList[num] as NetworkPrinter).CheckPrinter(false);
-                        }
-                        Thread.Sleep(2000);
-                        lock (PrintersList)
-                        {
+                       // }
+                        //Thread.Sleep(2000);
+                        //lock (PrintersList)
+                        //{
                             (PrintersList[num] as NetworkPrinter).CheckDeviceConnection();
-                        }
-                        Thread.Sleep(2000);
-                        lock (PrintersList)
-                        {
+                        //}
+                        //Thread.Sleep(2000);
+                        //lock (PrintersList)
+                        //{
                             (PrintersList[num] as NetworkPrinter).ConnectToDevice();
-                        }
-                        Thread.Sleep(2000);
-                        lock (PrintersList)
-                        {
+                        //}
+                        //Thread.Sleep(2000);
+                        //lock (PrintersList)
+                        //{
                             (PrintersList[num] as NetworkPrinter).readData();
-                        }
-                        Thread.Sleep(2000);
+                        //}
+                        //Thread.Sleep(2000);
 
                     }
                     catch (Exception ex)
