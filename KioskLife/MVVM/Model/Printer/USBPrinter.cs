@@ -122,6 +122,20 @@ namespace KioskLife.MVVM.Model.Printer
                 SendJSON();
         }
 
+        public void SendDeviceNotConnected()
+        {
+            if (CheckLastChanges("Printer Offline"))
+            {
+                LastErrors.Add("Printer Offline");
+                Errors = "Printer Offline";
+                IsOnline = "Offline";
+                PrinterProcess = "Not working";
+                IsChanges = true;
+                SendJSON();
+            }
+
+        }
+
         private bool CheckLastChanges(string newChange)
         {
             bool changes = true;

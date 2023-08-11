@@ -80,7 +80,7 @@ namespace KioskLife.MVVM.ViewModel
             {
                 if (PrintersList[0].DeviceType == DeviceType.NetworkPrinter)
                 {
-                    PrintersList.Add(new NetworkPrinter("NIPPON usb printer not found", new List<string>(), "Not working", "Offline", DeviceType.NetworkPrinter, false, false));
+                    PrintersList.Add(new USBPrinter("NIPPON usb printer not found", new List<string>(), "Not working", "Offline", DeviceType.USBPrinter, false));
                     printersData.Add("USBPrinter", count);
                     count++;
                 }
@@ -103,6 +103,10 @@ namespace KioskLife.MVVM.ViewModel
                             PrintersList.Add(new USBPrinter(server.DefaultPrintQueue.Name, new List<string>(), "Working", "Online", DeviceType.USBPrinter, true));
                             PrintersList[PrintersList.Count - 1].Action += NewAction;
                             PrintersCount = PrintersList.Count.ToString();
+                        }
+                        else
+                        {
+                            (PrintersList[num] as USBPrinter).SendDeviceNotConnected();
                         }
                     }
                     catch (Exception ex)
