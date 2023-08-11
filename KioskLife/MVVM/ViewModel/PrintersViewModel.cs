@@ -89,29 +89,52 @@ namespace KioskLife.MVVM.ViewModel
             {
                 while (true)
                 {
+                    server = new LocalPrintServer();
+                    string defPrinterName = server.DefaultPrintQueue.Name;
+                    int num = printersData.GetValueOrDefault("USBPrinter");
                     try
                     {
-                        int num = printersData.GetValueOrDefault("USBPrinter");
-                        if (PrintersList[num].DeviceIsRunning)
+                        lock (PrintersList)
                         {
-                            PrintQueue printQueue = server.GetPrintQueue(PrintersList[num].Name);
-                            (PrintersList[num] as USBPrinter).CheckForErrors(printQueue);
-                        }
-                        else if (server.DefaultPrintQueue.Name.Contains("NPI"))
-                        {
-                            PrintersList.RemoveAt(num);
-                            PrintersList.Add(new USBPrinter(server.DefaultPrintQueue.Name, new List<string>(), "Working", "Online", DeviceType.USBPrinter, true));
-                            PrintersList[PrintersList.Count - 1].Action += NewAction;
-                            PrintersCount = PrintersList.Count.ToString();
-                        }
-                        else
-                        {
-                            (PrintersList[num] as USBPrinter).SendDeviceNotConnected();
+                            //System.Windows.MessageBox.Show($"DEVICE IS FOUND? {PrintersList[num].DeviceIsRunning}");
+                            if (PrintersList[num].DeviceIsRunning)
+                            {
+                                PrintQueue printQueue = server.GetPrintQueue(PrintersList[num].Name);
+                                (PrintersList[num] as USBPrinter).CheckForErrors(printQueue);
+                            }
+                            else if (defPrinterName.Contains("NPI"))
+                            {
+
+                                App.Current.Dispatcher.Invoke(() =>
+                                {
+                                    PrintersList.RemoveAt(num);
+                                    PrintersList.Add(new USBPrinter(defPrinterName, new List<string>(), "Working", "Online", DeviceType.USBPrinter, true));
+                                    PrintersList[PrintersList.Count - 1].Action += NewAction;
+                                    PrintersCount = PrintersList.Count.ToString();
+                                });
+
+                            }
+                            else
+                            {
+                                (PrintersList[num] as USBPrinter).SendDeviceNotConnected();
+                            }
                         }
                     }
                     catch (Exception ex)
                     {
-
+                        lock (PrintersList)
+                        {
+                            App.Current.Dispatcher.Invoke(() =>
+                            {
+                                PrintersList.RemoveAt(num);
+                                printersData.Remove("USBPrinter");
+                                PrintersList.Add(new USBPrinter("NIPPON usb printer not found", new List<string>(), "Not working", "Offline", DeviceType.USBPrinter, false));
+                                //PrintersList[PrintersList.Count - 1].Action += NewAction;
+                                printersData.Add("USBPrinter", 1);
+                                PrintersCount = PrintersList.Count.ToString();
+                            });
+                        }
+                        //MessageBox.Show(ex.Message);
                     }
                     finally
                     {
@@ -123,15 +146,32 @@ namespace KioskLife.MVVM.ViewModel
             usbPrintersThread.Start();
             Thread networkPrinterThread = new Thread(() =>
             {
-                while(true) 
+                while (true)
                 {
                     try
                     {
                         int num = printersData.GetValueOrDefault("NetworkPrinter");
-                        (PrintersList[num] as NetworkPrinter).CheckPrinter(false);
-                        (PrintersList[num] as NetworkPrinter).CheckDeviceConnection();
-                        (PrintersList[num] as NetworkPrinter).ConnectToDevice();
-                        (PrintersList[num] as NetworkPrinter).readData();
+                        lock (PrintersList)
+                        {
+                            (PrintersList[num] as NetworkPrinter).CheckPrinter(false);
+                        }
+                        Thread.Sleep(2000);
+                        lock (PrintersList)
+                        {
+                            (PrintersList[num] as NetworkPrinter).CheckDeviceConnection();
+                        }
+                        Thread.Sleep(2000);
+                        lock (PrintersList)
+                        {
+                            (PrintersList[num] as NetworkPrinter).ConnectToDevice();
+                        }
+                        Thread.Sleep(2000);
+                        lock (PrintersList)
+                        {
+                            (PrintersList[num] as NetworkPrinter).readData();
+                        }
+                        Thread.Sleep(2000);
+
                     }
                     catch (Exception ex)
                     {
@@ -139,7 +179,7 @@ namespace KioskLife.MVVM.ViewModel
                     }
                     finally
                     {
-                        Thread.Sleep(1000);
+                        Thread.Sleep(10000);
                     }
 
                 }
