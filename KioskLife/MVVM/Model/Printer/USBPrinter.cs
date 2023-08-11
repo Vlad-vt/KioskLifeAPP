@@ -147,6 +147,15 @@ namespace KioskLife.MVVM.Model.Printer
             return changes;
         }
 
+        public void UpdatePrinterData(string name, string printerProcess, string printerOnline, bool deviceISFound)
+        {
+            Name = name;
+            LastErrors = new List<string>();
+            PrinterProcess = printerProcess;
+            IsOnline = printerOnline;
+            DeviceISFound = deviceISFound;
+        }
+
         public void ShowChanges()
         {
             AddAction($"{Name} terminal started working!");

@@ -74,7 +74,6 @@ namespace KioskLife.MVVM.ViewModel
                     count++;
 
                 }
-                PrintersCount = PrintersList.Count.ToString();
             }
             if (PrintersList.Count < 2)
             {
@@ -85,6 +84,7 @@ namespace KioskLife.MVVM.ViewModel
                     count++;
                 }
             }
+            PrintersCount = PrintersList.Count.ToString();
             Thread usbPrintersThread = new Thread(() =>
             {
                 while (true)
@@ -107,10 +107,13 @@ namespace KioskLife.MVVM.ViewModel
 
                                 App.Current.Dispatcher.Invoke(() =>
                                 {
-                                    PrintersList.RemoveAt(num);
-                                    PrintersList.Add(new USBPrinter(defPrinterName, new List<string>(), "Working", "Online", DeviceType.USBPrinter, true));
-                                    PrintersList[PrintersList.Count - 1].Action += NewAction;
-                                    PrintersCount = PrintersList.Count.ToString();
+                                    (PrintersList[num] as USBPrinter).UpdatePrinterData(defPrinterName, "Working", "Online", true);
+                                    //PrintersList[num].Name = defPrinterName;
+                                    //PrintersList[num].IsOnline = "Online";
+                                    //PrintersList.RemoveAt(num);
+                                    //PrintersList.Add(new USBPrinter(defPrinterName, new List<string>(), "Working", "Online", DeviceType.USBPrinter, true));
+                                    //PrintersList[PrintersList.Count - 1].Action += NewAction;
+                                    //PrintersCount = PrintersList.Count.ToString();
                                 });
 
                             }
@@ -126,11 +129,12 @@ namespace KioskLife.MVVM.ViewModel
                         {
                             App.Current.Dispatcher.Invoke(() =>
                             {
-                                PrintersList.RemoveAt(num);
-                                printersData.Remove("USBPrinter");
-                                PrintersList.Add(new USBPrinter("NIPPON usb printer not found", new List<string>(), "Not working", "Offline", DeviceType.USBPrinter, false));
-                                printersData.Add("USBPrinter", 1);
-                                PrintersCount = PrintersList.Count.ToString();
+                                (PrintersList[num] as USBPrinter).UpdatePrinterData("NIPPON usb printer not found", "Not working", "Offline", true);
+                                //PrintersList.RemoveAt(num);
+                                //printersData.Remove("USBPrinter");
+                                //PrintersList.Add(new USBPrinter("NIPPON usb printer not found", new List<string>(), "Not working", "Offline", DeviceType.USBPrinter, false));
+                                //printersData.Add("USBPrinter", 1);
+                                //PrintersCount = PrintersList.Count.ToString();
                             });
                         }
                         //MessageBox.Show(ex.Message);
