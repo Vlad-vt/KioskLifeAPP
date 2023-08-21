@@ -445,6 +445,7 @@ namespace KioskLife.MVVM.ViewModel
                             App.Current.Shutdown();
                         break;
                 }
+                Thread.Sleep(new TimeSpan(12, 0, 0));
             }
         }
     }
