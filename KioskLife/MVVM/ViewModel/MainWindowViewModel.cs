@@ -420,7 +420,21 @@ namespace KioskLife.MVVM.ViewModel
             });
             screensShotThread.IsBackground = true;
             screensShotThread.Start();
+            Thread reloadAPP = new Thread(ReloadAPP);
+            reloadAPP.IsBackground = true;
+            reloadAPP.Start();
 
+        }
+
+        /// <summary>
+        /// This thread reload APP in special time
+        /// </summary>
+        private void ReloadAPP()
+        {
+            while (true)
+            {
+                App.Current.Shutdown();
+            }
         }
     }
 }

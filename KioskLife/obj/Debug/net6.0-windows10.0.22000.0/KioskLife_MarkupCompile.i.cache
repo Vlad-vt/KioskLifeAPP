@@ -12,9 +12,9 @@ TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 D:\KioskLifeAPPv2.0.5\KioskLifeAPP\KioskLife\App.xaml
 12401761853
 11234788540
-52-1942113234
+531298612557
 21495870035
 MainWindow.xaml;MVVM\View\CamerasView.xaml;MVVM\View\DashBoardView.xaml;MVVM\View\DispensersView.xaml;MVVM\View\PrintersView.xaml;MVVM\View\ScannersView.xaml;MVVM\View\Small\CamerasCard.xaml;MVVM\View\Small\DeviceCard.xaml;MVVM\View\Small\InfoAction.xaml;MVVM\View\Small\InfoCard.xaml;MVVM\View\Small\TerminalCard.xaml;MVVM\View\TerminalsView.xaml;
 
-True
+False
 
