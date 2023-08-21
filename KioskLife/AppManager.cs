@@ -1,10 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KioskLife
 {
@@ -16,11 +12,19 @@ namespace KioskLife
 
         private class ReloadData
         {
+            [JsonProperty("Current Day")]
+            public DateTime Date;
+
             [JsonProperty("First time program reload")]
             public bool FirstReload { get; set; }
 
             [JsonProperty("Second time program reload")]
             public bool LastReload { get; set; }
+
+            public ReloadData()
+            {
+                Date = DateTime.Now;
+            }
 
         }
 
@@ -33,6 +37,7 @@ namespace KioskLife
             {
                 File.Create(filePath);
                 reloadData = new ReloadData();
+                WriteToJson();
             }
             else
             {
@@ -48,16 +53,36 @@ namespace KioskLife
             }
         }
 
-        public void FirstReload()
+        public void CheckANewDay()
         {
-            reloadData.FirstReload = true;
-            WriteToJson();
+            if(DateTime.Now.Day != reloadData.Date.Day)
+            {
+                reloadData.FirstReload = false;
+                reloadData.LastReload = false;
+                reloadData.Date = DateTime.Now;
+            }
         }
 
-        public void SecondReload()
+        public bool FirstReload()
         {
-            reloadData.LastReload = true;
-            WriteToJson();
+            if (reloadData.FirstReload == false)
+            {
+                reloadData.FirstReload = true;
+                WriteToJson();
+                return true;
+            }
+            return false;
+        }
+
+        public bool SecondReload()
+        {
+            if (reloadData.LastReload == false)
+            {
+                reloadData.LastReload = true;
+                WriteToJson();
+                return true;
+            }
+            return false;
         }
 
         private void WriteToJson()

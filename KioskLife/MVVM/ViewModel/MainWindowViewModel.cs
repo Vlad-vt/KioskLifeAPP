@@ -431,9 +431,20 @@ namespace KioskLife.MVVM.ViewModel
         /// </summary>
         private void ReloadAPP()
         {
+            AppManager appManager = new AppManager();
             while (true)
             {
-                App.Current.Shutdown();
+                switch(DateTime.Now.Hour)
+                {
+                    case 6:
+                        if (appManager.FirstReload())
+                            App.Current.Shutdown();
+                        break;
+                    case 18:
+                        if(appManager.SecondReload())
+                            App.Current.Shutdown();
+                        break;
+                }
             }
         }
     }
