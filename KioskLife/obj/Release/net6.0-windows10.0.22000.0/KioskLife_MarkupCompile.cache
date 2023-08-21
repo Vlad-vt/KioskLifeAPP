@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\polytouch\Desktop\KioskLifeAPPv2.0.5\KioskLifeAPP\KioskLife\obj\Release\net6.0-windows10.0.22000.0\
+D:\KioskLifeAPPv2.0.5\KioskLifeAPP\KioskLife\obj\Release\net6.0-windows10.0.22000.0\
 KioskLife
 none
 false
 TRACE;RELEASE;NET;NET6_0;NETCOREAPP
-C:\Users\polytouch\Desktop\KioskLifeAPPv2.0.5\KioskLifeAPP\KioskLife\App.xaml
+D:\KioskLifeAPPv2.0.5\KioskLifeAPP\KioskLife\App.xaml
 12401761853
 11234788540
-50411347430
-2141396677576
+51-642894075
+21495870035
 MainWindow.xaml;MVVM\View\CamerasView.xaml;MVVM\View\DashBoardView.xaml;MVVM\View\DispensersView.xaml;MVVM\View\PrintersView.xaml;MVVM\View\ScannersView.xaml;MVVM\View\Small\CamerasCard.xaml;MVVM\View\Small\DeviceCard.xaml;MVVM\View\Small\InfoAction.xaml;MVVM\View\Small\InfoCard.xaml;MVVM\View\Small\TerminalCard.xaml;MVVM\View\TerminalsView.xaml;
 
 False

@@ -16,21 +16,21 @@
           "MaterialDesignThemes": "4.6.1",
           "Newtonsoft.Json": "13.0.2",
           "System.Drawing.Common": "7.0.0",
-          "runtimepack.Microsoft.Windows.SDK.NET.Ref": "10.0.22000.29"
+          "runtimepack.Microsoft.Windows.SDK.NET.Ref": "10.0.22000.28"
         },
         "runtime": {
           "KioskLife.dll": {}
         }
       },
-      "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.22000.29": {
+      "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.22000.28": {
         "runtime": {
           "Microsoft.Windows.SDK.NET.dll": {
             "assemblyVersion": "10.0.22000.24",
-            "fileVersion": "10.0.22000.29"
+            "fileVersion": "10.0.22000.28"
           },
           "WinRT.Runtime.dll": {
             "assemblyVersion": "2.0.0.0",
-            "fileVersion": "2.0.3.42921"
+            "fileVersion": "2.0.1.40881"
           }
         }
       },
@@ -161,7 +161,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.22000.29": {
+    "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.22000.28": {
       "type": "runtimepack",
       "serviceable": false,
       "sha512": ""
