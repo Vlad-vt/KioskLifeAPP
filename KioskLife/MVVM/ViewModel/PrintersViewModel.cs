@@ -75,7 +75,7 @@ namespace KioskLife.MVVM.ViewModel
 
                 }
             }
-            if (PrintersList.Count < 2)
+            if (PrintersList.Count < 2 && PrintersList.Count > 0)
             {
                 if (PrintersList[0].DeviceType == DeviceType.NetworkPrinter)
                 {
@@ -121,7 +121,16 @@ namespace KioskLife.MVVM.ViewModel
                     {
                         App.Current.Dispatcher.Invoke(() =>
                         {
-                            (PrintersList[num] as USBPrinter).UpdatePrinterData("NIPPON usb printer not found", "Not working", "Offline", true);
+                            try
+                            {
+                                (PrintersList[num] as USBPrinter).UpdatePrinterData("NIPPON usb printer not found", "Not working", "Offline", true);
+                            }
+
+                            catch (Exception e)
+                            {
+
+                            }
+
                         });
                     }
                     finally

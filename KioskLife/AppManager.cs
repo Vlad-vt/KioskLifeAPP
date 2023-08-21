@@ -28,6 +28,8 @@ namespace KioskLife
 
         }
 
+        object lockObject = new object();
+
         public AppManager()
         {
             var folderPath = AppDomain.CurrentDomain.BaseDirectory + @"\ReloadsLog\";
@@ -35,7 +37,6 @@ namespace KioskLife
             filePath = folderPath + "log.json";
             if (!File.Exists(filePath))
             {
-                File.Create(filePath);
                 reloadData = new ReloadData();
                 WriteToJson();
             }
