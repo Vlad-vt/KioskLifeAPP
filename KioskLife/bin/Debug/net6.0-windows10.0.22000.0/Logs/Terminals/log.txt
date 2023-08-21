@@ -1,0 +1,398 @@
+[11/08/2023 13:32:41]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "OTVR_1024",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}[11/08/2023 13:32:41]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "OTVR_1024",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}[21/08/2023 11:02:31]: {
+  "Errors": null,
+  "PrinterProcess": "Not working",
+  "DeviceIsRunning": false,
+  "MachineName": "OTVR_1024",
+  "Name": "NIPPON usb printer not found",
+  "IsOnline": "Offline",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:02:31]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "OTVR_1024",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}[21/08/2023 11:05:04]: {
+  "Errors": null,
+  "PrinterProcess": "Working",
+  "DeviceIsRunning": true,
+  "MachineName": "OTVR_1024",
+  "Name": "NPI Integration Driver (Copy 3)",
+  "IsOnline": "Online",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:05:04]: {
+  "Errors": null,
+  "PrinterProcess": "Working",
+  "DeviceIsRunning": true,
+  "MachineName": "OTVR_1024",
+  "Name": "NPI Integration Driver (Copy 2)",
+  "IsOnline": "Online",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:05:13]: {
+  "Errors": null,
+  "PrinterProcess": "Working",
+  "DeviceIsRunning": true,
+  "MachineName": "OTVR_1024",
+  "Name": "NPI Integration Driver (Copy 3)",
+  "IsOnline": "Online",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:05:13]: {
+  "Errors": null,
+  "PrinterProcess": "Working",
+  "DeviceIsRunning": true,
+  "MachineName": "OTVR_1024",
+  "Name": "NPI Integration Driver (Copy 2)",
+  "IsOnline": "Online",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:08:10]: {
+  "Errors": null,
+  "PrinterProcess": "Working",
+  "DeviceIsRunning": true,
+  "MachineName": "OTVR_1024",
+  "Name": "NPI Integration Driver (Copy 3)",
+  "IsOnline": "Online",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:08:10]: {
+  "Errors": null,
+  "PrinterProcess": "Working",
+  "DeviceIsRunning": true,
+  "MachineName": "OTVR_1024",
+  "Name": "NPI Integration Driver (Copy 2)",
+  "IsOnline": "Online",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:08:37]: {
+  "Errors": null,
+  "PrinterProcess": "Working",
+  "DeviceIsRunning": true,
+  "MachineName": "OTVR_1024",
+  "Name": "NPI Integration Driver (Copy 3)",
+  "IsOnline": "Online",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:08:37]: {
+  "Errors": null,
+  "PrinterProcess": "Working",
+  "DeviceIsRunning": true,
+  "MachineName": "OTVR_1024",
+  "Name": "NPI Integration Driver (Copy 2)",
+  "IsOnline": "Online",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:10:02]: {
+  "Errors": null,
+  "PrinterProcess": "Working",
+  "DeviceIsRunning": true,
+  "MachineName": "OTVR_1024",
+  "Name": "NPI Integration Driver (Copy 3)",
+  "IsOnline": "Online",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:10:02]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "OTVR_1024",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}[21/08/2023 11:10:05]: {
+  "Errors": null,
+  "PrinterProcess": "Working",
+  "DeviceIsRunning": true,
+  "MachineName": "OTVR_1024",
+  "Name": "NPI Integration Driver (Copy 2)",
+  "IsOnline": "Online",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:11:50]: {
+  "Errors": null,
+  "PrinterProcess": "Working",
+  "DeviceIsRunning": true,
+  "MachineName": "OTVR_1024",
+  "Name": "NPI Integration Driver (Copy 3)",
+  "IsOnline": "Online",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:11:50]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "OTVR_1024",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}[21/08/2023 11:13:42]: {
+  "Errors": null,
+  "PrinterProcess": "Working",
+  "DeviceIsRunning": true,
+  "MachineName": "OTVR_1024",
+  "Name": "NPI Integration Driver (Copy 3)",
+  "IsOnline": "Online",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:13:43]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "OTVR_1024",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}[21/08/2023 11:17:35]: {
+  "Errors": null,
+  "PrinterProcess": "Working",
+  "DeviceIsRunning": true,
+  "MachineName": "OTVR_1024",
+  "Name": "NPI Integration Driver (Copy 3)",
+  "IsOnline": "Online",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:17:35]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "OTVR_1024",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}[21/08/2023 11:18:39]: {
+  "Errors": null,
+  "PrinterProcess": "Working",
+  "DeviceIsRunning": true,
+  "MachineName": "OTVR_1024",
+  "Name": "NPI Integration Driver",
+  "IsOnline": "Online",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:18:39]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "OTVR_1024",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}[21/08/2023 11:22:48]: {
+  "Errors": null,
+  "PrinterProcess": "Working",
+  "DeviceIsRunning": true,
+  "MachineName": "OTVR_1024",
+  "Name": "NPI Integration Driver",
+  "IsOnline": "Online",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:22:48]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "OTVR_1024",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}[21/08/2023 11:24:15]: {
+  "Errors": null,
+  "PrinterProcess": "Working",
+  "DeviceIsRunning": true,
+  "MachineName": "OTVR_1024",
+  "Name": "NPI Integration Driver",
+  "IsOnline": "Online",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:24:15]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "OTVR_1024",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}[21/08/2023 11:26:06]: {
+  "Errors": null,
+  "PrinterProcess": "Working",
+  "DeviceIsRunning": true,
+  "MachineName": "OTVR_1024",
+  "Name": "NPI Integration Driver",
+  "IsOnline": "Online",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:26:06]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "OTVR_1024",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}[21/08/2023 11:27:15]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "OTVR_1024",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}[21/08/2023 11:29:49]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "OTVR_1024",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}[21/08/2023 11:32:09]: {
+  "Errors": null,
+  "PrinterProcess": "Not working",
+  "DeviceIsRunning": false,
+  "MachineName": "OTVR_1024",
+  "Name": "NIPPON usb printer not found",
+  "IsOnline": "Offline",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:32:09]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "OTVR_1024",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}[21/08/2023 11:33:55]: {
+  "Errors": null,
+  "PrinterProcess": "Not working",
+  "DeviceIsRunning": false,
+  "MachineName": "OTVR_1024",
+  "Name": "NIPPON usb printer not found",
+  "IsOnline": "Offline",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:36:15]: {
+  "Errors": null,
+  "PrinterProcess": "Not working",
+  "DeviceIsRunning": false,
+  "MachineName": "OTVR_1024",
+  "Name": "NIPPON usb printer not found",
+  "IsOnline": "Offline",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:36:15]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "OTVR_1024",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}[21/08/2023 11:37:45]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "OTVR_1024",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}[21/08/2023 11:37:52]: {
+  "Errors": null,
+  "PrinterProcess": "Not working",
+  "DeviceIsRunning": false,
+  "MachineName": "OTVR_1024",
+  "Name": "NIPPON usb printer not found",
+  "IsOnline": "Offline",
+  "DeviceType": "USBPrinter"
+}[21/08/2023 11:38:53]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "OTVR_1024",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}

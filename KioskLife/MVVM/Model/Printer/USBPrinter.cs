@@ -131,6 +131,7 @@ namespace KioskLife.MVVM.Model.Printer
                 IsOnline = "Offline";
                 PrinterProcess = "Not working";
                 IsChanges = true;
+                CheckStatus();
                 SendJSON();
             }
 

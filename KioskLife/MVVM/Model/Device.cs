@@ -84,8 +84,6 @@ namespace KioskLife.MVVM.Model
         {
             if (IsOnline == "Online")
                 WorkingColor = "#FF47FF3E";
-            else if (IsOnline == "Errors")
-                WorkingColor = "#f5f242";
             else
                 WorkingColor = "#FFFF623E";
         }
