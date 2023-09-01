@@ -15,7 +15,20 @@ namespace KioskLife.MVVM.Model
     public abstract class Device : ObservableObject
     {
         public string MachineName { get; set; }
-        public string Name { get; set; }
+
+        private string _name;
+        public string Name 
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
         protected List<string> DeviceErrors { get; set; }
 
         private string _isOnline;
