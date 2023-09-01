@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Windows.Shapes;
 
 namespace KioskLife.MVVM.Model.Printer
 {
@@ -191,6 +192,8 @@ namespace KioskLife.MVVM.Model.Printer
 
         protected override void SendJSON()
         {
+            base.SendJSON();
+            var path = AppDomain.CurrentDomain.BaseDirectory + @"\NetworkLogs\log.txt";
             try
             {
                 IsChanges = false;
@@ -207,6 +210,10 @@ namespace KioskLife.MVVM.Model.Printer
                     string responsefromserver = Encoding.UTF8.GetString(responseBytes);
                     webClient.Dispose();
                 }
+                File.AppendAllText(path, $"[{DateTime.Now}]: DATA SEND: MachineName = {MachineName}, Type = {DeviceType.ToString()}, Name = {Name}, Process = {PrinterProcess}\n" +
+                    $"ERRORS: {Errors}\n" +
+                    $"STATUS: {IsOnline}\n " +
+                    $"SEND ON URL: https://vr-kiosk.app/tntools/health_terminal.php\n");
             }
             catch (Exception e)
             {
@@ -220,12 +227,14 @@ namespace KioskLife.MVVM.Model.Printer
                     }
                     File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\USBPrinters\log.txt",
                             $"[{DateTime.Now}]: {e.Message}");
+                    File.AppendAllText(path, $"[{DateTime.Now}]: EXCEPTION: {e.Message}\n");
                 }
                 catch (IOException)
                 {
 
                 }
             }
+            
         }
     }
 }

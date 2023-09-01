@@ -90,7 +90,14 @@ namespace KioskLife.MVVM.Model
 
         protected virtual void SendJSON()
         {
+            try
+            {
+                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\NetworkLogs\");
+            }
+            catch(Exception ex) 
+            {
 
+            }
         }
 
         protected virtual void ShowJSON()
