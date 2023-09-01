@@ -65,7 +65,7 @@ namespace KioskLife.MVVM.ViewModel
                     count++;
 
                 }
-                else if (((PrinterSettings.InstalledPrinters[i] == server.DefaultPrintQueue.Name) && server.DefaultPrintQueue.Name.Contains("NPI")) && !printersData.ContainsKey("USBPrinter"))
+                else if ((PrinterSettings.InstalledPrinters[i] == server.DefaultPrintQueue.Name) && (server.DefaultPrintQueue.Name.Contains("NPI") || server.DefaultPrintQueue.Name.Contains("EPSON")) && !printersData.ContainsKey("USBPrinter"))
                 {
                     PrintQueue printQueue = server.GetPrintQueue(PrinterSettings.InstalledPrinters[i].ToString());
                     PrintersList.Add(new USBPrinter(printQueue.Name, new List<string>(), "Working", "Online", DeviceType.USBPrinter, true));
@@ -79,7 +79,7 @@ namespace KioskLife.MVVM.ViewModel
             {
                 if (PrintersList[0].DeviceType == DeviceType.NetworkPrinter)
                 {
-                    PrintersList.Add(new USBPrinter("NIPPON usb printer not found", new List<string>(), "Not working", "Offline", DeviceType.USBPrinter, false));
+                    PrintersList.Add(new USBPrinter("USB printer not found", new List<string>(), "Not working", "Offline", DeviceType.USBPrinter, false));
                     printersData.Add("USBPrinter", count);
                     count++;
                 }
@@ -99,7 +99,7 @@ namespace KioskLife.MVVM.ViewModel
                             PrintQueue printQueue = server.GetPrintQueue(PrintersList[num].Name);
                             (PrintersList[num] as USBPrinter).CheckForErrors(printQueue);
                         }
-                        else if (defPrinterName.Contains("NPI"))
+                        else if (defPrinterName.Contains("NPI") || defPrinterName.Contains("EPSON"))
                         {
 
                             App.Current.Dispatcher.Invoke(() =>
@@ -112,7 +112,7 @@ namespace KioskLife.MVVM.ViewModel
                         {
                             App.Current.Dispatcher.Invoke(() =>
                             {
-                                (PrintersList[num] as USBPrinter).UpdatePrinterData("NIPPON usb printer not found", "Not working", "Offline", false);
+                                (PrintersList[num] as USBPrinter).UpdatePrinterData("USB printer not found", "Not working", "Offline", false);
                                 (PrintersList[num] as USBPrinter).SendDeviceNotConnected();
                             });
                         }
@@ -123,7 +123,7 @@ namespace KioskLife.MVVM.ViewModel
                         {
                             try
                             {
-                                (PrintersList[num] as USBPrinter).UpdatePrinterData("NIPPON usb printer not found", "Not working", "Offline", false);
+                                (PrintersList[num] as USBPrinter).UpdatePrinterData("USB printer not found", "Not working", "Offline", false);
                             }
 
                             catch (Exception e)
