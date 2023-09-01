@@ -90,15 +90,34 @@ namespace KioskLife.MVVM.Model
 
         protected virtual void SendJSON()
         {
+            string folderPath = AppDomain.CurrentDomain.BaseDirectory + @"\NetworkLogs\";
+
             try
             {
-                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\NetworkLogs\");
-            }
-            catch(Exception ex) 
-            {
+                if (Directory.Exists(folderPath))
+                {
+                    DirectoryInfo directoryInfo = new DirectoryInfo(folderPath);
+                    DateTime creationDate = directoryInfo.CreationTime;
+                    DateTime currentDate = DateTime.Now;
+                    TimeSpan difference = currentDate - creationDate;
+                    if (difference.TotalDays > 30)
+                    {
+                        Directory.Delete(folderPath, true);
 
+                        Directory.CreateDirectory(folderPath);
+                    }
+                }
+                else
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                
             }
         }
+
 
         protected virtual void ShowJSON()
         {
