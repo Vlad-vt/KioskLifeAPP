@@ -110,6 +110,24 @@ namespace KioskLife.MVVM.Model.Printer
                     AddAction($"SOLVED --Is Out Of Paper--");
                 }
             }
+            if(device.IsDoorOpened)
+            {
+                if (CheckLastChanges("Is Out Of Paper"))
+                {
+                    LastErrors.Add("Is Out Of Paper");
+                    AddAction($"{Name} Is Out Of Paper now");
+                    IsChanges = true;
+                    IsOnline = "Errors";
+                }
+            }
+            else
+            {
+                if (LastErrors.Remove("Is Out Of Paper"))
+                {
+                    IsChanges = true;
+                    AddAction($"SOLVED --Is Out Of Paper--");
+                }
+            }
             for (int i = 0; i < LastErrors.Count; i++)
             {
                 if (i == 0)
