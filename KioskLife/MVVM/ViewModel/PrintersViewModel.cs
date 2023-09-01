@@ -123,7 +123,7 @@ namespace KioskLife.MVVM.ViewModel
                         {
                             try
                             {
-                                (PrintersList[num] as USBPrinter).UpdatePrinterData("NIPPON usb printer not found", "Not working", "Offline", true);
+                                (PrintersList[num] as USBPrinter).UpdatePrinterData("NIPPON usb printer not found", "Not working", "Offline", false);
                             }
 
                             catch (Exception e)
