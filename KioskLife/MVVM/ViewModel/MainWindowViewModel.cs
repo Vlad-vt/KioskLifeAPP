@@ -432,6 +432,7 @@ namespace KioskLife.MVVM.ViewModel
         private void ReloadAPP()
         {
             AppManager appManager = new AppManager();
+            DateTime nextReloadTime;
             while (true)
             {
                 switch(DateTime.Now.Hour)
@@ -439,13 +440,38 @@ namespace KioskLife.MVVM.ViewModel
                     case 6:
                         if (appManager.FirstReload())
                             App.Current.Shutdown();
+                        else
+                        {
+                            nextReloadTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 18, 0, 0);
+                            TimeSpan timeUntilNextReload = nextReloadTime - DateTime.Now;
+                            Thread.Sleep(timeUntilNextReload);
+                        }
                         break;
                     case 18:
                         if(appManager.SecondReload())
                             App.Current.Shutdown();
+                        else
+                        {
+                            nextReloadTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 6, 0, 0);
+                            TimeSpan timeUntilNextReload = nextReloadTime - DateTime.Now;
+                            Thread.Sleep(timeUntilNextReload);
+                        }
+                        break;
+                    default:
+                        if(!appManager.FirstReload())
+                        {
+                            nextReloadTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 6, 0, 0);
+                            TimeSpan timeUntilNextReload = nextReloadTime - DateTime.Now;
+                            Thread.Sleep(timeUntilNextReload);
+                        }
+                        else if (!appManager.SecondReload()) 
+                        {
+                            nextReloadTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 18, 0, 0);
+                            TimeSpan timeUntilNextReload = nextReloadTime - DateTime.Now;
+                            Thread.Sleep(timeUntilNextReload);
+                        }
                         break;
                 }
-                Thread.Sleep(new TimeSpan(12, 0, 0));
             }
         }
     }
