@@ -1,0 +1,40 @@
+[9/22/2023 12:01:13 PM]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "DESKTOP-3ICAI2C",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}[9/22/2023 12:01:13 PM]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "DESKTOP-3ICAI2C",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}[9/22/2023 12:01:59 PM]: {
+  "ProtocolConnection": false,
+  "NetworkData": {
+    "IP": null,
+    "MacAddress": null,
+    "ManufactoryName": null,
+    "ConnectedToNetwork": false
+  },
+  "Errors": null,
+  "MachineName": "DESKTOP-3ICAI2C",
+  "Name": "Payment Terminal FEIG",
+  "IsOnline": "Online",
+  "DeviceType": "Terminal"
+}

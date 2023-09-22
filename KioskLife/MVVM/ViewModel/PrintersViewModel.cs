@@ -92,58 +92,61 @@ namespace KioskLife.MVVM.ViewModel
                     server = new LocalPrintServer();
                     string defPrinterName = server.DefaultPrintQueue.Name;
                     int num = printersData.GetValueOrDefault("USBPrinter");
-                    try
+                    if (num > 0)
                     {
-                        if (PrintersList[num].DeviceIsRunning)
+                        try
                         {
-                            PrintQueue printQueue = server.GetPrintQueue(PrintersList[num].Name);
-                            (PrintersList[num] as USBPrinter).CheckForErrors(printQueue);
-                        }
-                        else if (defPrinterName.Contains("NPI") || defPrinterName.Contains("EPSON"))
-                        {
-                            if ((PrintersList[num] as USBPrinter).IsOnline != "Online")
+                            if (PrintersList[num].DeviceIsRunning)
                             {
-                                App.Current.Dispatcher.Invoke(() =>
-                                {
-                                    (PrintersList[num] as USBPrinter).UpdatePrinterData(defPrinterName, "Working", "Online", true);
-                                });
+                                PrintQueue printQueue = server.GetPrintQueue(PrintersList[num].Name);
+                                (PrintersList[num] as USBPrinter).CheckForErrors(printQueue);
                             }
+                            else if (defPrinterName.Contains("NPI") || defPrinterName.Contains("EPSON"))
+                            {
+                                if ((PrintersList[num] as USBPrinter).IsOnline != "Online")
+                                {
+                                    App.Current.Dispatcher.Invoke(() =>
+                                    {
+                                        (PrintersList[num] as USBPrinter).UpdatePrinterData(defPrinterName, "Working", "Online", true);
+                                    });
+                                }
 
+                            }
+                            else
+                            {
+                                if ((PrintersList[num] as USBPrinter).IsOnline != "Offline")
+                                {
+                                    App.Current.Dispatcher.Invoke(() =>
+                                    {
+                                        (PrintersList[num] as USBPrinter).UpdatePrinterData("USB printer not found", "Not working", "Offline", false);
+                                        (PrintersList[num] as USBPrinter).SendDeviceNotConnected();
+                                    });
+                                }
+                            }
                         }
-                        else
+                        catch (Exception ex)
                         {
                             if ((PrintersList[num] as USBPrinter).IsOnline != "Offline")
                             {
                                 App.Current.Dispatcher.Invoke(() =>
                                 {
-                                    (PrintersList[num] as USBPrinter).UpdatePrinterData("USB printer not found", "Not working", "Offline", false);
-                                    (PrintersList[num] as USBPrinter).SendDeviceNotConnected();
+                                    try
+                                    {
+                                        (PrintersList[num] as USBPrinter).UpdatePrinterData("USB printer not found", "Not working", "Offline", false);
+                                    }
+
+                                    catch (Exception e)
+                                    {
+
+                                    }
+
                                 });
                             }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        if ((PrintersList[num] as USBPrinter).IsOnline != "Offline")
+                        finally
                         {
-                            App.Current.Dispatcher.Invoke(() =>
-                            {
-                                try
-                                {
-                                    (PrintersList[num] as USBPrinter).UpdatePrinterData("USB printer not found", "Not working", "Offline", false);
-                                }
-
-                                catch (Exception e)
-                                {
-
-                                }
-
-                            });
+                            Thread.Sleep(1000);
                         }
-                    }
-                    finally
-                    {
-                        Thread.Sleep(1000);
                     }
                 }
             });
