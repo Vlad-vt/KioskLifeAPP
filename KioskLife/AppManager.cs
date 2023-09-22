@@ -24,6 +24,8 @@ namespace KioskLife
             public ReloadData()
             {
                 Date = DateTime.Now;
+                FirstReload = false;
+                LastReload = false;
             }
 
         }
@@ -64,12 +66,16 @@ namespace KioskLife
             }
         }
 
+        public void FirstReloadActivate()
+        {
+            reloadData.FirstReload = true;
+            WriteToJson();
+        }
+
         public bool FirstReload()
         {
             if (reloadData.FirstReload == false)
             {
-                reloadData.FirstReload = true;
-                WriteToJson();
                 return true;
             }
             return false;
@@ -79,11 +85,15 @@ namespace KioskLife
         {
             if (reloadData.LastReload == false)
             {
-                reloadData.LastReload = true;
-                WriteToJson();
                 return true;
             }
             return false;
+        }
+
+        public void SecondReloadActivate()
+        {
+            reloadData.LastReload = true;
+            WriteToJson();
         }
 
         private void WriteToJson()

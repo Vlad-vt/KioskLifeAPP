@@ -435,44 +435,70 @@ namespace KioskLife.MVVM.ViewModel
             DateTime nextReloadTime;
             while (true)
             {
-                switch(DateTime.Now.Hour)
+                try
                 {
-                    case 6:
-                        if (appManager.FirstReload())
-                            App.Current.Shutdown();
-                        else
-                        {
-                            nextReloadTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 18, 0, 0);
-                            TimeSpan timeUntilNextReload = nextReloadTime - DateTime.Now;
-                            Thread.Sleep(timeUntilNextReload);
-                        }
-                        break;
-                    case 18:
-                        if(appManager.SecondReload())
-                            App.Current.Shutdown();
-                        else
-                        {
-                            nextReloadTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 6, 0, 0);
-                            TimeSpan timeUntilNextReload = nextReloadTime - DateTime.Now;
-                            Thread.Sleep(timeUntilNextReload);
-                        }
-                        break;
-                    default:
-                        if(!appManager.FirstReload())
-                        {
-                            nextReloadTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 6, 0, 0);
-                            TimeSpan timeUntilNextReload = nextReloadTime - DateTime.Now;
-                            Thread.Sleep(timeUntilNextReload);
-                        }
-                        else if (!appManager.SecondReload()) 
-                        {
-                            nextReloadTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 18, 0, 0);
-                            TimeSpan timeUntilNextReload = nextReloadTime - DateTime.Now;
-                            Thread.Sleep(timeUntilNextReload);
-                        }
-                        break;
+                    switch (DateTime.Now.Hour)
+                    {
+                        case 6:
+                            if (appManager.FirstReload())
+                            {
+                                appManager.FirstReloadActivate();
+                                App.Current.Shutdown();
+                            }
+                            else
+                            {
+                                nextReloadTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 18, 0, 0);
+                                TimeSpan timeUntilNextReload = nextReloadTime - DateTime.Now;
+                                if (timeUntilNextReload.TotalMilliseconds > 0)
+                                {
+                                    Thread.Sleep(timeUntilNextReload);
+                                }
+                            }
+                            break;
+                        case 18:
+                            if (appManager.SecondReload())
+                            {
+                                appManager.SecondReloadActivate();
+                                App.Current.Shutdown();
+                            }
+                            else
+                            {
+                                nextReloadTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 6, 0, 0);
+                                TimeSpan timeUntilNextReload = nextReloadTime - DateTime.Now;
+                                if (timeUntilNextReload.TotalMilliseconds > 0)
+                                {
+                                    Thread.Sleep(timeUntilNextReload);
+                                }
+                            }
+                            break;
+                        default:
+                            if (!appManager.FirstReload())
+                            {
+                                nextReloadTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 6, 0, 0);
+                                TimeSpan timeUntilNextReload = nextReloadTime - DateTime.Now;
+                                if (timeUntilNextReload.TotalMilliseconds > 0)
+                                {
+                                    Thread.Sleep(timeUntilNextReload);
+                                }
+                            }
+                            else if (!appManager.SecondReload())
+                            {
+                                nextReloadTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 18, 0, 0);
+                                TimeSpan timeUntilNextReload = nextReloadTime - DateTime.Now;
+                                if (timeUntilNextReload.TotalMilliseconds > 0)
+                                {
+                                    Thread.Sleep(timeUntilNextReload);
+                                }
+                            }
+                            break;
+                    }
+                }
+                catch(Exception ex) 
+                {
+                    Trace.WriteLine(ex.Message);
                 }
             }
+
         }
     }
 }

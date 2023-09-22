@@ -68,61 +68,68 @@ namespace KioskLife.MVVM.ViewModel
                 ScannersCount = ScannersList.Count.ToString();
                 while (true)
                 {
-                    HttpListenerContext context = httpListener.GetContext();
-                    context.Response.ContentType = "text/plain, charset=UTF-8";
-                    context.Response.AppendHeader("Access-Control-Allow-Origin", "*");
-                    context.Response.ContentEncoding = Encoding.UTF8;
-                    System.Diagnostics.Trace.WriteLine("GETTING INFO");
-                    switch (context.Request.RawUrl)
+                    try
                     {
-                        case "/zebrascannersHealth/":
-                            using (var reader = new StreamReader(context.Request.InputStream))
-                            {
-                                if (ScannersList.Count < 1)
+                        HttpListenerContext context = httpListener.GetContext();
+                        context.Response.ContentType = "text/plain, charset=UTF-8";
+                        context.Response.AppendHeader("Access-Control-Allow-Origin", "*");
+                        context.Response.ContentEncoding = Encoding.UTF8;
+                        System.Diagnostics.Trace.WriteLine("GETTING INFO");
+                        switch (context.Request.RawUrl)
+                        {
+                            case "/zebrascannersHealth/":
+                                using (var reader = new StreamReader(context.Request.InputStream))
                                 {
-                                    var jobject = JObject.Parse(reader.ReadToEnd())["Zebra Scanners"];
-                                    foreach (JToken item in jobject.Children())
+                                    if (ScannersList.Count < 1)
                                     {
-                                        try
+                                        var jobject = JObject.Parse(reader.ReadToEnd())["Zebra Scanners"];
+                                        foreach (JToken item in jobject.Children())
                                         {
-                                            var itemProperties = item.Children<JProperty>();
-                                            JProperty[] field = new JProperty[4];
-                                            for (int i = 0; i < 4; i++)
+                                            try
                                             {
-                                                switch (i)
+                                                var itemProperties = item.Children<JProperty>();
+                                                JProperty[] field = new JProperty[4];
+                                                for (int i = 0; i < 4; i++)
                                                 {
-                                                    case 0:
-                                                        field[i] = itemProperties.FirstOrDefault(x => x.Name == "Error");
-                                                        break;
-                                                    case 1:
-                                                        field[i] = itemProperties.FirstOrDefault(x => x.Name == "Scanner ID");
-                                                        break;
-                                                    case 2:
-                                                        field[i] = itemProperties.FirstOrDefault(x => x.Name == "Scanner Type");
-                                                        break;
-                                                    case 3:
-                                                        field[i] = itemProperties.FirstOrDefault(x => x.Name == "Serial number");
-                                                        break;
+                                                    switch (i)
+                                                    {
+                                                        case 0:
+                                                            field[i] = itemProperties.FirstOrDefault(x => x.Name == "Error");
+                                                            break;
+                                                        case 1:
+                                                            field[i] = itemProperties.FirstOrDefault(x => x.Name == "Scanner ID");
+                                                            break;
+                                                        case 2:
+                                                            field[i] = itemProperties.FirstOrDefault(x => x.Name == "Scanner Type");
+                                                            break;
+                                                        case 3:
+                                                            field[i] = itemProperties.FirstOrDefault(x => x.Name == "Serial number");
+                                                            break;
+                                                    }
                                                 }
+                                                var myElement = itemProperties.FirstOrDefault(x => x.Name == "Serial number");
+                                                ScannersList.Add(new ZebraScanner($"Zebra ID {field[3].Value}", new List<string>(), "Online", Enums.DeviceType.Scanner, field[2].Value.ToString()));
                                             }
-                                            var myElement = itemProperties.FirstOrDefault(x => x.Name == "Serial number");
-                                            ScannersList.Add(new ZebraScanner($"Zebra ID {field[3].Value}", new List<string>(), "Online", Enums.DeviceType.Scanner, field[2].Value.ToString()));
-                                        }
-                                        catch (Exception e)
-                                        {
+                                            catch (Exception e)
+                                            {
 
-                                        }
-                                        finally
-                                        {
-                                            ScannersCount = ScannersList.Count.ToString();
+                                            }
+                                            finally
+                                            {
+                                                ScannersCount = ScannersList.Count.ToString();
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            break;
+                                break;
+                        }
+                        context.Response.KeepAlive = false;
+                        context.Response.Close();
                     }
-                    context.Response.KeepAlive = false;
-                    context.Response.Close();
+                    catch(Exception e) 
+                    {
+
+                    }
                 }
             });
             scannersThread.IsBackground = true;
