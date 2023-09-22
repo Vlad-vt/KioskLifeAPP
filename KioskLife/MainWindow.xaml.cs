@@ -72,7 +72,10 @@ namespace KioskLife
                 return;
             }
 
-            DragMove();
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
         }
 
 
