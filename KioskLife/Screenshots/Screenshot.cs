@@ -38,39 +38,42 @@ namespace KioskLife.Screenshots
 
         public bool DoScreenshot()
         {
-            try
+            foreach (var screen in Screen.AllScreens)
             {
-                Bitmap captureBitmap = new Bitmap(1080, 1920, PixelFormat.Format32bppArgb);
-                Rectangle captureRectangle = Screen.AllScreens[0].Bounds;
-                Graphics captureGraphics = Graphics.FromImage(captureBitmap);
-                captureGraphics.CopyFromScreen(captureRectangle.Left, captureRectangle.Top, 0, 0, captureRectangle.Size);
-                if (File.Exists(@$"\Screenshots\Capture.jpg"))
-                    File.Delete(@$"\Screenshots\Capture.jpg");
-                captureBitmap.Save(AppDomain.CurrentDomain.BaseDirectory + @$"\Screenshots\Capture.jpg", ImageFormat.Jpeg);
-                using (MemoryStream ms = new MemoryStream())
+                try
                 {
-                    captureBitmap.Save(ms, ImageFormat.Jpeg);
-                    CapturedScreen = Convert.ToBase64String(ms.ToArray());
-                    SendScreenshot();
+                    Bitmap screenshot = new Bitmap(screen.Bounds.Width, screen.Bounds.Height, PixelFormat.Format32bppArgb);
+                    Graphics graphics = Graphics.FromImage(screenshot);
+                    graphics.CopyFromScreen(screen.Bounds.X, screen.Bounds.Y, 0, 0, screen.Bounds.Size, CopyPixelOperation.SourceCopy);
+                    if (File.Exists(@$"\Screenshots\Capture.jpg"))
+                        File.Delete(@$"\Screenshots\Capture.jpg");
+                    screenshot.Save(AppDomain.CurrentDomain.BaseDirectory + @$"\Screenshots\Capture.jpg", ImageFormat.Jpeg);
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        screenshot.Save(ms, ImageFormat.Jpeg);
+                        CapturedScreen = Convert.ToBase64String(ms.ToArray());
+                        SendScreenshot();
+                    }
+                    return true;
                 }
-                return true;
-            }
-            catch (Exception e)
-            {
-                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\");
-                if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\log.txt"))
+                catch (Exception e)
                 {
-                    File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\log.txt",
-                        $"[{DateTime.Now}]: {e.Message}\n");
+                    Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\");
+                    if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\log.txt"))
+                    {
+                        File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\log.txt",
+                            $"[{DateTime.Now}]: {e.Message}\n");
+                    }
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\log.txt",
+                            $"[{DateTime.Now}]: {e.Message}\n");
+                    return false;
                 }
-                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\log.txt",
-                        $"[{DateTime.Now}]: {e.Message}\n");
-                return false;
+                finally
+                {
+                    //numbers++;
+                }
             }
-            finally
-            {
-                //numbers++;
-            }
+            return false;
         }
 
         private void SendScreenshot()
