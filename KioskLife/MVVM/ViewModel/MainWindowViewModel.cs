@@ -414,8 +414,10 @@ namespace KioskLife.MVVM.ViewModel
                 Screenshot screenshot = new Screenshot();
                 while (true)
                 {
-                    screenshot.DoScreenshot();
-                    Thread.Sleep(timeSpan);
+                    if (screenshot.DoScreenshot())
+                        Thread.Sleep(timeSpan);
+                    else
+                        Thread.Sleep(5000);
                 }
             });
             screensShotThread.IsBackground = true;

@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
 
@@ -35,7 +36,7 @@ namespace KioskLife.Screenshots
             //numbers = 1;
         }
 
-        public void DoScreenshot()
+        public bool DoScreenshot()
         {
             try
             {
@@ -52,6 +53,7 @@ namespace KioskLife.Screenshots
                     CapturedScreen = Convert.ToBase64String(ms.ToArray());
                     SendScreenshot();
                 }
+                return true;
             }
             catch (Exception e)
             {
@@ -63,6 +65,7 @@ namespace KioskLife.Screenshots
                 }
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Screenshots\log.txt",
                         $"[{DateTime.Now}]: {e.Message}\n");
+                return false;
             }
             finally
             {
@@ -80,8 +83,13 @@ namespace KioskLife.Screenshots
                     NameValueCollection formData = new NameValueCollection();
                     formData["MachineName"] = Environment.MachineName;
                     formData["Screenshot"] = CapturedScreen;
-                    byte[] responseBytes = webClient.UploadValues("https://vr-kiosk.app/kiosklife/api.php", "POST", formData);
-                    string responsefromserver = Encoding.UTF8.GetString(responseBytes);
+                    string responseFromServer = "";
+                    while (responseFromServer != "OK")
+                    {
+                        byte[] responseBytes = webClient.UploadValues("https://vr-kiosk.app/tntools/health_terminal.php", "POST", formData);
+                        responseFromServer = Encoding.UTF8.GetString(responseBytes);
+                        Thread.Sleep(500);
+                    }
                     webClient.Dispose();
                 }
             }

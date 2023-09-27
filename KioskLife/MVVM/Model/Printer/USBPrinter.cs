@@ -7,6 +7,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace KioskLife.MVVM.Model.Printer
 {
@@ -176,6 +177,7 @@ namespace KioskLife.MVVM.Model.Printer
         {
             base.SendJSON();
             var path = AppDomain.CurrentDomain.BaseDirectory + @"\NetworkLogs\log.txt";
+
             try
             {
                 IsChanges = false;
@@ -188,8 +190,14 @@ namespace KioskLife.MVVM.Model.Printer
                     formData["Process"] = PrinterProcess;
                     formData["Errors"] = Errors;
                     formData["Status"] = IsOnline;
-                    byte[] responseBytes = webClient.UploadValues("https://vr-kiosk.app/tntools/health_terminal.php", "POST", formData);
-                    string responsefromserver = Encoding.UTF8.GetString(responseBytes);
+                    string responseFromServer = "";
+
+                    while (responseFromServer != "OK") 
+                    {
+                        byte[] responseBytes = webClient.UploadValues("https://vr-kiosk.app/tntools/health_terminal.php", "POST", formData);
+                        responseFromServer = Encoding.UTF8.GetString(responseBytes);
+                        Thread.Sleep(500);
+                    }
                     webClient.Dispose();
                 }
                 File.AppendAllText(path, $"[{DateTime.Now}]: DATA SEND: MachineName = {MachineName}, Type = {DeviceType.ToString()}, Name = {Name}, Process = {PrinterProcess}\n" +

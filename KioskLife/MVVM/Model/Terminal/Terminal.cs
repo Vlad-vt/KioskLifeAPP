@@ -8,6 +8,7 @@ using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
+using System.Threading;
 
 namespace KioskLife.MVVM.Model.Terminal
 {
@@ -194,8 +195,13 @@ namespace KioskLife.MVVM.Model.Terminal
                     formData["ConnectedToNetwork"] = NetworkData.ConnectedToNetwork.ToString();
                     formData["Errors"] = Errors;
                     formData["Status"] = IsOnline;
-                    byte[] responseBytes = webClient.UploadValues("https://vr-kiosk.app/tntools/health_terminal.php", "POST", formData);
-                    string responsefromserver = Encoding.UTF8.GetString(responseBytes);
+                    string responseFromServer = "";
+                    while (responseFromServer != "OK")
+                    {
+                        byte[] responseBytes = webClient.UploadValues("https://vr-kiosk.app/tntools/health_terminal.php", "POST", formData);
+                        responseFromServer = Encoding.UTF8.GetString(responseBytes);
+                        Thread.Sleep(500);
+                    }
                     webClient.Dispose();
                 }
             }
