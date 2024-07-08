@@ -1,7 +1,4 @@
 ﻿using KioskLife.Core;
-using KioskLife.MVVM.View;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace KioskLife.MVVM.ViewModel
 {

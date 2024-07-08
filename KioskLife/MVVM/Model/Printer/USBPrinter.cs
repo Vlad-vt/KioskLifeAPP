@@ -8,6 +8,7 @@ using System.Net;
 using System.Text;
 using System.Windows.Shapes;
 using System.Threading;
+using System.Diagnostics;
 
 namespace KioskLife.MVVM.Model.Printer
 {
@@ -196,6 +197,7 @@ namespace KioskLife.MVVM.Model.Printer
                     {
                         byte[] responseBytes = webClient.UploadValues("https://vr-kiosk.app/tntools/health_terminal.php", "POST", formData);
                         responseFromServer = Encoding.UTF8.GetString(responseBytes);
+                        Trace.WriteLine(responseFromServer);
                         Thread.Sleep(500);
                     }
                     webClient.Dispose();
